@@ -1,39 +1,37 @@
 # Table of contents
 format: jb-book
-
-root: content/about/introduction
-
+root: src/about/introduction
 parts:
 
   - caption: ARTICLE FULL-TEXT
     chapters:
 
     # ScienceDirect
-    - file: content/scripts/A_overview/SDirect_overview
+    - file: src/overview/sdirect
       sections:
-      - file: content/scripts/python/python_SDirect
+      - file: src/python/sdirect
         title: "...in Python"
-      - file: content/scripts/shell/shell_SDirect
+      - file: src/shell/sdirect
         title: "...in Unix Shell"
-      - file: content/scripts/matlab/matlab_SDirect
+      - file: src/matlab/sdirect
         title: "...in Matlab"
-      - file: content/scripts/mathematica/mathematica_SDirect
+      - file: src/mathematica/sdirect
         title: "...in Mathematica"
-      - file: content/scripts/C/C_SDirect
+      - file: src/c/sdirect
         title: "...in C"
 
     # Springer
-    - file: content/scripts/A_overview/springer_overview
+    - file: src/overview/springer
       sections:
-      - file: content/scripts/python/python_springer
+      - file: src/python/springer
         title: "...in Python"
-      - file: content/scripts/C/C_springer
+      - file: src/c/springer
         title: "...in C"
 
     # Wiley TDM
-    - file: content/scripts/A_overview/wileytdm_overview
+    - file: src/overview/wiley-tdm
       sections:
-      - file: content/scripts/python/python_wileytdm
+      - file: src/python/wiley-tdm
         title: "...in Python"
 
 
@@ -41,49 +39,49 @@ parts:
     chapters:
 
     # arXiv
-    - file: content/scripts/A_overview/arxiv_overview
+    - file: src/overview/arxiv
       sections:
-      - file: content/scripts/R/R_arxiv
+      - file: src/r/arxiv
         title: "...in R"
     
     # Crossref 
-    - file: content/scripts/A_overview/crossref_overview
+    - file: src/overview/crossref
       sections:
-      - file: content/scripts/python/python_crossref
+      - file: src/python/crossref
         title: "...in Python"
-      - file: content/scripts/shell/shell_crossref
+      - file: src/shell/crossref
         title: "...in Unix Shell"
-      - file: content/scripts/matlab/matlab_crossref
+      - file: src/matlab/crossref
         title: "...in Matlab"
-      - file: content/scripts/mathematica/mathematica_crossref
+      - file: src/mathematica/crossref
         title: "...in Mathematica"
-      - file: content/scripts/R/R_Crossref
+      - file: src/r/crossref
         title: "...in R"
-      - file: content/scripts/C/C_CrossRef
+      - file: src/c/crossref
         title: "...in C"
 
     # OpenAlex
-    - file: content/scripts/A_overview/openalex_overview
+    - file: src/overview/openalex
       sections:
-      - file: content/scripts/python/python_openalex
+      - file: src/python/openalex
         title: "...in Python"
 
     # Research Organization Registry
-    - file: content/scripts/A_overview/ror_overview
+    - file: src/overview/ror
       sections:
-      - file: content/scripts/python/python_ror
+      - file: src/python/ror
         title: "...in Python"
 
     # Scopus
-    - file: content/scripts/A_overview/scopus_overview
+    - file: src/overview/scopus
       sections:
-      - file: content/scripts/python/python_scopus
+      - file: src/python/scopus
         title: "...in Python"
-      - file: content/scripts/shell/shell_scopus
+      - file: src/shell/scopus
         title: "...in Unix Shell"
-      - file: content/scripts/matlab/matlab_scopus
+      - file: src/matlab/scopus
         title: "...in Matlab"
-      - file: content/scripts/mathematica/mathematica_scopus
+      - file: src/mathematica/scopus
         title: "...in Mathematica"
 
 
@@ -91,47 +89,47 @@ parts:
     chapters:
 
     # U.S. Bureau of Economic Analysis
-    - file: content/scripts/A_overview/bea_overview
+    - file: src/overview/bea
       sections:
-      - file: content/scripts/python/python_bea
+      - file: src/python/bea
         title: "...in Python"
 
     # U.S. Bureau of Labor Statistics
-    - file: content/scripts/A_overview/bls_overview
+    - file: src/overview/bls
       sections:
-      - file: content/scripts/python/python_bls
+      - file: src/python/bls
         title: "...in Python"
 
     # U.S. Securities and Exchange
-    - file: content/scripts/A_overview/sec_edgar_overview
+    - file: src/overview/sec-edgar
       sections:
-      - file: content/scripts/python/python_sec_edgar
+      - file: src/python/sec-edgar
         title: "...in Python"
-      - file: content/scripts/R/R_SEC_EDGAR
+      - file: src/r/sec-edgar
         title: "...in R"
 
     # U.S. Treasury
-    - file: content/scripts/A_overview/ustreasury_overview
+    - file: src/overview/us-treasury
       sections:
-      - file: content/scripts/python/python_ustreasury
+      - file: src/python/us-treasury
         title: "...in Python"
-      - file: content/scripts/C/C_ustreasury
+      - file: src/c/us-treasury
         title: "...in C"
 
     # World Bank
-    - file: content/scripts/A_overview/worldbank_overview
+    - file: src/overview/world-bank
       sections:
-      - file: content/scripts/python/python_worldbank
+      - file: src/python/world-bank
         title: "...in Python"
-      - file: content/scripts/shell/shell_worldbank
+      - file: src/shell/world-bank
         title: "...in Unix Shell"
-      - file: content/scripts/matlab/matlab_worldbank
+      - file: src/matlab/world-bank
         title: "...in Matlab"
-      - file: content/scripts/mathematica/mathematica_worldbank
+      - file: src/mathematica/world-bank
         title: "...in Mathematica"
-      - file: content/scripts/R/R_WorldBank
+      - file: src/r/world-bank
         title: "...in R"
-      - file: content/scripts/C/C_World_Bank
+      - file: src/c/world-bank
         title: "...in C"
 
 
@@ -139,15 +137,15 @@ parts:
     chapters:
 
     # Wikidata
-    - file: content/scripts/A_overview/wikidata_overview
+    - file: src/overview/wikidata
       sections:
-      - file: content/scripts/mathematica/mathematica_wikidata
+      - file: src/mathematica/wikidata
         title: "...in Mathematica"
 
     # Z39.50
-    - file: content/scripts/A_overview/z3950_overview
+    - file: src/overview/z3950
       sections:
-      - file: content/scripts/shell/shell_z3950
+      - file: src/shell/z3950
         title: "...in Unix Shell"
 
 
@@ -155,15 +153,15 @@ parts:
     chapters:
 
     # GeoNames
-    - file: content/scripts/A_overview/geonames_overview
+    - file: src/overview/geonames
       sections:
-      - file: content/scripts/python/python_geonames
+      - file: src/python/geonames
         title: "...in Python"
 
     # U.S. Census Geocoding
-    - file: content/scripts/A_overview/census-geocoding_overview
+    - file: src/overview/us-census-geocoding
       sections:
-      - file: content/scripts/python/python_census-geocoding
+      - file: src/python/us-census-geocoding
         title: "...in Python"
         
 
@@ -171,19 +169,19 @@ parts:
     chapters:
 
     # Chronicling America
-    - file: content/scripts/A_overview/chronam_overview
+    - file: src/overview/chronam
       sections:
-      - file: content/scripts/python/python_chronam
+      - file: src/python/chronam
         title: "...in Python"
-      - file: content/scripts/shell/shell_chronam
+      - file: src/shell/chronam
         title: "...in Unix Shell"
-      - file: content/scripts/matlab/matlab_chronam
+      - file: src/matlab/chronam
         title: "...in Matlab"
-      - file: content/scripts/mathematica/mathematica_chronam
+      - file: src/mathematica/chronam
         title: "...in Mathematica"
-      - file: content/scripts/R/R_Chronam
+      - file: src/r/chronam
         title: "...in R"
-      - file: content/scripts/C/C_chronam
+      - file: src/c/chronam
         title: "...in C"
 
 
@@ -191,61 +189,61 @@ parts:
     chapters:
 
     # CAS Common Chemistry
-    - file: content/scripts/A_overview/casc_overview
+    - file: src/overview/casc
       sections:
-      - file: content/scripts/python/python_casc
+      - file: src/python/casc
         title: "...in Python"
-      - file: content/scripts/shell/shell_casc
+      - file: src/shell/casc
         title: "...in Unix Shell"
-      - file: content/scripts/matlab/matlab_casc
+      - file: src/matlab/casc
         title: "...in Matlab"
-      - file: content/scripts/mathematica/mathematica_casc
+      - file: src/mathematica/casc
         title: "...in Mathematica"
-      - file: content/scripts/R/R_CASCommon
+      - file: src/r/casc
         title: "...in R"
 
     # National Weather Service
-    - file: content/scripts/A_overview/nws_overview
+    - file: src/overview/nws
       sections:
-      - file: content/scripts/python/python_nws
+      - file: src/python/nws
         title: "...in Python"
 
     # PubChem
-    - file: content/scripts/A_overview/pubchem_overview
+    - file: src/overview/pubchem
       sections:
-      - file: content/scripts/python/python_pubchem
+      - file: src/python/pubchem
         title: "...in Python"
-      - file: content/scripts/shell/shell_pubchem
+      - file: src/shell/pubchem
         title: "...in Unix Shell"
-      - file: content/scripts/matlab/matlab_pubchem
+      - file: src/matlab/pubchem
         title: "...in Matlab"
-      - file: content/scripts/mathematica/mathematica_pubchem
+      - file: src/mathematica/pubchem
         title: "...in Mathematica"
-      - file: content/scripts/R/R_Pubchem
+      - file: src/r/pubchem
         title: "...in R"
-      - file: content/scripts/C/C_Pub_Chem
+      - file: src/c/pubchem
         title: "...in C"
 
     # PubChem Periodic Table
-    - file: content/scripts/A_overview/pubchem-periodic-table_overview
+    - file: src/overview/pubchem-periodic-table
       sections:
-      - file: content/scripts/python/python_pubchem-periodic-table
+      - file: src/python/pubchem-periodic-table
         title: "...in Python"
 
     # PubMed
-    - file: content/scripts/A_overview/pubmed_overview
+    - file: src/overview/pubmed
       sections:
-      - file: content/scripts/python/python_pubmed
+      - file: src/python/pubmed
         title: "...in Python"
-      - file: content/scripts/shell/shell_pubmed
+      - file: src/shell/pubmed
         title: "...in Unix Shell"
-      - file: content/scripts/matlab/matlab_pubmed
+      - file: src/matlab/pubmed
         title: "...in Matlab"
-      - file: content/scripts/mathematica/mathematica_pubmed
+      - file: src/mathematica/pubmed
         title: "...in Mathematica"
-      - file: content/scripts/R/R_PubMed
+      - file: src/r/pubmed
         title: "...in R"
-      - file: content/scripts/C/C_PubMed
+      - file: src/c/pubmed
         title: "...in C"
 
 
@@ -253,39 +251,39 @@ parts:
     chapters:
 
     # College Scorecard
-    - file: content/scripts/A_overview/college-scorecard_overview
+    - file: src/overview/college-scorecard
       sections:
-      - file: content/scripts/python/python_college-scorecard
+      - file: src/python/college-scorecard
         title: "...in Python"
 
     # U.S. Census Data
-    - file: content/scripts/A_overview/uscensus_overview
+    - file: src/overview/us-census
       sections:
-      - file: content/scripts/python/python_uscensus
+      - file: src/python/us-census
         title: "...in Python"
-      - file: content/scripts/shell/shell_uscensus
+      - file: src/shell/us-census
         title: "...in Unix Shell"
-      - file: content/scripts/matlab/matlab_uscensus
+      - file: src/matlab/us-census
         title: "...in Matlab"
-      - file: content/scripts/mathematica/mathematica_uscensus
+      - file: src/mathematica/us-census
         title: "...in Mathematica"
-      - file: content/scripts/R/R_US_Census
+      - file: src/r/us-census
         title: "...in R"
-      - file: content/scripts/C/C_uscensus
+      - file: src/c/us-census
         title: "...in C"
 
     # USA Spending
-    - file: content/scripts/A_overview/usaspending_overview
+    - file: src/overview/usa-spending
       sections:
-      - file: content/scripts/python/python_usaspending
+      - file: src/python/usa-spending
         title: "...in Python"
-      - file: content/scripts/R/R_USA_Spending
+      - file: src/r/usa-pending
         title: "...in R"
-      - file: content/scripts/C/C_usaspending
+      - file: src/c/usa-spending
         title: "...in C"
 
   - caption: ABOUT
     chapters:
-    - file: content/about/contributing
-    - file: content/about/license_reuse
-    - file: content/about/tech_details
+    - file: src/about/contributing
+    - file: src/about/license-reuse
+    - file: src/about/tech-details

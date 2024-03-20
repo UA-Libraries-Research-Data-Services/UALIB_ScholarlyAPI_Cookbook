@@ -1,6 +1,6 @@
 # University of Alabama Libraries Scholarly API Cookbook
 
-The University of Alabama Libraries Scholarly API Cookbook is an open online book containing short scholarly API code examples (i.e., “recipes”) that demonstrate how to work with various scholarly web service APIs. It is part of the University of Alabama Libraries efforts to support Research Data Services. Read the book [here](https://ualibweb.github.io/UALIB_ScholarlyAPI_Cookbook/content/about/introduction.html).
+The University of Alabama Libraries Scholarly API Cookbook is an open online book containing short scholarly API code examples (i.e., “recipes”) that demonstrate how to work with various scholarly web service APIs. It is part of the University of Alabama Libraries efforts to support Research Data Services. Read the book [here](https://ualibweb.github.io/UALIB_ScholarlyAPI_Cookbook/).
 
 ## License and Reuse
 
