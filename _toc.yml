@@ -158,6 +158,12 @@ parts:
       - file: src/python/geonames
         title: "...in Python"
 
+    # OpenStreetMap
+    - file: src/overview/osm
+      sections:
+      - file: src/python/osm
+        title: "...in Python"
+
     # U.S. Census Geocoding
     - file: src/overview/us-census-geocoding
       sections:
