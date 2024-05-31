@@ -152,6 +152,12 @@ parts:
   - caption: GIS
     chapters:
 
+    #FCC Radio Range
+    - file: src/overview/fcc-radio-range
+      sections:
+      - file: src/python/fcc-radio-range
+        title: "...in Python"
+
     # GeoNames
     - file: src/overview/geonames
       sections:
@@ -168,6 +174,12 @@ parts:
     - file: src/overview/us-census-geocoding
       sections:
       - file: src/python/us-census-geocoding
+        title: "...in Python"
+    
+    # USGS National Map
+    - file: src/overview/usgs-national-map
+      sections:
+      - file: src/python/usgs-national-map
         title: "...in Python"
         
 
