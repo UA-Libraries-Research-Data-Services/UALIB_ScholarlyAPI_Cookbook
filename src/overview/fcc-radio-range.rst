@@ -10,7 +10,7 @@ Federal Communications Commission (FCC) [#fcc1]_ regulates the radio ranges in t
 
 The dataset can be downloaded from their FM Service Contours Data Points [#fcc2]_ website in the form of a shapefile.
 
-The FCC is a government agency and the data is in the public domain. No restrictions are set on the use of this data.
+The FCC notes that use of the FCC FM service contour data is at the users' own risk and no restrictions are set on the use of this data. Please see their website for more information [#fcc2]_
 
 .. rubric:: References
 
