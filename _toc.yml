@@ -33,6 +33,8 @@ parts:
       sections:
       - file: src/python/wiley-tdm
         title: "...in Python"
+      - file: src/c/wiley-tdm
+        title: "...in C"
 
 
   - caption: BIBLIOGRAPHIC
@@ -71,6 +73,8 @@ parts:
       sections:
       - file: src/python/ror
         title: "...in Python"
+      - file: src/c/ror
+        title: "...in C"
 
     # Scopus
     - file: src/overview/scopus
@@ -152,7 +156,7 @@ parts:
   - caption: GIS
     chapters:
 
-    #FCC Radio Range
+    # FCC Radio Range
     - file: src/overview/fcc-radio-range
       sections:
       - file: src/python/fcc-radio-range
@@ -163,6 +167,8 @@ parts:
       sections:
       - file: src/python/geonames
         title: "...in Python"
+      - file: src/c/geonames
+        title: "...in C"
 
     # OpenStreetMap
     - file: src/overview/osm
@@ -273,6 +279,8 @@ parts:
       sections:
       - file: src/python/college-scorecard
         title: "...in Python"
+      - file: src/c/college-scorecard
+        title: "...in C"
 
     # U.S. Census Data
     - file: src/overview/us-census
