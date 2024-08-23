@@ -140,6 +140,12 @@ parts:
   - caption: GENERAL
     chapters:
 
+    # Stack Exchange
+    - file: src/overview/stack-exchange
+      sections:
+      - file: src/python/stack-exchange
+        title: "...in Python"
+
     # Wikidata
     - file: src/overview/wikidata
       sections:
@@ -226,6 +232,18 @@ parts:
       - file: src/r/casc
         title: "...in R"
 
+    # FoodData Central
+    - file: src/overview/fdc
+      sections:
+      - file: src/python/fdc
+        title: "...in Python"
+
+    # NASA Images
+    - file: src/overview/nasa-images
+      sections:
+      - file: src/python/nasa-images
+        title: "...in Python"
+
     # National Weather Service
     - file: src/overview/nws
       sections:
@@ -281,6 +299,12 @@ parts:
         title: "...in Python"
       - file: src/c/college-scorecard
         title: "...in C"
+
+    # Congress.gov
+    - file: src/overview/congress
+      sections:
+      - file: src/python/congress
+        title: "...in Python"
 
     # U.S. Census Data
     - file: src/overview/us-census
