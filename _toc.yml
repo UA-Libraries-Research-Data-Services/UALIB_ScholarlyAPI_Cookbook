@@ -140,12 +140,6 @@ parts:
   - caption: GENERAL
     chapters:
 
-    # OpenAI
-    - file: src/overview/openai
-      sections:
-      - file: src/python/openai
-        title: "...in Python"
-
     # Speedrun.com
     - file: src/overview/speedrun
       sections:
