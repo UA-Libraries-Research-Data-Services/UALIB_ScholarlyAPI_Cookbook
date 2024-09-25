@@ -140,6 +140,12 @@ parts:
   - caption: GENERAL
     chapters:
 
+    # Speedrun.com
+    - file: src/overview/speedrun
+      sections:
+      - file: src/python/speedrun
+        title: "...in Python"
+
     # Stack Exchange
     - file: src/overview/stack-exchange
       sections:
