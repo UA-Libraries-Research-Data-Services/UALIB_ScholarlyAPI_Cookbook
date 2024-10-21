@@ -140,6 +140,12 @@ parts:
   - caption: GENERAL
     chapters:
 
+    # National Park Service
+    - file: src/overview/nps
+      sections:
+      - file: src/python/nps
+        title: "...in Python"
+
     # Speedrun.com
     - file: src/overview/speedrun
       sections:
