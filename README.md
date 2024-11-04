@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> Novemeber 4, 2024 - We had to transfer this repository from the GitHub ualibweb organization to this new UA-Libraries-Research-Data-Services organization. Unfortunately, this requires re-configuring the GitHub pages settings for the HTML rendered Jupyter UA Libraries Scholarly API Cookbook (in addition, some of the Cookbook related GitHub pages links may not redirect correctly to this new location). However, all of the tutorial content is still available in this repository within the `/src` folder. It will take us a few weeks to fix the Jupyter Book HTML build and links. Thanks for your patience, let us know if there is something you can't find in the meantime.
+
 # University of Alabama Libraries Scholarly API Cookbook
 
 The University of Alabama Libraries Scholarly API Cookbook is an open online book containing short scholarly API code examples (i.e., “recipes”) that demonstrate how to work with various scholarly web service APIs. It is part of the University of Alabama Libraries efforts to support Research Data Services. Read the book [here](https://ualibweb.github.io/UALIB_ScholarlyAPI_Cookbook/).
