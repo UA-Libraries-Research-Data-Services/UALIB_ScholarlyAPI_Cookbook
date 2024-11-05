@@ -772,7 +772,7 @@ Since Index Data YAZ is a complete toolkit, it's possible to write your own cust
 
 As a result, we created a demonstration C program called ``z39-demo``:
 
-https://github.com/ualibweb/z39-demo
+https://github.com/UA-Libraries-Research-Data-Services/z39-demo
 
 ``z39-demo`` is a small command line program written in C that can run Z39.50 searches via an input query
 or an input file. By default ``z39-demo`` searches The University of Alabama library catalog, 
