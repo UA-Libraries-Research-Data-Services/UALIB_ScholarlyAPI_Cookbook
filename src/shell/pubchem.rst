@@ -15,7 +15,7 @@ These recipe examples were tested on August 4, 2022 using GNOME Terminal (with B
 
 .. note::
   
-   This tutorial uses ``curl`` and ``jq`` for interacting with the PubChem API. You may also be interested in using the `NCBI EDirect command line program <https://www.ncbi.nlm.nih.gov/books/NBK179288/>`_. We have several tutorials for EDirect in our `EDirectChemInfo repository <https://github.com/ualibweb/EDirectChemInfo>`_.
+   This tutorial uses ``curl`` and ``jq`` for interacting with the PubChem API. You may also be interested in using the `NCBI EDirect command line program <https://www.ncbi.nlm.nih.gov/books/NBK179288/>`_. We have several tutorials for EDirect in our `EDirectChemInfo repository <https://github.com/UA-Libraries-Research-Data-Services/EDirectChemInfo>`_.
 
 Setup
 ============================================
