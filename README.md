@@ -1,5 +1,5 @@
 > [!IMPORTANT]
-> November 4, 2024 - We had to transfer this repository from the GitHub ualibweb organization to this new UA-Libraries-Research-Data-Services organization. Unfortunately, this requires re-configuring the GitHub pages settings for the HTML rendered Jupyter UA Libraries Scholarly API Cookbook. In addition, the Cookbook related HTML GitHub pages links may not redirect correctly to this new location, so we will need to go through all of those. However, all of the tutorial content is still available in this repository within the `/src` folder and a basic HTML build seems to have worked (though is unchecked at the moment; we will need to fix some links: https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook). It will take us a couple weeks to go through the new Jupyter Book and fix any needed configurations and links. Thanks for your patience, let us know if there is something you can't find in the meantime. 
+> November 4, 2024 - We had to transfer this repository from the GitHub ualibweb organization to this new UA-Libraries-Research-Data-Services organization. Unfortunately, any Jupyter Book related HTML GitHub page links do not get automatically redirected. We think we have corrected all links, but let us know if you find any issues.
 
 # University of Alabama Libraries Scholarly API Cookbook
 
