@@ -127,6 +127,6 @@ tutorial or document page.
 
 .. rubric:: References
 
-.. [#ua_work] `<https://github.com/ualibweb/UALIB_Workshops>`_
+.. [#ua_work] `<https://github.com/UA-Libraries-Research-Data-Services/UALIB_Workshops>`_
 
 

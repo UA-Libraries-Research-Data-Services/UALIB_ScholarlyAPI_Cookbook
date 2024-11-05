@@ -13,7 +13,7 @@ These recipe examples were tested on November 23, 2022 using GNOME Terminal in U
 
 .. note::
   
-   This tutorial uses ``curl`` and ``jq`` for interacting with the PubChem API. You may also be interested in using the `NCBI EDirect command line program <https://www.ncbi.nlm.nih.gov/books/NBK179288/>`_. We have workshop materials for EDirect with PubMed in our `UALIB Workshops repository <https://github.com/ualibweb/UALIB_Workshops>`_.
+   This tutorial uses ``curl`` and ``jq`` for interacting with the PubChem API. You may also be interested in using the `NCBI EDirect command line program <https://www.ncbi.nlm.nih.gov/books/NBK179288/>`_. We have workshop materials for EDirect with PubMed in our `UALIB Workshops repository <https://github.com/UA-Libraries-Research-Data-Services/UALIB_Workshops>`_.
 
 Program requirements
 =========================
