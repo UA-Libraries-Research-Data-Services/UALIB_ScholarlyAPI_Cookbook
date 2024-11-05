@@ -10,7 +10,7 @@ All code in this book is licensed with the permissive MIT license. Please feel f
 to reuse or adapt the code in your teaching and research. A copy of the license
 can be found in the GitHub repository:
 
-`<https://github.com/ualibweb/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE>`_
+`<https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE>`_
 
 .. important::
    
@@ -23,7 +23,7 @@ can be found in the GitHub repository:
 
 If you reuse the code, attribution would be appreciated. Please link to the Cookbook and cite our manuscript:
 
-Link to Cookbook: `<https://ualibweb.github.io/UALIB_ScholarlyAPI_Cookbook/>`_
+Link to Cookbook: `<https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook>`_
 
 Citation: Scalfani, V. F.; Walker, K. W.; Simpson, L.; Fernandez, A. M.; Patel, V. D.; Ramig, A.; Gomes, C.; Moen, M. T.; Nguyen, A. M. Creating a Scholarly API Cookbook: Supporting Library Users with Programmatic Access to Information. *Issues in Science and Technology Librarianship*, **2023**, No. 104. `<https://doi.org/10.29173/istl2766>`_.
 

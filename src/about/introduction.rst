@@ -10,7 +10,7 @@ This is an open online book containing short scholarly API code examples (i.e., 
 that demonstrate how to work with various scholarly web service APIs. It is part of the University of 
 Alabama Libraries efforts to support `Research Data Services`_.
 
-.. _Research Data Services: https://guides.lib.ua.edu/Data/ResearchDataServices/
+.. _Research Data Services: https://guides.lib.ua.edu/ResearchDataServices
 
 What should I be aware of before getting started?
 *************************************************
@@ -127,6 +127,6 @@ tutorial or document page.
 
 .. rubric:: References
 
-.. [#ua_work] `<https://github.com/ualibweb/UALIB_Workshops>`_
+.. [#ua_work] `<https://github.com/UA-Libraries-Research-Data-Services/UALIB_Workshops>`_
 
 
