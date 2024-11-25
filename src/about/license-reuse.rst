@@ -6,7 +6,7 @@ License and Reuse
 License and Reuse
 ******************
 
-Most of the code in this repository is licensed under the `MIT License: <https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE>`_. This includes code written to be used with Wolfram Mathematica and MathWorks MATLAB. However, these proprietary software packages themselves are not covered under the MIT License, and users must have valid licenses for Mathematica and MATLAB to run the associated code.
+Most of the code in this repository is licensed under the `MIT License <https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE>`_. This includes code written to be used with Wolfram Mathematica and MathWorks MATLAB. However, these proprietary software packages themselves are not covered under the MIT License, and users must have valid licenses for Mathematica and MATLAB to run the associated code.
 
 The Python scripts in this repository may rely on external libraries such as matplotlib, pandas, and others. These libraries are licensed under their own respective terms. Please refer to the documentation of each library for details.
 
@@ -14,7 +14,7 @@ The C code in this repository is licensed under the MIT License. It relies on ex
 
 The Unix Shell tutorials use Bash scripts, which are licensed under the MIT License (Bash itself is licensed under the GNU General Public License). The included scripts rely on external tools such as curl, jq, and gnuplot, each of which is licensed under its own terms. Please refer to the documentation of each library for details.
 
-Lastly, some R code tutorials are licensed under the `GPL-3 License: <https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials>`_ because they depend on GPL-licensed R libraries. The R tutorials with GPL-3 licenses are indicated at the top of the respective files.
+Lastly, some R code tutorials are licensed under the `GPL-3 License <https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials>`_ because they depend on GPL-licensed R libraries. The R tutorials with GPL-3 licenses are indicated at the top of the respective files.
 
 .. important::
    
