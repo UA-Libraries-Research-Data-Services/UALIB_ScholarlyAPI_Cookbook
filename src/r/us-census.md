@@ -25,7 +25,7 @@ See also the [U.S. Census API Terms of Service](https://www.census.gov/data/deve
 
 **Attribution:** *This tutorial uses the Census Buereau Data API but is not endorsed or certified by the Census Bureau.*
 
-**Tutorial License**: This tutorial uses the censusapi R library which is licensed as GPL-3, as a result, this tutorial is also licesned as GPL-3: https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials
+**Tutorial License**: This tutorial uses the censusapi R library which is licensed as GPL-3, as a result, this tutorial code is also licensed as GPL-3: https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials
 
 ## Setup
 

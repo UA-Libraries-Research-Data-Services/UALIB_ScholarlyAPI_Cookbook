@@ -18,7 +18,7 @@ The recipe examples were tested on Mar 24, 2023.
 **easyPubMed PDF Documentation**:
 https://cran.r-project.org/web/packages/easyPubMed/easyPubMed.pdf
 
-**Tutorial License**: This tutorial uses the easyPubMed R library which is licensed as GPL-3, as a result, this tutorial is also licesned as GPL-3: https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials
+**Tutorial License**: This tutorial uses the easyPubMed R library which is licensed as GPL-3, as a result, this tutorial code is also licensed as GPL-3: https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials
 
 See the bottom of the document for information on R and package versions.
 
