@@ -7,7 +7,15 @@ The University of Alabama Libraries Scholarly API Cookbook is an open online boo
 
 ## License and Reuse
 
-All code in this book is licensed with the permissive MIT license. Please feel free to reuse or adapt the code in your teaching and research.
+Most of the code in this repository is licensed under the [MIT License](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE). This includes code written to be used with Wolfram Mathematica and MathWorks MATLAB. However, these proprietary software packages themselves are not covered under the MIT License, and users must have valid licenses for Mathematica and MATLAB to run the associated code.
+
+The Python scripts in this repository may rely on external libraries such as matplotlib, pandas, and others. These libraries are licensed under their own respective terms. Please refer to the documentation of each library for details.
+
+The C code in this repository is licensed under the MIT License. It relies on external libraries such as curl, jq, and yaz which are licensed under their own respective terms. This repository provides source code only; users must compile the programs themselves.
+
+The Unix Shell tutorials use Bash scripts, which are licensed under the MIT License (Bash itself is licensed under the GNU General Public License). The included scripts rely on external tools such as curl, jq, and gnuplot, each of which is licensed under its own terms. Please refer to the documentation of each library for details.
+
+Lastly, some R code tutorials are licensed under the [GPL-3 License](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials) because they depend on GPL-licensed R libraries. The R tutorials with GPL-3 licenses are indicated at the top of the respective files.
 
 We have endeavored to follow the appropriate usage policies of each scholarly API, web service, and Z39.50 server. We have linked to the policies where possible. Please be responsible when reusing these scripts and respect the usage policies (e.g., query limits, record downloads, data sharing restrictions). Code output snippets shown in this book are for demonstration purposes and credited to the individual API or database service.
 

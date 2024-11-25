@@ -21,6 +21,9 @@ Attribution: This tutorial was adapted from supporting information in:
 
 Scalfani, V. F.; Ralph, S. C. Alshaikh, A. A.; Bara, J. E. Programmatic Compilation of Chemical Data and Literature From PubChem Using Matlab. Chemical Engineering Education, 2020, 54, 230. <https://doi.org/10.18260/2-1-370.660-115508> and <https://github.com/vfscalfani/MATLAB-cheminformatics>)
 
+
+**Tutorial License**: This tutorial uses the knitr and imager R libraries, which are licensed as GPL-3 and LGPL-3, respectively. As a result, this tutorial is licesned as GPL-3: https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials
+
 ### Setup
 
 Importing the necessary libraries and setting up the base api:
