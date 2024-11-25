@@ -18,11 +18,7 @@ Lastly, some R code tutorials are licensed under the `GPL-3 License <https://git
 
 .. important::
    
-   We have endeavored to follow the appropriate usage policies of each scholarly API, web service, and
-   Z39.50 server. We have linked to the policies where possible. Please be responsible when reusing these scripts
-   and respect the usage policies (e.g., query limits, record downloads, 
-   data sharing restrictions). Code output snippets shown in this book are
-   for demonstration purposes and credited to the individual API or database service.
+   We have endeavored to follow the appropriate terms and usage policies of each scholarly API, web service, and Z39.50 server. We have linked to the terms and policies where possible. Please be responsible when reusing these scripts and respect the terms and usage policies (e.g., query limits, record downloads, data sharing restrictions). Code output snippets shown in this book are for demonstration purposes and credited to the individual API or database service.
  
 
 If you reuse the code, attribution would be appreciated. Please link to the Cookbook and cite our manuscript:
