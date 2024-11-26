@@ -1,5 +1,5 @@
 > [!IMPORTANT]
-> November 4, 2024 - We had to transfer this repository from the GitHub ualibweb organization to this new UA-Libraries-Research-Data-Services organization. Unfortunately, any Jupyter Book related HTML GitHub page links do not get automatically redirected. We think we have corrected all links, but let us know if you find any issues.
+> November 2024 - We had to transfer this repository from the GitHub ualibweb organization to this new UA-Libraries-Research-Data-Services organization. Unfortunately, any Jupyter Book related HTML GitHub page links do not get automatically redirected. We think we have corrected all links, but let us know if you find any issues. In addition, some R code tutorials that were originally MIT Licensed, are now licensed under the GPL-3 License to comply with the licensing terms of dependent R libraries.
 
 # University of Alabama Libraries Scholarly API Cookbook
 
