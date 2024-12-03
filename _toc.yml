@@ -6,6 +6,12 @@ parts:
   - caption: ARTICLE FULL-TEXT
     chapters:
 
+    # Open Science Framework
+    - file: src/overview/osf
+      sections:
+      - file: src/python/osf
+        title: "...in Python"
+
     # ScienceDirect
     - file: src/overview/sdirect
       sections:
