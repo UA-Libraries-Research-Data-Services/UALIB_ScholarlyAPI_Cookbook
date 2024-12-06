@@ -279,7 +279,7 @@ parts:
         title: "...in Matlab"
       - file: src/mathematica/pubchem
         title: "...in Mathematica"
-      - file: src/r/pubchem
+      - file: src/r-gpl3/pubchem
         title: "...in R"
       - file: src/c/pubchem
         title: "...in C"
@@ -301,7 +301,7 @@ parts:
         title: "...in Matlab"
       - file: src/mathematica/pubmed
         title: "...in Mathematica"
-      - file: src/r/pubmed
+      - file: src/r-gpl3/pubmed
         title: "...in R"
       - file: src/c/pubmed
         title: "...in C"
@@ -335,7 +335,7 @@ parts:
         title: "...in Matlab"
       - file: src/mathematica/us-census
         title: "...in Mathematica"
-      - file: src/r/us-census
+      - file: src/r-gpl3/us-census
         title: "...in R"
       - file: src/c/us-census
         title: "...in C"
@@ -345,7 +345,7 @@ parts:
       sections:
       - file: src/python/usa-spending
         title: "...in Python"
-      - file: src/r/usa-pending
+      - file: src/r/usa-spending
         title: "...in R"
       - file: src/c/usa-spending
         title: "...in C"
