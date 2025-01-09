@@ -39,17 +39,14 @@ While an API key is not required to use the U.S. Census Data API, you may consid
 registering for an API key as the API is limited to 500 calls a day without a key.
 Sign up can be found here: https://api.census.gov/data/key_signup.html
 
-If you want to add in your API Key, save the API key to a bash variable:
+If you want to add in your API Key, save the API key to a text file named "apiKey" and
+import it using the following code:
 
 .. code-block:: shell
 
-   key="&key=KEY" # replace KEY with your api key
+   key=$(cat "apikey.txt");
 
-This tutorial does not use an API key:
-
-.. code-block:: shell
-
-   key=""
+Note that this tutorial does not use an API key.
 
 1. Get population estimates of countries by state
 =======================================================
