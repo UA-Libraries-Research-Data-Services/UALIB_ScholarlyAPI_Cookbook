@@ -32,11 +32,7 @@ import it using the following code:
 
    %%key = importdata("apiKey.txt");
 
-This tutorial does not use an API key:
-
-.. code-block:: matlab
-
-   key = "";
+Note that this tutorial does not use an API key.
 
 1. Get population estimates of countries by state
 =======================================================
