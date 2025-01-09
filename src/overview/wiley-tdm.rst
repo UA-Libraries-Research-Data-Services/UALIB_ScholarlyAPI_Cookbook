@@ -6,9 +6,11 @@ Wiley
 Brief Overview
 ****************
 
-The Wiley Text and Data Mining (TDM) API allows users to retrieve full-text articles of Wiley content in PDF form. A token is required to access [#wtdm1]_ , and users are limited to 3 API requests per second. 
+The Wiley Text and Data Mining (TDM) API allows users to retrieve full-text articles of Wiley content in PDF form.
+A token is required to access [#wtdm1]_ , and users are limited to 3 API requests per second. 
 
-See the Wiley TDM documentation [#wtdm2]_ for more information on accessing the API. Please check with your institution for their Text and Data Mining Agreement with Wiley.
+See the Wiley TDM documentation [#wtdm2]_ for more information on accessing the API.
+Please check with your institution for their Text and Data Mining Agreement with Wiley.
 
 .. rubric:: References
 
