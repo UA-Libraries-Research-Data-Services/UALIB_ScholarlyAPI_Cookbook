@@ -23,6 +23,8 @@ parts:
         title: "...in Matlab"
       - file: src/mathematica/sdirect
         title: "...in Mathematica"
+      - file: src/r/sdirect
+        title: "...in R"
       - file: src/c/sdirect
         title: "...in C"
 
