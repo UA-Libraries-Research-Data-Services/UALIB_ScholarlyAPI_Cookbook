@@ -20,9 +20,6 @@ An API key is required to access the College Scorecard API. This API key can be 
 
 ```{r}
 key <- Sys.getenv("college_scorecard_key")
-
-# Add key to base URL for future use
-base_url <- paste0("http://api.data.gov/ed/collegescorecard/v1/schools?")
 ```
 
 ### Import Libraries
@@ -48,6 +45,9 @@ Fields in the College Scorecard API are accessed with a `<time>.<category>.<name
 - `<category>` and `<name>` can be found in the Data Dictionary file that can be downloaded from the API's documentation. The `<category>` of a field is given by the `dev-category` column in the `Institution_Data_Dictionary` section, and the `<name>` is given by the `developer-friendly name` column.
 
 ```{r}
+# Define base URL
+base_url <- paste0("http://api.data.gov/ed/collegescorecard/v1/schools?")
+
 # Define parameters
 field <- "school.name"
 
