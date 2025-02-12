@@ -20,7 +20,7 @@ These recipe examples use the Elsevier ScienceDirect Article (Full-Text) API. Th
 
 ### Import Libraries
 
-```{r}
+```r
 library(httr)
 ```
 
@@ -28,7 +28,7 @@ library(httr)
 
 An API key is required to access the ScienceDirect API. Registration is available on the [Elsevier developer portal](https://dev.elsevier.com/). The key is imported from an environment variable below:
 
-```{r}
+```r
 myAPIKey <- Sys.getenv("sciencedirect_key")
 ```
 
@@ -38,7 +38,7 @@ We will use DOIs as the article identifiers. See our Crossref and Scopus API tut
 
 ## 1. Retrieve full-text XML of an article
 
-```{r}
+```r
 # For XML download
 elsevier_url <- "https://api.elsevier.com/content/article/doi/"
 doi1 <- '10.1016/j.tetlet.2017.07.080' # Example Tetrahedron Letters article
@@ -50,7 +50,7 @@ writeLines(content(fulltext1, "text"), "fulltext1.xml")
 
 ## 2. Retrieve plain text of an article
 
-```{r}
+```r
 # For simplified text download
 doi2 <- '10.1016/j.tetlet.2022.153680' # Example Tetrahedron Letters article
 fulltext2 <- GET(paste0(elsevier_url, doi2, "?APIKey=", myAPIKey, "&httpAccept=text/plain"))
@@ -61,7 +61,7 @@ writeLines(content(fulltext2, "text"), "fulltext2.txt")
 
 ## 3. Retrieve full-text in a loop
 
-```{r}
+```r
 # Make a list of 5 DOIs for testing
 dois <- c('10.1016/j.tetlet.2018.10.031',
           '10.1016/j.tetlet.2018.10.033',
@@ -70,7 +70,7 @@ dois <- c('10.1016/j.tetlet.2018.10.031',
           '10.1016/j.tetlet.2018.10.041')
 ```
 
-```{r}
+```r
 for (doi in dois) {
   article <- GET(paste0(elsevier_url, doi, "?APIKey=", myAPIKey, "&httpAccept=text/plain"))
   doi_name <- gsub("/", "_", doi)
@@ -81,7 +81,7 @@ for (doi in dois) {
 
 ## R Session Info
 
-```{r}
+```r
 sessionInfo()
 ```
 
