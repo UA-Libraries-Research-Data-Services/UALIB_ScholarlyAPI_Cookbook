@@ -13,7 +13,7 @@ by Michael T. Moen
 
 **Wiley TDM Terms of Use:** Please check with your institution to see their Text and Data Mining Agreement
 
-The Wiley Text and Data Mining (TDM) API allows users to retrieve the full-text articles of Wiley content in PDF form.
+The Wiley Text and Data Mining (TDM) API allows users to retrieve the full-text articles of Wiley content in PDF form. This tutorial content is intended to help facilitate academic research.
 
 *These recipe examples were tested on February 12, 2025.*
 
