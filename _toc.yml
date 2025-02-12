@@ -94,6 +94,12 @@ parts:
       - file: src/mathematica/scopus
         title: "...in Mathematica"
 
+    # Web of Science
+    - file: src/overview/wos
+      sections:
+      - file: src/python/wos
+        title: "...in Python"
+
 
   - caption: BUSINESS
     chapters:
