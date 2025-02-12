@@ -6,7 +6,7 @@ Web of Science
 Brief Overview
 ****************
   
-Web of Science (WOS) is an open-source service maintained by the Clarivate [#wos1]_ . The WOS APIs allow programmatic access to WOS data.
+Web of Science (WOS) is a service maintained by the Clarivate [#wos1]_ . The WOS APIs allow programmatic access to WOS data.
 
 The WOS Starter API allows access to some of the data in the WOS database. See the WOS Starter documentation [#wos2]_ for more information on accessing the API.
 
