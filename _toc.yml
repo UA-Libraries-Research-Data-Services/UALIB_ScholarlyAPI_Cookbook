@@ -23,6 +23,8 @@ parts:
         title: "...in Matlab"
       - file: src/mathematica/sdirect
         title: "...in Mathematica"
+      - file: src/r/sdirect
+        title: "...in R"
       - file: src/c/sdirect
         title: "...in C"
 
@@ -321,6 +323,8 @@ parts:
       sections:
       - file: src/python/college-scorecard
         title: "...in Python"
+      - file: src/r/college-scorecard
+        title: "...in R"
       - file: src/c/college-scorecard
         title: "...in C"
 
