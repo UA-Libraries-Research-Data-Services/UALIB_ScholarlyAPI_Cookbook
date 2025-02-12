@@ -5,17 +5,19 @@ ScienceDirect API in Unix Shell
 
 by Avery Fernandez
 
-These recipe examples use the Elsevier ScienceDirect Article (Full-Text) API. Code was tested and sample data downloaded from the ScienceDirect API on November 22, 2022 via http://api.elsevier.com and https://www.sciencedirect.com/.
+**ScienceDirect**: https://www.sciencedirect.com/
 
-You will need to register for an API key from the Elsevier Developer portal in order to use the ScienceDirect API.
-This tutorial content is intended to help facillitate academic research.
-Before continuing or reusing any of this code, please be aware of Elsevier’s API policies and appropiate use-cases,
-as for example, Elsevier has detailed policies regarding `text and data mining of Elsevier full-text content <https://dev.elsevier.com/text_mining.html>`_.
-Please check with your institution for their Text and Data Mining Agreement with Elsevier.
+**Elsevier Developer Portal:** https://dev.elsevier.com/
 
 **ScienceDirect APIs Specification:** https://dev.elsevier.com/sd_api_spec.html
 
 **Elsevier How to Guide: Text Mining:** https://dev.elsevier.com/tecdoc_text_mining.html
+
+Please check with your institution for their Text and Data Mining Agreement with Elsevier.
+
+These recipe examples use the Elsevier ScienceDirect Article (Full-Text) API. This tutorial content is intended to help facillitate academic research. Before continuing or reusing any of this code, please be aware of Elsevier’s API policies and appropiate use-cases, as for example, Elsevier has detailed policies regarding [text and data mining of Elsevier full-text content](https://dev.elsevier.com/text_mining.html). If you have copyright or other related text and data mining questions, please contact The University of Alabama Libraries.
+
+*These recipe examples were tested on November 22, 2025.*
 
 Setup
 ======
