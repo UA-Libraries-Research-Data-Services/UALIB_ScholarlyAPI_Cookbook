@@ -41,6 +41,8 @@ parts:
       sections:
       - file: src/python/wiley-tdm
         title: "...in Python"
+      - file: src/r/wiley-tdm
+        title: "...in R"
       - file: src/c/wiley-tdm
         title: "...in C"
 
