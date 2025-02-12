@@ -15,7 +15,7 @@ by Anastasia Ramig
 
 Please check with your institution for their Text and Data Mining Agreement with Elsevier.
 
-These recipe examples use the Elsevier ScienceDirect Article (Full-Text) API using MATLAB R2022b. This tutorial content is intended to help facillitate academic research. Before continuing or reusing any of this code, please be aware of Elsevier’s API policies and appropiate use-cases, as for example, Elsevier has detailed policies regarding [text and data mining of Elsevier full-text content](https://dev.elsevier.com/text_mining.html). If you have copyright or other related text and data mining questions, please contact The University of Alabama Libraries.
+These recipe examples use the Elsevier ScienceDirect Article (Full-Text) API using MATLAB R2022b. This tutorial content is intended to help facillitate academic research. Before continuing or reusing any of this code, please be aware of Elsevier's API policies and appropiate use-cases, as for example, Elsevier has detailed policies regarding `text and data mining of Elsevier full-text content <https://dev.elsevier.com/text_mining.html>`_. If you have copyright or other related text and data mining questions, please contact The University of Alabama Libraries.
 
 *These recipe examples were tested on November 22, 2022.*
 
