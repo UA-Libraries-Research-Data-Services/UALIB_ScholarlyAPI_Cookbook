@@ -20,7 +20,7 @@ See the bottom of the document for information on R and package versions.
 
 An API key is required to access the College Scorecard API. This API key can be obtained [here](https://collegescorecard.ed.gov/data/api-documentation#api-access-and-authentication). The key is imported from an environment variable below:
 
-```{r}
+```r
 key <- Sys.getenv("college_scorecard_key")
 ```
 
@@ -28,7 +28,7 @@ key <- Sys.getenv("college_scorecard_key")
 
 Run the following lines of code to load the libraries ‘httr’ and ‘jsonlite’. If you have not done so already, additionally, before the ‘library()’ functions, run ‘install.packages(c(‘httr’,’jsonlite’))’.
 
-```{r}
+```r
 library(httr)
 library(jsonlite)
 library(dplyr)
@@ -46,7 +46,7 @@ Fields in the College Scorecard API are accessed with a `<time>.<category>.<name
 - `<time>` indicates the year of the data to be accessed. To access the most recent data, use `latest`.
 - `<category>` and `<name>` can be found in the Data Dictionary file that can be downloaded from the API's documentation. The `<category>` of a field is given by the `dev-category` column in the `Institution_Data_Dictionary` section, and the `<name>` is given by the `developer-friendly name` column.
 
-```{r}
+```r
 # Define base URL
 base_url <- paste0("http://api.data.gov/ed/collegescorecard/v1/schools?")
 
@@ -64,7 +64,7 @@ response$status_code
 ## [1] 200
 ```
 
-```{r}
+```r
 names_data <- fromJSON(rawToChar(response$content))
 names_data$metadata
 ```
@@ -84,7 +84,7 @@ The `total` value indicates the total number results returned in this query. The
 
 We can use a loop to create an API request for each page:
 
-```{r}
+```r
 sort_key <- "school.name"
 page_size <- 100
 
@@ -112,7 +112,7 @@ length(institution_names)
 ## [1] 6484
 ```
 
-```{r}
+```r
 head(institution_names, 10)
 ```
 
@@ -135,7 +135,7 @@ College Scorecard API requests can also take conditions to only select certain i
 
 In this example, we limit the results to only include institutions that award graduate degrees. In order to do this, we set the `degrees_awarded.highest` parameter to `4` to indicate that the highest degree awarded by an institution is a graduate degree. This information is within the `Institution_Data_Dictionary` section of the College Scorecard data disctionary.
 
-```{r}
+```r
 condition <- "latest.school.degrees_awarded.highest=4"
 field <- "school.name"
 sort_key <- "school.name"
@@ -168,7 +168,7 @@ length(university_names)
 ## [1] 1985
 ```
 
-```{r}
+```r
 head(university_names, 10)
 ```
 
@@ -189,7 +189,7 @@ head(university_names, 10)
 
 The `school.state_fips` data element contains a number that corresponds to each state. This mapping is given below:
 
-```{r}
+```r
 states <- list(
     "1" = "Alabama", "2" = "Alaska", "4" = "Arizona", "5" = "Arkansas", "6" = "California",
     "8" = "Colorado", "9" = "Connecticut", "10" = "Delaware", "11" = "District of Columbia",
@@ -210,7 +210,7 @@ states <- list(
 
 Using this mapping, we can find the number of universities in each state:
 
-```{r}
+```r
 condition <- "latest.school.degrees_awarded.highest=4"
 field <- "latest.school.state_fips"
 page_size <- 100
@@ -239,7 +239,7 @@ for (page_number in 0:(total_pages - 1)) {
 
 Now, we can sort and display the results:
 
-```{r}
+```r
 # Convert state_freq to a data frame
 state_freq_df <- data.frame(
   state = names(state_freq),
@@ -271,7 +271,7 @@ head(sorted_states, 10)
 
 The following example uses multiple conditions and multiple fields. The conditions in the query are separated by `&` while the fields are separated by `,`.
 
-```{r}
+```r
 conditions <- paste0(
   "latest.school.degrees_awarded.highest=4", "&",
   "latest.student.size__range=1000.."  # Limit results to schools with 1000+ students
@@ -340,7 +340,7 @@ head(df, 10)
 
 We can query the resulting dataframe to find the data for specific universities:
 
-```{r}
+```r
 ua_df <- df[df$Name == "The University of Alabama", ]
 print(ua_df)
 ```
@@ -352,7 +352,7 @@ print(ua_df)
 
 We can also query the dataframe to find the data for universities that satisfy certain conditions:
 
-```{r}
+```r
 filtered_df <- df[df$Admission_Rate < 0.1, ]
 filtered_df <- na.omit(filtered_df)
 filtered_df <- filtered_df[order(filtered_df$Admission_Rate), ]
@@ -383,7 +383,7 @@ print(filtered_df)
 ## 20 Tufts University                                    0.0969  6747             65222            65222            82793  2646506000
 ```
 
-```{r}
+```r
 filtered_df <- df[df$Endowment > 1.0e+10, ]
 filtered_df <- na.omit(filtered_df)
 filtered_df <- filtered_df[order(-filtered_df$Endowment), ]
@@ -414,7 +414,7 @@ print(filtered_df)
 
 The College Scorecard API can also be used to retrieve all of the data for a particular institution. The example below finds all data for The University of Alabama:
 
-```{r}
+```r
 # Define condition with URL encoding
 conditions <- "school.name=The%20University%20of%20Alabama"
 
@@ -424,7 +424,7 @@ ua_data <- fromJSON(rawToChar(GET(url)$content))$results
 
 Finally, we'll look at the breakdown of size of each program at the University of Alabama:
 
-```{r}
+```r
 # Extract program percentage data
 program_percentage_data <- ua_data[[1]]$academics$program_percentage
 
@@ -457,7 +457,7 @@ ggplot(data, aes(x = "", y = Percentage, fill = Program)) +
 
 ![](College_Scorecard_R_files/figure-html/program-percentage-distribution.png)
 
-```{r}
+```r
 # Sort the list by values in descending order
 sorted_program_percentage_data <- program_percentage_data[order(-unlist(program_percentage_data))]
 
@@ -510,7 +510,7 @@ for (key in names(sorted_program_percentage_data)) {
 
 ## R Session Info
 
-```{r}
+```r
 sessionInfo()
 ```
 
