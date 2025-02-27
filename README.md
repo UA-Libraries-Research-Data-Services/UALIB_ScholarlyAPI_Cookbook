@@ -1,4 +1,7 @@
 > [!IMPORTANT]
+> March 2025 - We have decided to no longer maintain the Matlab, Mathematica, and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are still in the [UA Libraries Scholarly API Cookbook Archive](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive).
+
+> [!IMPORTANT]
 > November 2024 - We had to transfer this repository from the GitHub ualibweb organization to this new UA-Libraries-Research-Data-Services organization. Unfortunately, any Jupyter Book related HTML GitHub page links do not get automatically redirected. We think we have corrected all links, but let us know if you find any issues. In addition, some R code tutorials that were originally MIT Licensed, are now licensed under the GPL-3 License to comply with the licensing terms of dependent R libraries.
 
 # University of Alabama Libraries Scholarly API Cookbook
@@ -7,13 +10,11 @@ The University of Alabama Libraries Scholarly API Cookbook is an open online boo
 
 ## License and Reuse
 
-Most of the code in this repository is licensed under the [MIT License](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE). This includes code written to be used with Wolfram Mathematica and MathWorks MATLAB. However, these proprietary software packages themselves are not covered under the MIT License, and users must have valid licenses for Mathematica and MATLAB to run the associated code.
+Most of the code in this repository is licensed under the [MIT License](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE).
 
 The Python scripts in this repository are licensed under the MIT License. However, these scripts may rely on external libraries such as matplotlib, pandas, and others. These libraries are licensed under their own respective terms, and will need to be installed separately. Refer to the documentation of each library for installation instructions and licensing details.
 
-The C code in this repository is licensed under the MIT License. This repository provides only the source code, and users will need to compile the C programs to run them. Some of the C code depends on external libraries such as curl, jq, and YAZ, which are licensed under their own respective terms. These libraries will need to be obtained and installed separately by the user.
-
-The Unix Shell tutorials use Bash scripts, which are licensed under the MIT License (Bash itself is licensed under the GNU General Public License). Some of the included scripts may rely on external tools such as curl, jq, and gnuplot, each of which is licensed under its own terms. Users must obtain and install these tools separately. Refer to the documentation of each tool for installation instructions and licensing details.
+The Bash tutorials are licensed under the MIT License (Bash itself is licensed under the GNU General Public License). Some of the included scripts may rely on external tools such as curl, jq, and gnuplot, each of which is licensed under its own terms. Users must obtain and install these tools separately. Refer to the documentation of each tool for installation instructions and licensing details.
 
 Lastly, most of the R tutorial scripts are MIT licensed, but some are licensed under the [GPL-3 License](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials) because they depend on GPL-licensed R libraries (refer to the documentation of each R library for installation instructions and licensing details). The R tutorials with GPL-3 licenses are indicated at the top of the respective files and organized separately in the folder `src/r-gpl3/`.
 
@@ -41,3 +42,7 @@ Citation: Scalfani, V. F.; Walker, K. W.; Simpson, L.; Fernandez, A. M.; Patel, 
         year = {2023},
 }
 ```
+
+## Archived Recipes
+
+We have decided to no longer maintain the Matlab, Mathematica, and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are still in the [UA Libraries Scholarly API Cookbook Archive](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive).
