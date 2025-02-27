@@ -1,4 +1,4 @@
-PubChem API in Unix Shell
+PubChem API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>

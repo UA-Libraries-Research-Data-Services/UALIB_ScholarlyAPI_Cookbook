@@ -1,4 +1,4 @@
-PubMed API in Unix Shell
+PubMed API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>

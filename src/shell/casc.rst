@@ -1,4 +1,4 @@
-CAS Common Chemistry API in Unix Shell
+CAS Common Chemistry API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>

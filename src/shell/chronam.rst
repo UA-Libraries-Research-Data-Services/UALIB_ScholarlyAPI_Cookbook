@@ -1,4 +1,4 @@
-Chronicling America API in Unix Shell
+Chronicling America API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>

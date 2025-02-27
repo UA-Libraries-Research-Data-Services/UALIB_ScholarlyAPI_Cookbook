@@ -1,4 +1,4 @@
-Z39.50 in Unix Shell
+Z39.50 in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>

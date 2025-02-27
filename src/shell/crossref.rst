@@ -1,4 +1,4 @@
-Crossref API in Unix Shell
+Crossref API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
