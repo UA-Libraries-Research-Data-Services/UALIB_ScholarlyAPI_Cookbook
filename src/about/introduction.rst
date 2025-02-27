@@ -111,13 +111,6 @@ For good luck, let's add ``Hello World!`` in each programming language:
             return 0;
          }
 
-What about Video Tutorials?
-***************************
-
-Yes! We plan to also reproduce selected written tutorials from this book as videos. 
-In those cases, a link will be provided to the video on the corresponding tutorial page.
-
-
 Who is Creating the Content?
 ****************************
 
