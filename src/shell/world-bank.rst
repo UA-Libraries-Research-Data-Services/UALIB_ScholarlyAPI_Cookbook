@@ -1,4 +1,4 @@
-World Bank API in Unix Shell
+World Bank API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>

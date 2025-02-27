@@ -6,7 +6,7 @@ Technical Details
 Technology and Software Used
 *****************************
 
-1. Python, C, and Mathematica content (`with Wolfram Kernel`_) are written in `Jupyter Notebooks`_
+1. Python, C, and Mathematica content (`with Wolfram Kernel`_) are written in `Jupyter Notebooks`_.
 2. All other content is written in `reStructuredText`_.
 3. Code testing is done locally.
 4. `Jupyter Book`_ is used to compile and create the HTML files via an automated GitHub Workflow. This workflow builds the book and hosts the HTML content with `GitHub Actions`_.
@@ -16,4 +16,3 @@ Technology and Software Used
 .. _reStructuredText: https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html
 .. _Jupyter Book: https://jupyterbook.org/intro.html
 .. _GitHub Actions: https://docs.github.com/en/actions
-

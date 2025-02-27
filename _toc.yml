@@ -18,7 +18,7 @@ parts:
       - file: src/python/sdirect
         title: "...in Python"
       - file: src/shell/sdirect
-        title: "...in Unix Shell"
+        title: "...in Bash"
       - file: src/matlab/sdirect
         title: "...in Matlab"
       - file: src/mathematica/sdirect
@@ -62,7 +62,7 @@ parts:
       - file: src/python/crossref
         title: "...in Python"
       - file: src/shell/crossref
-        title: "...in Unix Shell"
+        title: "...in Bash"
       - file: src/matlab/crossref
         title: "...in Matlab"
       - file: src/mathematica/crossref
@@ -92,7 +92,7 @@ parts:
       - file: src/python/scopus
         title: "...in Python"
       - file: src/shell/scopus
-        title: "...in Unix Shell"
+        title: "...in Bash"
       - file: src/matlab/scopus
         title: "...in Matlab"
       - file: src/mathematica/scopus
@@ -142,7 +142,7 @@ parts:
       - file: src/python/world-bank
         title: "...in Python"
       - file: src/shell/world-bank
-        title: "...in Unix Shell"
+        title: "...in Bash"
       - file: src/matlab/world-bank
         title: "...in Matlab"
       - file: src/mathematica/world-bank
@@ -184,7 +184,7 @@ parts:
     - file: src/overview/z3950
       sections:
       - file: src/shell/z3950
-        title: "...in Unix Shell"
+        title: "...in Bash"
 
 
   - caption: GIS
@@ -232,7 +232,7 @@ parts:
       - file: src/python/chronam
         title: "...in Python"
       - file: src/shell/chronam
-        title: "...in Unix Shell"
+        title: "...in Bash"
       - file: src/matlab/chronam
         title: "...in Matlab"
       - file: src/mathematica/chronam
@@ -252,7 +252,7 @@ parts:
       - file: src/python/casc
         title: "...in Python"
       - file: src/shell/casc
-        title: "...in Unix Shell"
+        title: "...in Bash"
       - file: src/matlab/casc
         title: "...in Matlab"
       - file: src/mathematica/casc
@@ -284,7 +284,7 @@ parts:
       - file: src/python/pubchem
         title: "...in Python"
       - file: src/shell/pubchem
-        title: "...in Unix Shell"
+        title: "...in Bash"
       - file: src/matlab/pubchem
         title: "...in Matlab"
       - file: src/mathematica/pubchem
@@ -306,7 +306,7 @@ parts:
       - file: src/python/pubmed
         title: "...in Python"
       - file: src/shell/pubmed
-        title: "...in Unix Shell"
+        title: "...in Bash"
       - file: src/matlab/pubmed
         title: "...in Matlab"
       - file: src/mathematica/pubmed
@@ -342,7 +342,7 @@ parts:
       - file: src/python/us-census
         title: "...in Python"
       - file: src/shell/us-census
-        title: "...in Unix Shell"
+        title: "...in Bash"
       - file: src/matlab/us-census
         title: "...in Matlab"
       - file: src/mathematica/us-census
