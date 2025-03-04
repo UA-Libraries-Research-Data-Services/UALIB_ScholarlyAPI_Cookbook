@@ -1,10 +1,8 @@
+# University of Alabama Libraries Scholarly API Cookbook
+
 > [!IMPORTANT]
 > March 2025 - We have decided to no longer maintain the Matlab, Mathematica, and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are still in the [UA Libraries Scholarly API Cookbook Archive](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive).
-
-> [!IMPORTANT]
-> November 2024 - We had to transfer this repository from the GitHub ualibweb organization to this new UA-Libraries-Research-Data-Services organization. Unfortunately, any Jupyter Book related HTML GitHub page links do not get automatically redirected. We think we have corrected all links, but let us know if you find any issues. In addition, some R code tutorials that were originally MIT Licensed, are now licensed under the GPL-3 License to comply with the licensing terms of dependent R libraries.
-
-# University of Alabama Libraries Scholarly API Cookbook
+> November 2024 - Some R code tutorials that were originally MIT Licensed, are now licensed under the GPL-3 License to comply with the licensing terms of dependent R libraries.
 
 The University of Alabama Libraries Scholarly API Cookbook is an open online book containing short scholarly API code examples (i.e., “recipes”) that demonstrate how to work with various scholarly web service APIs. It is part of the University of Alabama Libraries efforts to support Research Data Services. Read the book [here](https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook).
 
@@ -46,3 +44,5 @@ Citation: Scalfani, V. F.; Walker, K. W.; Simpson, L.; Fernandez, A. M.; Patel, 
 ## Archived Recipes
 
 We have decided to no longer maintain the Matlab, Mathematica, and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are still in the [UA Libraries Scholarly API Cookbook Archive](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive).
+
+<!-- TODO: ADD MATLAB, MATHEMATICA, C ARCHIVE REUSE STUFF HERE -->
