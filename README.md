@@ -45,4 +45,8 @@ Citation: Scalfani, V. F.; Walker, K. W.; Simpson, L.; Fernandez, A. M.; Patel, 
 
 We have decided to no longer maintain the Matlab, Mathematica, and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are still in the [UA Libraries Scholarly API Cookbook Archive](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive).
 
-<!-- TODO: ADD MATLAB, MATHEMATICA, C ARCHIVE REUSE STUFF HERE -->
+### Archive License Information
+
+The code in the UA Libraries Scholarly API Cookbook Archive is licensed under the [MIT License](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive/blob/main/LICENSE). This includes code written to be used with Wolfram Mathematica and MathWorks MATLAB. However, these proprietary software packages themselves are not covered under the MIT License, and users must have valid licenses for Mathematica and MATLAB to run the associated code.
+
+The C code in the archive is licensed under the MIT License. This repository provides only the source code, and users will need to compile the C programs to run them. Some of the C code depends on external libraries such as curl, jq, and YAZ, which are licensed under their own respective terms. These libraries will need to be obtained and installed separately by the user.
