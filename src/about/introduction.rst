@@ -60,11 +60,10 @@ UA Libraries Scout database for programming books (e.g., `TI python`).
 Which Programming Languages are Covered?
 ****************************************
 
-Currently, we have scholarly API code examples in Python, Bash (Unix Shell), Matlab, Mathematica, R,
-and C. We hope that providing examples in several programming languages will 
-provide the reader with not only a choice, but also some information about the differences between 
-the programming workflows. In some cases, for example, it may be preferable to 
-choose one language over the other.
+Currently, we have scholarly API code examples in Python, R, and Bash (Unix Shell). We hope 
+that providing examples in several programming languages will provide the reader with not only 
+a choice, but also some information about the differences between the programming workflows. 
+In some cases, for example, it may be preferable to choose one language over the other.
 
 For good luck, let's add ``Hello World!`` in each programming language:
 
@@ -76,38 +75,17 @@ For good luck, let's add ``Hello World!`` in each programming language:
 
          >>> print("Hello World!")
 
-   .. tab-item:: Bash
-
-      .. code-block:: shell
-
-         $ echo "Hello World!"
-
-   .. tab-item:: Matlab
-
-      .. code-block:: matlab
-
-         >> disp("Hello World!")
-
-   .. tab-item:: Mathematica
-
-      .. code-block:: mathematica
-
-         In[1]:= Print["Hello World!"]
-
    .. tab-item:: R
 
       .. code-block:: r
 
          > print("Hello World!")
 
-   .. tab-item:: C
+   .. tab-item:: Bash
 
-      .. code-block:: c
+      .. code-block:: shell
 
-         int main() {
-            printf("Hello World!\n");
-            return 0;
-         }
+         $ echo "Hello World!"
 
 Who is Creating the Content?
 ****************************
