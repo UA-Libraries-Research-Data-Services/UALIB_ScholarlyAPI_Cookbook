@@ -1,8 +1,6 @@
 ScienceDirect API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 by Avery Fernandez
 
 **ScienceDirect**: https://www.sciencedirect.com/
