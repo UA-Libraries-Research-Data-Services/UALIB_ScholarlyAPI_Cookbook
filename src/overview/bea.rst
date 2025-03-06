@@ -1,8 +1,6 @@
 U.S. Bureau of Economic Analysis
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Michael T. Moen <mtmoen@crimson.ua.edu>
-
 Brief Overview
 ****************
 

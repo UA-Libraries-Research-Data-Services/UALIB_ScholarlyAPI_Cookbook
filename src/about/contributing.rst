@@ -1,8 +1,6 @@
 Contributing
 %%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 How to Contribute
 ******************
 

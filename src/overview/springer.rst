@@ -1,8 +1,6 @@
 Springer Nature
 %%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Avery Fernandez <amfernandez7@crimson.ua.edu>
-
 Brief Overview
 ****************
 

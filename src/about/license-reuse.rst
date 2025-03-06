@@ -1,8 +1,6 @@
 License and Reuse
 %%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 License and Reuse
 ******************
 

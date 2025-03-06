@@ -1,8 +1,6 @@
 Introduction
 %%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 What is this?
 *************
 

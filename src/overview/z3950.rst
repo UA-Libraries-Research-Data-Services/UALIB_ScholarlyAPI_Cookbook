@@ -1,8 +1,6 @@
 Z39.50
 %%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 Brief Overview
 ****************
 

@@ -1,8 +1,6 @@
 Congress.gov
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Sebastian Shirk <srshirk@crimson.ua.edu>
-
 Brief Overview
 ****************
 

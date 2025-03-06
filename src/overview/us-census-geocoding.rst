@@ -1,8 +1,6 @@
 U.S. Census Geocoding
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Michael T. Moen <mtmoen@crimson.ua.edu>
-
 Brief Overview
 ****************
 

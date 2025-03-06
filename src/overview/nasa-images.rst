@@ -1,8 +1,6 @@
 NASA Images
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Sebastian Shirk <srshirk@crimson.ua.edu>
-
 Brief Overview
 ****************
 

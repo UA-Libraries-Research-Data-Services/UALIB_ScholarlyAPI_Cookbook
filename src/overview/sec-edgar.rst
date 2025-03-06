@@ -1,8 +1,6 @@
 U.S. Securities and Exchange
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 Brief Overview
 ****************
 
