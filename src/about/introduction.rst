@@ -62,7 +62,7 @@ UA Libraries Scout database for programming books (e.g., `TI python`).
 Which Programming Languages are Covered?
 ****************************************
 
-Currently, we scholarly API code examples in Python, Unix Shell (Bash), Matlab, Mathematica, R,
+Currently, we have scholarly API code examples in Python, Bash (Unix Shell), Matlab, Mathematica, R,
 and C. We hope that providing examples in several programming languages will 
 provide the reader with not only a choice, but also some information about the differences between 
 the programming workflows. In some cases, for example, it may be preferable to 
@@ -78,7 +78,7 @@ For good luck, let's add ``Hello World!`` in each programming language:
 
          >>> print("Hello World!")
 
-   .. tab-item:: Unix Shell
+   .. tab-item:: Bash
 
       .. code-block:: shell
 
@@ -110,13 +110,6 @@ For good luck, let's add ``Hello World!`` in each programming language:
             printf("Hello World!\n");
             return 0;
          }
-
-What about Video Tutorials?
-***************************
-
-Yes! We plan to also reproduce selected written tutorials from this book as videos. 
-In those cases, a link will be provided to the video on the corresponding tutorial page.
-
 
 Who is Creating the Content?
 ****************************

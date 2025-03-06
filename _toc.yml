@@ -17,24 +17,16 @@ parts:
       sections:
       - file: src/python/sdirect
         title: "...in Python"
-      - file: src/shell/sdirect
-        title: "...in Unix Shell"
-      - file: src/matlab/sdirect
-        title: "...in Matlab"
-      - file: src/mathematica/sdirect
-        title: "...in Mathematica"
       - file: src/r/sdirect
         title: "...in R"
-      - file: src/c/sdirect
-        title: "...in C"
+      - file: src/shell/sdirect
+        title: "...in Bash"
 
     # Springer
     - file: src/overview/springer
       sections:
       - file: src/python/springer
         title: "...in Python"
-      - file: src/c/springer
-        title: "...in C"
 
     # Wiley TDM
     - file: src/overview/wiley-tdm
@@ -43,8 +35,6 @@ parts:
         title: "...in Python"
       - file: src/r/wiley-tdm
         title: "...in R"
-      - file: src/c/wiley-tdm
-        title: "...in C"
 
 
   - caption: BIBLIOGRAPHIC
@@ -61,16 +51,10 @@ parts:
       sections:
       - file: src/python/crossref
         title: "...in Python"
-      - file: src/shell/crossref
-        title: "...in Unix Shell"
-      - file: src/matlab/crossref
-        title: "...in Matlab"
-      - file: src/mathematica/crossref
-        title: "...in Mathematica"
       - file: src/r/crossref
         title: "...in R"
-      - file: src/c/crossref
-        title: "...in C"
+      - file: src/shell/crossref
+        title: "...in Bash"
 
     # OpenAlex
     - file: src/overview/openalex
@@ -83,8 +67,6 @@ parts:
       sections:
       - file: src/python/ror
         title: "...in Python"
-      - file: src/c/ror
-        title: "...in C"
 
     # Scopus
     - file: src/overview/scopus
@@ -92,11 +74,7 @@ parts:
       - file: src/python/scopus
         title: "...in Python"
       - file: src/shell/scopus
-        title: "...in Unix Shell"
-      - file: src/matlab/scopus
-        title: "...in Matlab"
-      - file: src/mathematica/scopus
-        title: "...in Mathematica"
+        title: "...in Bash"
 
     # Web of Science
     - file: src/overview/wos
@@ -133,24 +111,16 @@ parts:
       sections:
       - file: src/python/us-treasury
         title: "...in Python"
-      - file: src/c/us-treasury
-        title: "...in C"
 
     # World Bank
     - file: src/overview/world-bank
       sections:
       - file: src/python/world-bank
         title: "...in Python"
-      - file: src/shell/world-bank
-        title: "...in Unix Shell"
-      - file: src/matlab/world-bank
-        title: "...in Matlab"
-      - file: src/mathematica/world-bank
-        title: "...in Mathematica"
       - file: src/r/world-bank
         title: "...in R"
-      - file: src/c/world-bank
-        title: "...in C"
+      - file: src/shell/world-bank
+        title: "...in Bash"
 
 
   - caption: GENERAL
@@ -174,17 +144,11 @@ parts:
       - file: src/python/stack-exchange
         title: "...in Python"
 
-    # Wikidata
-    - file: src/overview/wikidata
-      sections:
-      - file: src/mathematica/wikidata
-        title: "...in Mathematica"
-
     # Z39.50
     - file: src/overview/z3950
       sections:
       - file: src/shell/z3950
-        title: "...in Unix Shell"
+        title: "...in Bash"
 
 
   - caption: GIS
@@ -201,8 +165,6 @@ parts:
       sections:
       - file: src/python/geonames
         title: "...in Python"
-      - file: src/c/geonames
-        title: "...in C"
 
     # OpenStreetMap
     - file: src/overview/osm
@@ -231,16 +193,10 @@ parts:
       sections:
       - file: src/python/chronam
         title: "...in Python"
-      - file: src/shell/chronam
-        title: "...in Unix Shell"
-      - file: src/matlab/chronam
-        title: "...in Matlab"
-      - file: src/mathematica/chronam
-        title: "...in Mathematica"
       - file: src/r/chronam
         title: "...in R"
-      - file: src/c/chronam
-        title: "...in C"
+      - file: src/shell/chronam
+        title: "...in Bash"
 
 
   - caption: SCIENTIFIC
@@ -251,14 +207,10 @@ parts:
       sections:
       - file: src/python/casc
         title: "...in Python"
-      - file: src/shell/casc
-        title: "...in Unix Shell"
-      - file: src/matlab/casc
-        title: "...in Matlab"
-      - file: src/mathematica/casc
-        title: "...in Mathematica"
       - file: src/r/casc
         title: "...in R"
+      - file: src/shell/casc
+        title: "...in Bash"
 
     # FoodData Central
     - file: src/overview/fdc
@@ -283,16 +235,10 @@ parts:
       sections:
       - file: src/python/pubchem
         title: "...in Python"
-      - file: src/shell/pubchem
-        title: "...in Unix Shell"
-      - file: src/matlab/pubchem
-        title: "...in Matlab"
-      - file: src/mathematica/pubchem
-        title: "...in Mathematica"
       - file: src/r-gpl3/pubchem
         title: "...in R"
-      - file: src/c/pubchem
-        title: "...in C"
+      - file: src/shell/pubchem
+        title: "...in Bash"
 
     # PubChem Periodic Table
     - file: src/overview/pubchem-periodic-table
@@ -305,16 +251,10 @@ parts:
       sections:
       - file: src/python/pubmed
         title: "...in Python"
-      - file: src/shell/pubmed
-        title: "...in Unix Shell"
-      - file: src/matlab/pubmed
-        title: "...in Matlab"
-      - file: src/mathematica/pubmed
-        title: "...in Mathematica"
       - file: src/r-gpl3/pubmed
         title: "...in R"
-      - file: src/c/pubmed
-        title: "...in C"
+      - file: src/shell/pubmed
+        title: "...in Bash"
 
 
   - caption: SOCIAL SCIENCES
@@ -327,8 +267,6 @@ parts:
         title: "...in Python"
       - file: src/r/college-scorecard
         title: "...in R"
-      - file: src/c/college-scorecard
-        title: "...in C"
 
     # Congress.gov
     - file: src/overview/congress
@@ -341,16 +279,10 @@ parts:
       sections:
       - file: src/python/us-census
         title: "...in Python"
-      - file: src/shell/us-census
-        title: "...in Unix Shell"
-      - file: src/matlab/us-census
-        title: "...in Matlab"
-      - file: src/mathematica/us-census
-        title: "...in Mathematica"
       - file: src/r-gpl3/us-census
         title: "...in R"
-      - file: src/c/us-census
-        title: "...in C"
+      - file: src/shell/us-census
+        title: "...in Bash"
 
     # USA Spending
     - file: src/overview/usa-spending
@@ -359,8 +291,6 @@ parts:
         title: "...in Python"
       - file: src/r/usa-spending
         title: "...in R"
-      - file: src/c/usa-spending
-        title: "...in C"
 
   - caption: ABOUT
     chapters:

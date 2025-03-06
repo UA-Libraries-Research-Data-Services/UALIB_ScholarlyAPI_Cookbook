@@ -1,4 +1,4 @@
-ScienceDirect API in Unix Shell
+ScienceDirect API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>

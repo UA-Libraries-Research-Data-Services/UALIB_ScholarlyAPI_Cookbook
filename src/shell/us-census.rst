@@ -1,4 +1,4 @@
-U.S. Census API in Unix Shell
+U.S. Census API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
