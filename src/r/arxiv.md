@@ -23,8 +23,6 @@ These recipe examples were tested on December 1, 2023.
 
 *Acknowledgment: Thank you to arXiv for use of its open access interoperability*
 
-See the bottom of the document for information on R and package versions.
-
 Hosted and maintained by Cornell University, arXiv is an open-access and free distribution service containing nearly 2.5 million scholarly articles in fields including physics, mathematics, computer science, quantitative biology, quantitative finance, statistics, electrical engineering and systems science and economics at the time of writing. In this tutorial we will introduce how to use the API with some examples, but for larger bulk downloads of data from arXiv, we recommend [Kaggle's arxiv Dataset](https://www.kaggle.com/datasets/Cornell-University/arxiv/data), which is updated monthly with the full arXiv data set and metadata.
 
 ## Setup
@@ -238,49 +236,4 @@ paste0('The percentage of preprints is ',round(percentage_preprints, digits = 2)
 
 ```
 ## [1] "The percentage of preprints is 23.98%."
-```
-
-## R Session Info
-
-
-```r
-sessionInfo()
-```
-
-```
-## R version 4.3.1 (2023-06-16 ucrt)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19045)
-## 
-## Matrix products: default
-## 
-## 
-## locale:
-## [1] LC_COLLATE=English_United States.utf8 
-## [2] LC_CTYPE=English_United States.utf8   
-## [3] LC_MONETARY=English_United States.utf8
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.utf8    
-## 
-## time zone: America/Chicago
-## tzcode source: internal
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-## [1] ggplot2_3.4.4 aRxiv_0.6    
-## 
-## loaded via a namespace (and not attached):
-##  [1] vctrs_0.6.3       httr_1.4.7        cli_3.6.1         knitr_1.44       
-##  [5] rlang_1.1.1       xfun_0.40         generics_0.1.3    jsonlite_1.8.7   
-##  [9] labeling_0.4.2    glue_1.6.2        colorspace_2.1-0  htmltools_0.5.6.1
-## [13] XML_3.99-0.14     sass_0.4.7        fansi_1.0.4       scales_1.2.1     
-## [17] rmarkdown_2.25    grid_4.3.1        tibble_3.2.1      evaluate_0.22    
-## [21] munsell_0.5.0     jquerylib_0.1.4   fastmap_1.1.1     yaml_2.3.7       
-## [25] lifecycle_1.0.3   compiler_4.3.1    dplyr_1.1.3       pkgconfig_2.0.3  
-## [29] rstudioapi_0.15.0 farver_2.1.1      digest_0.6.33     R6_2.5.1         
-## [33] tidyselect_1.2.0  utf8_1.2.3        pillar_1.9.0      curl_5.1.0       
-## [37] magrittr_2.0.3    bslib_0.5.1       withr_2.5.0       tools_4.3.1      
-## [41] gtable_0.3.4      cachem_1.0.8
 ```

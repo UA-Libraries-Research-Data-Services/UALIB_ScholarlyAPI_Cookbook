@@ -78,39 +78,3 @@ for (doi in dois) {
   Sys.sleep(1)
 }
 ```
-
-## R Session Info
-
-```r
-sessionInfo()
-```
-
-```
-## R version 4.4.2 (2024-10-31 ucrt)
-## Platform: x86_64-w64-mingw32/x64
-## Running under: Windows 11 x64 (build 22631)
-## 
-## Matrix products: default
-## 
-## locale:
-## [1] LC_COLLATE=English_United States.utf8
-## [2] LC_CTYPE=English_United States.utf8
-## [3] LC_MONETARY=English_United States.utf8
-## [4] LC_NUMERIC=C
-## [5] LC_TIME=English_United States.utf8
-## 
-## time zone: America/Chicago
-## tzcode source: internal
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-## [1] httr_1.4.7
-## 
-## loaded via a namespace (and not attached):
-##  [1] compiler_4.4.2    R6_2.5.1          fastmap_1.2.0     cli_3.6.3
-##  [5] htmltools_0.5.8.1 tools_4.4.2       curl_6.1.0        yaml_2.3.10
-##  [9] rmarkdown_2.29    knitr_1.49        xfun_0.50         digest_0.6.37    
-## [13] rlang_1.1.4       evaluate_1.0.3   
-```

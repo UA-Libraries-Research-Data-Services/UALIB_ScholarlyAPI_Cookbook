@@ -15,8 +15,6 @@ The recipe examples were tested on March 24, 2023.
 
 https://www.cas.org/services/commonchemistry-api
 
-See the bottom of the document for information on R and package versions.
-
 **Attribution:** This tutorial uses the [CAS Common Chemistry](https://commonchemistry.cas.org/) API. Example Data shown is licensed under the [CC BY-NC 4.0 license](https://creativecommons.org/licenses/by-nc/4.0/).
 
 ## Import libraries
@@ -902,39 +900,3 @@ polygon(d, col="plum", border="black")
 ```
 
 ![](CASCommonChemR_files/figure-html/kernel-1.png)<!-- -->
-
-## R Session Info
-
-```r
-sessionInfo()
-```
-
-```
-## R version 4.2.1 (2022-06-23 ucrt)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19042)
-## 
-## Matrix products: default
-## 
-## locale:
-## [1] LC_COLLATE=English_United States.utf8 
-## [2] LC_CTYPE=English_United States.utf8   
-## [3] LC_MONETARY=English_United States.utf8
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.utf8    
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-## [1] magick_2.7.4   jsonlite_1.8.4 httr_1.4.5    
-## 
-## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.10     png_0.1-8       digest_0.6.31   R6_2.5.1       
-##  [5] magrittr_2.0.3  evaluate_0.20   highr_0.10      cachem_1.0.7   
-##  [9] rlang_1.0.6     cli_3.6.0       curl_5.0.0      rstudioapi_0.14
-## [13] jquerylib_0.1.4 bslib_0.4.2     rmarkdown_2.20  tools_4.2.1    
-## [17] xfun_0.37       yaml_2.3.7      fastmap_1.1.0   compiler_4.2.1 
-## [21] htmltools_0.5.4 knitr_1.42      sass_0.4.5
-```
-
