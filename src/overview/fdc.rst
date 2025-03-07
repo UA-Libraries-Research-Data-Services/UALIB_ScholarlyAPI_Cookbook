@@ -1,8 +1,6 @@
 FoodData Central
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Sebastian Shirk <srshirk@crimson.ua.edu>
-
 Brief Overview
 ****************
 

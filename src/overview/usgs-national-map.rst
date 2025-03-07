@@ -1,8 +1,6 @@
 USGS National Map
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Sebastian R. Shirk <srshirk@crimson.ua.edu>
-
 Brief Overview
 ****************
 

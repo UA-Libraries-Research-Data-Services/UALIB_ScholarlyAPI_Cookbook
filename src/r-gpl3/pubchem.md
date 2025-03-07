@@ -15,8 +15,6 @@ Pubchem API Documentation: <https://pubchemdocs.ncbi.nlm.nih.gov/programmatic-ac
 
 These recipe examples were tested on March 24, 2023.
 
-See the bottom of the document for information on R and package versions.
-
 Attribution: This tutorial was adapted from supporting information in:
 
 Scalfani, V. F.; Ralph, S. C. Alshaikh, A. A.; Bara, J. E. Programmatic Compilation of Chemical Data and Literature From PubChem Using Matlab. Chemical Engineering Education, 2020, 54, 230. <https://doi.org/10.18260/2-1-370.660-115508> and <https://github.com/vfscalfani/MATLAB-cheminformatics>)
@@ -539,49 +537,3 @@ image_read(content2[[5]])
 ```
 
 ![](R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-18-5.png)
-
-## R Session Info
-
-
-```r
-sessionInfo()
-```
-
-```
-## R version 4.2.1 (2022-06-23 ucrt)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19042)
-## 
-## Matrix products: default
-## 
-## locale:
-## [1] LC_COLLATE=English_United States.utf8 
-## [2] LC_CTYPE=English_United States.utf8   
-## [3] LC_MONETARY=English_United States.utf8
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.utf8    
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-##  [1] magick_2.7.4    imager_0.42.18  magrittr_2.0.3  knitr_1.42     
-##  [5] jsonlite_1.8.4  httr_1.4.5      lubridate_1.9.2 forcats_1.0.0  
-##  [9] stringr_1.5.0   dplyr_1.1.0     purrr_1.0.1     readr_2.1.4    
-## [13] tidyr_1.3.0     tibble_3.1.8    ggplot2_3.4.1   tidyverse_2.0.0
-## 
-## loaded via a namespace (and not attached):
-##  [1] tidyselect_1.2.0 xfun_0.37        bslib_0.4.2      colorspace_2.1-0
-##  [5] vctrs_0.5.2      generics_0.1.3   htmltools_0.5.4  yaml_2.3.7      
-##  [9] utf8_1.2.3       rlang_1.0.6      jquerylib_0.1.4  pillar_1.8.1    
-## [13] glue_1.6.2       withr_2.5.0      jpeg_0.1-10      lifecycle_1.0.3 
-## [17] munsell_0.5.0    gtable_0.3.1     evaluate_0.20    tzdb_0.3.0      
-## [21] fastmap_1.1.0    curl_5.0.0       fansi_1.0.4      highr_0.10      
-## [25] Rcpp_1.0.10      scales_1.2.1     cachem_1.0.7     hms_1.1.2       
-## [29] bmp_0.3          png_0.1-8        digest_0.6.31    stringi_1.7.12  
-## [33] tiff_0.1-11      grid_4.2.1       cli_3.6.0        tools_4.2.1     
-## [37] sass_0.4.5       readbitmap_0.1.5 pkgconfig_2.0.3  ellipsis_0.3.2  
-## [41] timechange_0.2.0 rmarkdown_2.20   rstudioapi_0.14  R6_2.5.1        
-## [45] igraph_1.4.1     compiler_4.2.1
-```
-

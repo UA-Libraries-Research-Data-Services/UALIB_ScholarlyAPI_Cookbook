@@ -17,8 +17,6 @@ These recipe examples were tested on December 1, 2023.
 
 **USA Spending API:** https://api.usaspending.gov/
 
-See the bottom of the document for information on R and package versions.
-
 ## Setup
 
 Run the following lines of code to load the libraries ‘httr’ and ‘jsonlite’. If you have not done so already, additionally, before the ‘library()’ functions, run ‘install.packages(c(‘httr’,’jsonlite’))’.
@@ -275,48 +273,3 @@ ggplot(data = budget_breakdown_sorted, aes(x = reorder(category, -aggregated_amo
 ```
 
 ![](USA_Spending_R_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
-
-## R Session Info
-
-
-
-```r
-sessionInfo()
-```
-
-```
-## R version 4.3.1 (2023-06-16 ucrt)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19045)
-## 
-## Matrix products: default
-## 
-## 
-## locale:
-## [1] LC_COLLATE=English_United States.utf8 
-## [2] LC_CTYPE=English_United States.utf8   
-## [3] LC_MONETARY=English_United States.utf8
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.utf8    
-## 
-## time zone: America/Chicago
-## tzcode source: internal
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-## [1] ggplot2_3.4.4  jsonlite_1.8.7 httr_1.4.7    
-## 
-## loaded via a namespace (and not attached):
-##  [1] vctrs_0.6.3       cli_3.6.1         knitr_1.44        rlang_1.1.1      
-##  [5] xfun_0.40         generics_0.1.3    labeling_0.4.2    glue_1.6.2       
-##  [9] colorspace_2.1-0  htmltools_0.5.6.1 sass_0.4.7        fansi_1.0.4      
-## [13] scales_1.2.1      rmarkdown_2.25    grid_4.3.1        evaluate_0.22    
-## [17] munsell_0.5.0     jquerylib_0.1.4   tibble_3.2.1      fastmap_1.1.1    
-## [21] yaml_2.3.7        lifecycle_1.0.3   compiler_4.3.1    dplyr_1.1.3      
-## [25] pkgconfig_2.0.3   rstudioapi_0.15.0 farver_2.1.1      digest_0.6.33    
-## [29] R6_2.5.1          tidyselect_1.2.0  utf8_1.2.3        pillar_1.9.0     
-## [33] curl_5.1.0        magrittr_2.0.3    bslib_0.5.1       withr_2.5.0      
-## [37] tools_4.3.1       gtable_0.3.4      cachem_1.0.8
-```

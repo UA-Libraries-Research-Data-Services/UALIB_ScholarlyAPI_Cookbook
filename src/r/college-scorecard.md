@@ -10,8 +10,6 @@ by Michael T. Moen
 
 The College Scorecard API is an online tool hosted by the U.S. Department of Education that contains data concerning higher education institutions.
 
-See the bottom of the document for information on R and package versions.
-
 *These recipe examples were tested on February 7, 2025.*
 
 ## Setup
@@ -506,44 +504,4 @@ for (key in names(sorted_program_percentage_data)) {
 ## communications_technology : 0 
 ## mechanic_repair_technology : 0 
 ## theology_religious_vocation : 0 
-```
-
-## R Session Info
-
-```r
-sessionInfo()
-```
-
-```
-## R version 4.4.2 (2024-10-31 ucrt)
-## Platform: x86_64-w64-mingw32/x64
-## Running under: Windows 11 x64 (build 22631)
-## 
-## Matrix products: default
-## 
-## locale:
-## [1] LC_COLLATE=English_United States.utf8
-## [2] LC_CTYPE=English_United States.utf8
-## [3] LC_MONETARY=English_United States.utf8
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.utf8    
-## 
-## time zone: America/Chicago
-## tzcode source: internal
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-## [1] scales_1.3.0   ggplot2_3.5.1  dplyr_1.1.4    jsonlite_1.8.9 httr_1.4.7    
-## 
-## loaded via a namespace (and not attached):
-##  [1] vctrs_0.6.5       cli_3.6.3         knitr_1.49        rlang_1.1.4
-##  [5] xfun_0.50         generics_0.1.3    labeling_0.4.3    glue_1.8.0
-##  [9] colorspace_2.1-1  htmltools_0.5.8.1 rmarkdown_2.29    grid_4.4.2
-## [13] munsell_0.5.1     evaluate_1.0.3    tibble_3.2.1      fastmap_1.2.0
-## [17] yaml_2.3.10       lifecycle_1.0.4   compiler_4.4.2    pkgconfig_2.0.3
-## [21] farver_2.1.2      digest_0.6.37     R6_2.5.1          tidyselect_1.2.1
-## [25] utf8_1.2.4        pillar_1.10.1     curl_6.1.0        magrittr_2.0.3
-## [29] withr_3.0.2       tools_4.4.2       gtable_0.3.6   
 ```

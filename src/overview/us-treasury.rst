@@ -1,8 +1,6 @@
 U.S. Treasury
 %%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 Brief Overview
 ****************
 

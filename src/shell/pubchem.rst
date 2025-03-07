@@ -1,8 +1,6 @@
 PubChem API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 by Avery Fernandez and Vincent F. Scalfani
 
 These recipe examples were tested on August 4, 2022 using GNOME Terminal (with Bash 4.4.20) in Ubuntu 18.04.

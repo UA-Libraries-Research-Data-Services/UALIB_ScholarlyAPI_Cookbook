@@ -1,8 +1,6 @@
 College Scorecard
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Michael T. Moen <mtmoen@crimson.ua.edu>
-
 Brief Overview
 ****************
 

@@ -1,8 +1,6 @@
 PubMed API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 by Avery Fernandez and Vincent F. Scalfani
 
 These recipe examples were tested on November 23, 2022 using GNOME Terminal in Ubuntu 18.04.
