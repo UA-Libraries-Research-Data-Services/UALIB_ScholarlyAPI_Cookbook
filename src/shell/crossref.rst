@@ -1,8 +1,6 @@
 Crossref API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 by Avery Fernandez
 
 **Crossref API documentation:** https://api.crossref.org/swagger-ui/index.html

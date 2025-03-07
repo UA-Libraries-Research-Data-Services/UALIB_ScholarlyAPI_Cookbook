@@ -1,8 +1,6 @@
 FCC Radio Range
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Sebastian R. Shirk <srshirk@crimson.ua.edu>
-
 Brief Overview
 ****************
 

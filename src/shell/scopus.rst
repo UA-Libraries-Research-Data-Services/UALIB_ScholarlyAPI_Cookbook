@@ -1,8 +1,6 @@
 Scopus API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 by Avery Fernandez
 
 These recipe examples use the Elsevier Scopus API. Code was tested and sample data downloaded from the Scopus

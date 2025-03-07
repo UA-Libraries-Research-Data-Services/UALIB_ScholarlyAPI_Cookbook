@@ -1,8 +1,6 @@
 Technical Details
 %%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 Technology and Software Used
 *****************************
 

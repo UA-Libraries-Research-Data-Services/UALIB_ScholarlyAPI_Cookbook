@@ -1,8 +1,6 @@
 Chronicling America API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 by Avery Fernandez
 
 **LOC Chronicling America API Documentation:** https://chroniclingamerica.loc.gov/about/api/

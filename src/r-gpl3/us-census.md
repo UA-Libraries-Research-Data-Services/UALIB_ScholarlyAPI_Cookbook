@@ -19,8 +19,6 @@ These recipe examples were tested on March 24, 2023.
 
 **U.S. Census Data Discovery Tool:** https://api.census.gov/data.html
 
-See the bottom of the document for information on R and package versions.
-
 See also the [U.S. Census API Terms of Service](https://www.census.gov/data/developers/about/terms-of-service.html)
 
 **Attribution:** *This tutorial uses the Census Buereau Data API but is not endorsed or certified by the Census Bureau.*
@@ -215,44 +213,3 @@ ggplot(pop_pct_change, aes(x = reorder(pop_pct_change$County, as.numeric(pop_pct
 ```
 
 ![](US_Census_Data_in_R_files/figure-html/plot-popchg-1.png)<!-- -->
-
-## R Session Info
-
-
-```r
-sessionInfo()
-```
-
-```
-## R version 4.2.1 (2022-06-23 ucrt)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19042)
-## 
-## Matrix products: default
-## 
-## locale:
-## [1] LC_COLLATE=English_United States.utf8 
-## [2] LC_CTYPE=English_United States.utf8   
-## [3] LC_MONETARY=English_United States.utf8
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.utf8    
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-## [1] ggplot2_3.4.1   censusapi_0.8.0
-## 
-## loaded via a namespace (and not attached):
-##  [1] highr_0.10       bslib_0.4.2      compiler_4.2.1   pillar_1.8.1    
-##  [5] jquerylib_0.1.4  tools_4.2.1      digest_0.6.31    jsonlite_1.8.4  
-##  [9] evaluate_0.20    lifecycle_1.0.3  tibble_3.1.8     gtable_0.3.1    
-## [13] pkgconfig_2.0.3  rlang_1.0.6      cli_3.6.0        rstudioapi_0.14 
-## [17] curl_5.0.0       yaml_2.3.7       xfun_0.37        fastmap_1.1.0   
-## [21] withr_2.5.0      httr_1.4.5       dplyr_1.1.0      knitr_1.42      
-## [25] generics_0.1.3   sass_0.4.5       vctrs_0.5.2      tidyselect_1.2.0
-## [29] grid_4.2.1       glue_1.6.2       R6_2.5.1         fansi_1.0.4     
-## [33] rmarkdown_2.20   farver_2.1.1     magrittr_2.0.3   scales_1.2.1    
-## [37] htmltools_0.5.4  colorspace_2.1-0 labeling_0.4.2   utf8_1.2.3      
-## [41] munsell_0.5.0    cachem_1.0.7
-```

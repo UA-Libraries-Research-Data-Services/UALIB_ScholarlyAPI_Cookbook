@@ -1,8 +1,6 @@
 World Bank API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 by Avery Fernandez
 
 See the `World Bank API documentation`_.

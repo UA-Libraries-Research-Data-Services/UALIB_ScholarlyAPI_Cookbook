@@ -1,8 +1,6 @@
 U.S. Census API in Bash
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
 by Avery Fernandez
 
 **U.S. Census API documentation:** https://www.census.gov/data/developers/about.html

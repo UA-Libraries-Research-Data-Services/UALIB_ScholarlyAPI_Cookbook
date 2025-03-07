@@ -1,8 +1,6 @@
 Stack Exchange
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Sebastian Shirk <srshirk@crimson.ua.edu>
-
 Brief Overview
 ****************
 

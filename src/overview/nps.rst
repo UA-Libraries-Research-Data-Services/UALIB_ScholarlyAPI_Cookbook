@@ -1,8 +1,6 @@
 National Park Service
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-.. sectionauthor:: Michael T. Moen <mtmoen@crimson.ua.edu>
-
 Brief Overview
 ****************
 

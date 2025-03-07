@@ -15,8 +15,6 @@ These recipe examples were tested on March 24, 2023.
 
 [LOC Chronicling America API Documentation](https://chroniclingamerica.loc.gov/about/api/)
 
-See the bottom of the document for information on R and package versions.
-
 **Attribution:** We thank Professor Jessica Kincaid (UA Libraries, Hoole Special Collections) for the use-cases. All data was collected from the Library of Congress, Chronicling America: Historic American Newspapers site, using the API.
 
 Note that the data from the Alabama state intelligencer, The age-herald, and the Birmingham age-herald were contributed to Chronicling America by The University of Alabama Libraries: https://chroniclingamerica.loc.gov/awardees/au/
@@ -466,46 +464,3 @@ hist(hist2,
 ```
 
 ![](Chronam_in_R_Adam_Vers_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
-
-## R Session Info
-
-
-```r
-sessionInfo()
-```
-
-```
-## R version 4.2.1 (2022-06-23 ucrt)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19042)
-## 
-## Matrix products: default
-## 
-## locale:
-## [1] LC_COLLATE=English_United States.utf8 
-## [2] LC_CTYPE=English_United States.utf8   
-## [3] LC_MONETARY=English_United States.utf8
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.utf8    
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-##  [1] jsonlite_1.8.4  httr_1.4.5      lubridate_1.9.2 forcats_1.0.0  
-##  [5] stringr_1.5.0   dplyr_1.1.0     purrr_1.0.1     readr_2.1.4    
-##  [9] tidyr_1.3.0     tibble_3.1.8    ggplot2_3.4.1   tidyverse_2.0.0
-## 
-## loaded via a namespace (and not attached):
-##  [1] highr_0.10       bslib_0.4.2      compiler_4.2.1   pillar_1.8.1    
-##  [5] jquerylib_0.1.4  tools_4.2.1      digest_0.6.31    timechange_0.2.0
-##  [9] evaluate_0.20    lifecycle_1.0.3  gtable_0.3.1     pkgconfig_2.0.3 
-## [13] rlang_1.0.6      cli_3.6.0        rstudioapi_0.14  curl_5.0.0      
-## [17] yaml_2.3.7       xfun_0.37        fastmap_1.1.0    withr_2.5.0     
-## [21] knitr_1.42       hms_1.1.2        generics_0.1.3   vctrs_0.5.2     
-## [25] sass_0.4.5       grid_4.2.1       tidyselect_1.2.0 glue_1.6.2      
-## [29] R6_2.5.1         fansi_1.0.4      rmarkdown_2.20   tzdb_0.3.0      
-## [33] magrittr_2.0.3   ellipsis_0.3.2   scales_1.2.1     htmltools_0.5.4 
-## [37] colorspace_2.1-0 utf8_1.2.3       stringi_1.7.12   munsell_0.5.0   
-## [41] cachem_1.0.7
-```
