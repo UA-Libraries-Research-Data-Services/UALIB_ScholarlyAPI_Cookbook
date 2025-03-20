@@ -2,7 +2,7 @@
 
 title: Scholarly API Cookbook
 author: The University of Alabama Libraries
-copyright: "2024"
+copyright: "2025"
 logo: images/UALIB_logo.png
 exclude_patterns: [readme.md, old, conversion_scripts]
 # Force re-execution of notebooks on each build.
