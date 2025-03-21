@@ -1,7 +1,9 @@
 # University of Alabama Libraries Scholarly API Cookbook
 
 > [!IMPORTANT]
-> March 2025 - We have decided to no longer maintain the Matlab, Mathematica, and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are in the [UA Libraries Scholarly API Cookbook Archive](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive).
+> Please check the individual scholarly API documentation for current information on API usage and policies.
+>
+> March 2025 - We have decided to no longer maintain the Matlab, Mathematica, Bash (except the Z39.50 Bash recipe) and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are in the [UA Libraries Scholarly API Cookbook Archive](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive).
 >
 > November 2024 - Some R code tutorials that were originally MIT Licensed, are now licensed under the GPL-3 License to comply with the licensing terms of dependent R libraries.
 
@@ -44,7 +46,7 @@ Citation: Scalfani, V. F.; Walker, K. W.; Simpson, L.; Fernandez, A. M.; Patel, 
 
 ## Archived Recipes
 
-We have decided to no longer maintain the Matlab, Mathematica, and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are still in the [UA Libraries Scholarly API Cookbook Archive](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive).
+We have decided to no longer maintain the Matlab, Mathematica, Bash (except the Z39.50 Bash recipe), and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are still in the [UA Libraries Scholarly API Cookbook Archive](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive).
 
 ### Archive License Information
 

@@ -42,7 +42,7 @@ Citation: Scalfani, V. F.; Walker, K. W.; Simpson, L.; Fernandez, A. M.; Patel, 
 Scholarly API Cookbook Archive
 ******************************
 
-We have decided to no longer maintain the Matlab, Mathematica, Bash, and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are still in the [UA Libraries Scholarly API Cookbook Archive](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive).
+We have decided to no longer maintain the Matlab, Mathematica, Bash (except the Z39.50 recipe), and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are still in the [UA Libraries Scholarly API Cookbook Archive](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive).
 
 The Python scripts in this Scholarly API Cookbook are licensed under the MIT License. However, these scripts may rely on external libraries such as matplotlib, pandas, and others. These libraries are licensed under their own respective terms, and will need to be installed separately. Refer to the documentation of each library for installation instructions and licensing details.
 
