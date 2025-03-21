@@ -154,12 +154,6 @@ parts:
   - caption: GIS
     chapters:
 
-    # FCC Radio Range
-    - file: src/overview/fcc-radio-range
-      sections:
-      - file: src/python/fcc-radio-range
-        title: "...in Python"
-
     # GeoNames
     - file: src/overview/geonames
       sections:
