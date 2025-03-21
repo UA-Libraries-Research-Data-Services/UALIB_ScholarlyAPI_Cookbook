@@ -60,10 +60,11 @@ UA Libraries Scout database for programming books (e.g., `TI python`).
 Which Programming Languages are Covered?
 ****************************************
 
-Currently, we have scholarly API code examples in Python, R, and Bash (Unix Shell). We hope 
-that providing examples in several programming languages will provide the reader with not only 
-a choice, but also some information about the differences between the programming workflows. 
-In some cases, for example, it may be preferable to choose one language over the other.
+Currently, we have scholarly API code examples in Python and R (and a Z39.50 tutorial in Bash). 
+We hope that providing examples in several programming languages will provide the reader with 
+not only a choice, but also some information about the differences between the programming 
+workflows. In some cases, for example, it may be preferable to choose one language over the 
+other.
 
 For good luck, let's add ``Hello World!`` in each programming language:
 
@@ -80,12 +81,6 @@ For good luck, let's add ``Hello World!`` in each programming language:
       .. code-block:: r
 
          > print("Hello World!")
-
-   .. tab-item:: Bash
-
-      .. code-block:: shell
-
-         $ echo "Hello World!"
 
 Who is Creating the Content?
 ****************************

@@ -19,8 +19,6 @@ parts:
         title: "...in Python"
       - file: src/r/sdirect
         title: "...in R"
-      - file: src/shell/sdirect
-        title: "...in Bash"
 
     # Springer
     - file: src/overview/springer
@@ -53,8 +51,6 @@ parts:
         title: "...in Python"
       - file: src/r/crossref
         title: "...in R"
-      - file: src/shell/crossref
-        title: "...in Bash"
 
     # OpenAlex
     - file: src/overview/openalex
@@ -73,8 +69,6 @@ parts:
       sections:
       - file: src/python/scopus
         title: "...in Python"
-      - file: src/shell/scopus
-        title: "...in Bash"
 
     # Web of Science
     - file: src/overview/wos
@@ -119,8 +113,6 @@ parts:
         title: "...in Python"
       - file: src/r/world-bank
         title: "...in R"
-      - file: src/shell/world-bank
-        title: "...in Bash"
 
 
   - caption: GENERAL
@@ -189,8 +181,6 @@ parts:
         title: "...in Python"
       - file: src/r/chronam
         title: "...in R"
-      - file: src/shell/chronam
-        title: "...in Bash"
 
 
   - caption: SCIENTIFIC
@@ -203,8 +193,6 @@ parts:
         title: "...in Python"
       - file: src/r/casc
         title: "...in R"
-      - file: src/shell/casc
-        title: "...in Bash"
 
     # FoodData Central
     - file: src/overview/fdc
@@ -231,8 +219,6 @@ parts:
         title: "...in Python"
       - file: src/r-gpl3/pubchem
         title: "...in R"
-      - file: src/shell/pubchem
-        title: "...in Bash"
 
     # PubChem Periodic Table
     - file: src/overview/pubchem-periodic-table
@@ -247,8 +233,6 @@ parts:
         title: "...in Python"
       - file: src/r-gpl3/pubmed
         title: "...in R"
-      - file: src/shell/pubmed
-        title: "...in Bash"
 
 
   - caption: SOCIAL SCIENCES
@@ -275,8 +259,6 @@ parts:
         title: "...in Python"
       - file: src/r-gpl3/us-census
         title: "...in R"
-      - file: src/shell/us-census
-        title: "...in Bash"
 
     # USA Spending
     - file: src/overview/usa-spending
