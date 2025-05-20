@@ -2,13 +2,19 @@
 
 by Michael T. Moen
 
-**College Scorecard API Documentation:** https://collegescorecard.ed.gov/data/api-documentation/
-
-**College Scorecard Copyright Status:** https://www2.ed.gov/notices/copyright/index.html
-
-**Data\.gov Privacy Policy:** https://data.gov/privacy-policy/
-
 The College Scorecard API is an online tool hosted by the U.S. Department of Education that contains data concerning higher education institutions.
+
+### API Resources
+
+- **Documentation**
+  - [College Scorecard API Documentation](https://collegescorecard.ed.gov/data/api-documentation/)
+
+- **Data Reuse**
+  - [College Scorecard Copyright Status](https://www.ed.gov/about/ed-overview/required-notices/website-policies/copyright-status-notice-us-department-of-education)
+  - [Data.gov Privacy Policy](https://data.gov/privacy-policy/)
+
+> **Note:** The College Scorecard API limits requests to a maximum of 1000 requests per IP address per hour.
+
 
 *These recipe examples were tested on February 7, 2025.*
 
