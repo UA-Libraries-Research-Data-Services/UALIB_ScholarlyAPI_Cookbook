@@ -19,10 +19,6 @@ Terms of Use
 
 Wiley Text and Data Mining Agreement: https://onlinelibrary.wiley.com/library-info/resources/text-and-datamining#accordionHeader-3
 
-Data Reuse
-
-[Service Name] Data Reuse: Link not provided — please update with correct URL.
-
 
 *These recipe examples were tested on February 12, 2025.*
 
