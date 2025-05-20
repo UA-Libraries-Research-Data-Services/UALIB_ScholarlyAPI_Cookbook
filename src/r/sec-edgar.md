@@ -11,13 +11,21 @@ by Adam M. Nguyen
 
 These recipe examples were tested on December 1, 2023.
 
-**Documentation:** 
+The U.S. Securities and Exchange Commission (SEC) allows free public access to documents filed by publicly traded companies in the Electronic Data Gathering, Analysis, and Retrieval (EDGAR) system.
 
-**SEC EDGAR API:** https://www.sec.gov/os/accessing-edgar-data
+Please see the following resources for more information on API usage:
 
-**SEC Website Policies:** https://www.sec.gov/privacy#security
+### Documentation
+- [SEC EDGAR](https://www.sec.gov/search-filings)
+- [SEC EDGAR API Documentation](https://www.sec.gov/search-filings/edgar-application-programming-interfaces)
+- [SEC EDGAR Search Assistance](https://www.sec.gov/search-filings/edgar-search-assistance/accessing-edgar-data)
+- [List of All CIKs](https://www.sec.gov/Archives/edgar/cik-lookup-data.txt)
 
-**List of all CIKs:** https://www.sec.gov/Archives/edgar/cik-lookup-data.txt
+### Terms of Use
+- [SEC Website Policies](https://www.sec.gov/privacy#security)
+
+### Data Reuse
+- [SEC Website Dissemination Policy](https://www.sec.gov/about/privacy-information#dissemination)
 
 ***NOTE:*** Sending more than 10 requests per second will place a temporary IP ban.
 
