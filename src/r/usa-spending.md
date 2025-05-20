@@ -9,21 +9,17 @@ output:
 
 by Adam M. Nguyen
 
+Please see the following resources for more information on API usage:
 
-Documentation
+### Documentation
+- [USAspending Website](https://www.usaspending.gov/)
+- [USAspending Documentation](https://api.usaspending.gov/)
 
-USAspending Website: https://www.usaspending.gov/
+### Terms of Use
+- [USAspending API License](https://github.com/fedspendingtransparency/usaspending-api?tab=CC0-1.0-1-ov-file): [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)
 
-USAspending API Documentation: https://api.usaspending.gov/
-
-Terms of Use
-
-USAspending API License: https://github.com/fedspendingtransparency/usaspending-api?tab=CC0-1.0-1-ov-file
-(License: CC0 1.0 Universal)
-
-Data Reuse
-
-USAspending Data Reuse Policy: https://www.usaspending.gov/about#about-licensing
+### Data Reuse
+- [USAspending Data Reuse](https://www.usaspending.gov/about#about-licensing)
 
 
 These recipe examples were tested on December 1, 2023.
