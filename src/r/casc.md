@@ -11,11 +11,23 @@ by Adam M. Nguyen
 
 The recipe examples were tested on March 24, 2023.
 
-**CAS Common Chemistry API Documentation (requires registration):**
+The CAS Common Chemistry API provides programmatic access to a curated subset, offering information on nearly 500,000 chemical substances. This API supports integration into workflows for chemical research, machine learning, and cheminformatics applications.
 
-https://www.cas.org/services/commonchemistry-api
+> Registration is required to access the API. Please visit the links below to register.
 
-**Attribution:** This tutorial uses the [CAS Common Chemistry](https://commonchemistry.cas.org/) API. Example Data shown is licensed under the [CC BY-NC 4.0 license](https://creativecommons.org/licenses/by-nc/4.0/).
+### API Resources
+
+- **Documentation**
+  - [CAS Common Chemistry API](https://commonchemistry.cas.org/api)
+  - [CAS Common Chemistry API Access Request](https://www.cas.org/services/commonchemistry-api)
+
+- **Terms**
+  - [CAS Common Chemistry Terms of Use (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
+  - [CAS Common Chemistry Commercial License](https://web.cas.org/marketing/legal/Common-Chemistry-Commercial-License-API-07.12.2024.pdf)
+
+- **Data Reuse**
+  - [CAS Information Use Policy](https://www.cas.org/legal)
+
 
 ## Import libraries
 Run the following lines of code to load the libraries 'httr' and 'jsonlite'. If you have not done so already, additionally, before the 'library()' functions, run 'install.packages(c('httr','jsonlite'))'.
