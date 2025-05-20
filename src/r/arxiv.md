@@ -9,19 +9,22 @@ output:
 
 by Adam M. Nguyen
 
-These recipe examples were tested on December 1, 2023.
 
-**Documentation:** 
+The arXiv API provides programmatic access to metadata about scholarly papers hosted on the arXiv preprint server, covering fields such as physics, mathematics, computer science, and more. This allows users to automate the discovery and retrieval of preprint information for research, text mining, or integration into academic workflows.
 
-**arXiv:** https://arxiv.org/
+### API Resources
 
-**arXi API Access Information:** https://info.arxiv.org/help/api/index.html
+- **Documentation**
+  - [arXiv](https://arxiv.org/)
+  - [arXiv API Access Information](https://info.arxiv.org/help/api/index.html)
+  - [aRxiv: R Interface to the arXiv API](https://cran.r-project.org/web/packages/aRxiv/index.html)
 
-**arXiv Terms of Use:** https://info.arxiv.org/help/api/tou.html
-
-**aRxiv: R Interface to the arXiv API:** https://cran.r-project.org/web/packages/aRxiv/index.html
+- **Terms**
+  - [arXiv Terms of Use](https://info.arxiv.org/help/api/tou.html)
 
 *Acknowledgment: Thank you to arXiv for use of its open access interoperability*
+
+These recipe examples were tested on December 1, 2023.
 
 Hosted and maintained by Cornell University, arXiv is an open-access and free distribution service containing nearly 2.5 million scholarly articles in fields including physics, mathematics, computer science, quantitative biology, quantitative finance, statistics, electrical engineering and systems science and economics at the time of writing. In this tutorial we will introduce how to use the API with some examples, but for larger bulk downloads of data from arXiv, we recommend [Kaggle's arxiv Dataset](https://www.kaggle.com/datasets/Cornell-University/arxiv/data), which is updated monthly with the full arXiv data set and metadata.
 

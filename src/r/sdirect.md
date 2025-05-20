@@ -2,17 +2,22 @@
 
 by Michael T. Moen
 
-**ScienceDirect**: https://www.sciencedirect.com/
+These recipe examples demonstrate how to use Elsevier’s [ScienceDirect API](https://dev.elsevier.com/) to retrieve full-text articles in various formats (XML, text).
 
-**Elsevier Developer Portal:** https://dev.elsevier.com/
+*This tutorial content is intended to help facilitate academic research. Please check your institution for their Text and Data Mining or related License Agreement with Elsevier.*
 
-**ScienceDirect APIs Specification:** https://dev.elsevier.com/sd_api_spec.html
+- **Documentation**
+  - [ScienceDirect API](https://dev.elsevier.com/)
+  - [ScienceDirect API Documentation](https://dev.elsevier.com/sd_api_spec.html)
 
-**Elsevier How to Guide: Text Mining:** https://dev.elsevier.com/tecdoc_text_mining.html
+- **Terms**
+  - [ScienceDirect API Terms of Use](https://dev.elsevier.com/api_key_settings.html)
 
-Please check with your institution for their Text and Data Mining Agreement with Elsevier.
+- **Data Reuse**
+  - [Elsevier Text & Data Mining](https://dev.elsevier.com/tecdoc_text_mining.html)
 
-These recipe examples use the Elsevier ScienceDirect Article (Full-Text) API. This tutorial content is intended to help facillitate academic research. Before continuing or reusing any of this code, please be aware of Elsevier’s API policies and appropiate use-cases, as for example, Elsevier has detailed policies regarding [text and data mining of Elsevier full-text content](https://dev.elsevier.com/text_mining.html). If you have copyright or other related text and data mining questions, please contact The University of Alabama Libraries.
+> **Note:** See your institution's rate limit in the [ScienceDirect API Terms of Use](https://dev.elsevier.com/api_key_settings.html).
+
 
 *These recipe examples were tested on February 7, 2025.*
 

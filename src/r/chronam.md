@@ -5,20 +5,25 @@ output:
     keep_md: TRUE
 ---
 
-# Chronicling Ameria API in R
+# Chronicling America API in R
 
 by Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
 
+The Chronicling America API provides programmatic access to a vast collection of historic American newspapers, enabling researchers and developers to search, retrieve, and analyze digitized newspaper pages and metadata from the Library of Congress.
+
+### API Resources
+
+- **Documentation**
+  - [Chronicling America API Documentation](https://chroniclingamerica.loc.gov/about/api/)
+  - [Library of Congress APIs for LoC.gov](https://www.loc.gov/apis/additional-apis/chronicling-america-api/)
+
+- **Terms**
+  - [Chronicling America Terms of Use](https://chroniclingamerica.loc.gov/about/api/)
+
+- **Data Reuse**
+  - [Chronicling America Data Reuse Policy](https://chroniclingamerica.loc.gov/about/api/)
+
 These recipe examples were tested on March 24, 2023.
-
-**Documentation:**
-
-[LOC Chronicling America API Documentation](https://chroniclingamerica.loc.gov/about/api/)
-
-**Attribution:** We thank Professor Jessica Kincaid (UA Libraries, Hoole Special Collections) for the use-cases. All data was collected from the Library of Congress, Chronicling America: Historic American Newspapers site, using the API.
-
-Note that the data from the Alabama state intelligencer, The age-herald, and the Birmingham age-herald were contributed to Chronicling America by The University of Alabama Libraries: https://chroniclingamerica.loc.gov/awardees/au/
-
 
 ### Setup
 
