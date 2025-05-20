@@ -5,7 +5,7 @@ output:
     keep_md: true
 ---
 
-# USA Spending API in R
+# USAspending API in R
 
 by Adam M. Nguyen
 
