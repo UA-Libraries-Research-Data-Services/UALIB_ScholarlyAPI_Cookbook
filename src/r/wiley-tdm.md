@@ -11,14 +11,14 @@ by Michael T. Moen
 
 This tutorial is designed to support academic research. Please consult your institution’s library or legal office regarding its Text and Data Mining license agreement with Wiley.
 
-Documentation
+### Documentation
+- [Wiley Text and Data Mining](https://onlinelibrary.wiley.com/library-info/resources/text-and-datamining)
 
-Wiley Text and Data Mining Overview: https://onlinelibrary.wiley.com/library-info/resources/text-and-datamining
+### Terms of Use
+- [Wiley Text and Data Mining Agreement](https://onlinelibrary.wiley.com/library-info/resources/text-and-datamining#accordionHeader-3)
 
-Terms of Use
-
-Wiley Text and Data Mining Agreement: https://onlinelibrary.wiley.com/library-info/resources/text-and-datamining#accordionHeader-3
-
+### Data Reuse
+- [Service Name] Data Reuse *(link to be provided by the service)*
 
 *These recipe examples were tested on February 12, 2025.*
 
