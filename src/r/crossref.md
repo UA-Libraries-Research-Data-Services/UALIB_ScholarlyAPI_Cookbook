@@ -11,7 +11,26 @@ by Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
 
 **Documentation:**
 
+The Crossref API provides metadata about publications, including articles, books, and conference proceedings. This metadata spans items such as author details, journal details, references, and DOIs (Digital Object Identifiers). Working with Crossref allows for programmatic access to bibliographic information and can streamline large-scale metadata retrieval.
+
+Documentation
+
 Crossref API Documentation: https://api.crossref.org/swagger-ui/index.html
+Crossref API Introduction: https://www.crossref.org/documentation/retrieve-metadata/rest-api/a-non-technical-introduction-to-our-api/
+
+Terms of Use
+
+https://www.crossref.org/membership/terms/
+
+Data Reuse and Text Mining
+
+Crossref Data Mining: https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining/
+For Researchers: https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining-for-researchers/
+For Members: https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining-for-members/
+Licensing Info: https://www.crossref.org/documentation/retrieve-metadata/rest-api/providing-licensing-information-to-tdm-tools/
+Full-Text Linking: https://www.crossref.org/documentation/retrieve-metadata/rest-api/providing-full-text-links-to-tdm-tools/
+
+Note: The Crossref API has a rate limit of 50 requests per second.
 
 These recipe examples were tested on March 24 2023.
 
