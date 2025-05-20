@@ -5,7 +5,7 @@ output:
     keep_md: TRUE
 ---
 
-# Chronicling Ameria API in R
+# Chronicling America API in R
 
 by Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
 
