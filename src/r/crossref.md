@@ -15,7 +15,7 @@ The Crossref API provides metadata about publications, including articles, books
 
 Documentation
 
-Crossref API Documentation: https://api.crossref.org/swagger-ui/index.html
+Crossref API Documentation: https://api.crossref.org/swagger-ui/index.html/
 Crossref API Introduction: https://www.crossref.org/documentation/retrieve-metadata/rest-api/a-non-technical-introduction-to-our-api/
 
 Terms of Use
