@@ -9,31 +9,21 @@ editor_options:
 
 by Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
 
-**Documentation:**
-
 The Crossref API provides metadata about publications, including articles, books, and conference proceedings. This metadata spans items such as author details, journal details, references, and DOIs (Digital Object Identifiers). Working with Crossref allows for programmatic access to bibliographic information and can streamline large-scale metadata retrieval.
 
-Documentation
+- **Documentation**
+  - [Crossref API Documentation](https://api.crossref.org/swagger-ui/index.html)
+  - [Crossref API Introduction](https://www.crossref.org/documentation/retrieve-metadata/rest-api/a-non-technical-introduction-to-our-api/)
 
-Crossref API Documentation: https://api.crossref.org/swagger-ui/index.html
+- **Terms**
+  - [Crossref Terms of Use](https://www.crossref.org/membership/terms/)
 
-Crossref API Introduction: https://www.crossref.org/documentation/retrieve-metadata/rest-api/a-non-technical-introduction-to-our-api/
-
-Terms of Use
-
-https://www.crossref.org/membership/terms/
-
-Data Reuse and Text Mining
-
-Crossref Data Mining: https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining/
-
-For Researchers: https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining-for-researchers/
-
-For Members: https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining-for-members/
-
-Licensing Info: https://www.crossref.org/documentation/retrieve-metadata/rest-api/providing-licensing-information-to-tdm-tools/
-
-Full-Text Linking: https://www.crossref.org/documentation/retrieve-metadata/rest-api/providing-full-text-links-to-tdm-tools/
+- **Data Reuse**
+  - [Crossref Data Mining](https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining/)
+  - [Crossref Data Mining for Researchers](https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining-for-researchers/)
+  - [Crossref Data Mining for Members](https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining-for-members/)
+  - [Crossref Licensing Information](https://www.crossref.org/documentation/retrieve-metadata/rest-api/providing-licensing-information-to-tdm-tools/)
+  - [Crossref Full-Text Links](https://www.crossref.org/documentation/retrieve-metadata/rest-api/providing-full-text-links-to-td)
 
 Note: The Crossref API has a rate limit of 50 requests per second.
 
