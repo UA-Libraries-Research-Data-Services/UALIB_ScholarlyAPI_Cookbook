@@ -11,7 +11,25 @@ by Vishank Patel and Adam M. Nguyen
 
 **Documentation:**
 
-See the [World Bank API documentation](https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation)
+The World Bank offers a suite of APIs providing access to a vast array of global development data, including economic indicators, project information, and more. These APIs enable users to programmatically retrieve data for analysis, application development, and research purposes
+
+World Bank Indicators API Documentation: https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation
+
+World Bank Data Catalog API Documentation: https://datahelpdesk.worldbank.org/knowledgebase/articles/1886698-data-catalog-api
+
+World Bank Data Catalog: https://data.worldbank.org/
+
+World Bank Development Best Practices: https://datahelpdesk.worldbank.org/knowledgebase/articles/902064-development-best-practices
+
+Terms of Use
+
+World Bank Terms of Use: https://www.worldbank.org/en/about/legal/terms-and-conditions
+
+World Bank Summary Terms of Use: https://data.worldbank.org/summary-terms-of-use
+
+Data Reuse and Licensing
+
+World Bank Data Licensing and Terms of Use: https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets
 
 These recipe examples were tested on March 24, 2023.
 
