@@ -9,11 +9,20 @@ output:
 
 by Michael T. Moen
 
-**Wiley TDM:** https://onlinelibrary.wiley.com/library-info/resources/text-and-datamining
+This tutorial is designed to support academic research. Please consult your institution’s library or legal office regarding its Text and Data Mining license agreement with Wiley.
 
-**Wiley TDM Terms of Use:** Please check with your institution to see their Text and Data Mining Agreement
+Documentation
 
-The Wiley Text and Data Mining (TDM) API allows users to retrieve the full-text articles of Wiley content in PDF form. This tutorial content is intended to help facilitate academic research.
+Wiley Text and Data Mining Overview: https://onlinelibrary.wiley.com/library-info/resources/text-and-datamining
+
+Terms of Use
+
+Wiley Text and Data Mining Agreement: https://onlinelibrary.wiley.com/library-info/resources/text-and-datamining#accordionHeader-3
+
+Data Reuse
+
+[Service Name] Data Reuse: Link not provided — please update with correct URL.
+
 
 *These recipe examples were tested on February 12, 2025.*
 
