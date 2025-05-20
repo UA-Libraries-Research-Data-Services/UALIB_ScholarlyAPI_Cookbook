@@ -5,7 +5,7 @@ output:
     keep_md: TRUE
 ---
 
-# World Bank Data API in R
+# World Bank API in R
 
 by Vishank Patel and Adam M. Nguyen
 
