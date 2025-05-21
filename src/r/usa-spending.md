@@ -14,7 +14,7 @@ Please see the following resources for more information on API usage:
 ### Documentation
 - [USAspending Website](https://www.usaspending.gov/)
 - [USAspending Documentation](https://api.usaspending.gov/)
-- [USAspending API License](https://github.com/fedspendingtransparency/usaspending-api)
+- [USAspending API](https://github.com/fedspendingtransparency/usaspending-api)
 
 ### Data Reuse
 - [USAspending Data Reuse](https://www.usaspending.gov/about#about-licensing)
