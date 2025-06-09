@@ -11,19 +11,21 @@ by Adam M. Nguyen
 
 These recipe examples were tested on March 24, 2023.
 
-**Documentation:** 
+- **Documentation**
+  - [censusapi Package Documentation (PDF)](https://cran.r-project.org/web/packages/censusapi/censusapi.pdf)
+  - [U.S. Census API Documentation](https://www.census.gov/data/developers/about.html)
+  - [U.S. Census Data Discovery Tool](https://api.census.gov/data.html)
 
-**censusapi Package Documentation:** https://cran.r-project.org/web/packages/censusapi/censusapi.pdf
+- **Terms**
+  - See also the [U.S. Census API Terms of Service](https://www.census.gov/data/developers/about.html#terms)
 
-**U.S. Census API documentation:** https://www.census.gov/data/developers/about.html
+- **Attribution**
+  - This tutorial uses the Census Bureau Data API but is not endorsed or certified by the Census Bureau.
 
-**U.S. Census Data Discovery Tool:** https://api.census.gov/data.html
-
-See also the [U.S. Census API Terms of Service](https://www.census.gov/data/developers/about/terms-of-service.html)
-
-**Attribution:** *This tutorial uses the Census Buereau Data API but is not endorsed or certified by the Census Bureau.*
-
-**Tutorial License**: This tutorial uses the censusapi R library which is licensed as GPL-3, as a result, this tutorial code is also licensed as GPL-3: https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials
+- **Tutorial License**
+  - This tutorial uses the **censusapi** R library which is licensed as **GPL-3**.  
+  - As a result, this tutorial code is also licensed as **GPL-3**:  
+    [License Details](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials)
 
 ## Setup
 
