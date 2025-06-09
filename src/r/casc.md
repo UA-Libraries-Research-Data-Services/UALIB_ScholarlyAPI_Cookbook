@@ -28,20 +28,6 @@ The CAS Common Chemistry API provides programmatic access to a curated subset, o
 
 > Registration is required to access the API. Please visit the links below to register.
 
-### API Resources
-
-- **Documentation**
-  - [CAS Common Chemistry API](https://commonchemistry.cas.org/api)
-  - [CAS Common Chemistry API Access Request](https://www.cas.org/services/commonchemistry-api)
-
-- **Terms**
-  - [CAS Common Chemistry Terms of Use (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
-  - [CAS Common Chemistry Commercial License](https://web.cas.org/marketing/legal/Common-Chemistry-Commercial-License-API-07.12.2024.pdf)
-
-- **Data Reuse**
-  - [CAS Information Use Policy](https://www.cas.org/legal)
-
-
 ## Import libraries
 Run the following lines of code to load the libraries 'httr' and 'jsonlite'. If you have not done so already, additionally, before the 'library()' functions, run 'install.packages(c('httr','jsonlite'))'.
 
