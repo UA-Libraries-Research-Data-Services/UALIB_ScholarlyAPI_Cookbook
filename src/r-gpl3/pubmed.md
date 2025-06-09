@@ -9,16 +9,21 @@ output:
 
 by Adam M. Nguyen    
 
-The recipe examples were tested on Mar 24, 2023.
+The recipe examples were tested on Mar 24, 2023
 
-**R easyPubMed Documentation:**   
+The easyPubMed R package provides programmatic access to PubMed data, enabling researchers to search, retrieve, and analyze biomedical literature efficiently.
 
-**Useful Getting Started with easyPubMed Article**: https://cran.r-project.org/web/packages/easyPubMed/vignettes/getting_started_with_easyPubMed.html    
+### API Resources
 
-**easyPubMed PDF Documentation**:
-https://cran.r-project.org/web/packages/easyPubMed/easyPubMed.pdf
+- **Documentation**
+  - [Getting Started with easyPubMed Article](https://cran.r-project.org/web/packages/easyPubMed/vignettes/getting_started_with_easyPubMed.html)
+  - [easyPubMed PDF Documentation](https://cran.r-project.org/web/packages/easyPubMed/easyPubMed.pdf)
 
-**Tutorial License**: This tutorial uses the easyPubMed R library which is licensed as GPL-3, as a result, this tutorial code is also licensed as GPL-3: https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials
+- **Tutorial License**
+  - This tutorial uses the **easyPubMed** R library which is licensed as **GPL-3**.  
+  - As a result, this tutorial code is also licensed as **GPL-3**:  
+    [License Details](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials)
+
 
 ## Setup
 
