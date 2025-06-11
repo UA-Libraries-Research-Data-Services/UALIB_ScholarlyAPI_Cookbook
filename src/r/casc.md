@@ -9,7 +9,7 @@ output:
 
 by Adam M. Nguyen
 
-The CAS Common Chemistry API provides programmatic access to a curated subset, offering information on nearly 500,000 chemical substances. This API supports integration into workflows for chemical research, machine learning, and cheminformatics applications.
+The CAS Common Chemistry API provides programmatic access to a curated subset, offering information on nearly 500,000 chemical substances. 
 
 ### API Resources
 
