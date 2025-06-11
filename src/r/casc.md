@@ -14,16 +14,15 @@ The CAS Common Chemistry API provides programmatic access to a curated subset, o
 ### API Resources
 
 - **Documentation**
-  - [CAS Common Chemistry API](https://commonchemistry.cas.org/api)
-  - [CAS Common Chemistry API Access Request](https://www.cas.org/services/commonchemistry-api)
+- [CAS Common Chemistry API](https://commonchemistry.cas.org/api)
+- [CAS Common Chemistry API Access Request](https://www.cas.org/services/commonchemistry-api)
 
 - **Terms**
-  - [CAS Common Chemistry Terms of Use (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
-  - [CAS Common Chemistry Commercial License](https://web.cas.org/marketing/legal/Common-Chemistry-Commercial-License-API-07.12.2024.pdf)
+  - [CAS Policies](https://www.cas.org/legal)
 
 - **Data Reuse**
-  - [CAS Information Use Policy](https://www.cas.org/legal)
-
+  CAS Common Chemistry is provided under the [Creative Commons CC BY-NC 4.0 license](https://creativecommons.org/licenses/by-nc/4.0/)
+  
 > Registration is required to access the API. Please visit the links below to register.
 
 ## Import libraries
