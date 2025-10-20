@@ -25,7 +25,7 @@ These recipe examples were tested on December 1, 2023.
 
 ## Setup
 
-Run the following lines of code to load the libraries ‘httr’ and ‘jsonlite’. If you have not done so already, additionally, before the ‘library()’ functions, run ‘install.packages(c(‘httr’,’jsonlite’))’.
+Run the following lines of code to load the libraries `httr` and `jsonlite`. If you have not done so already, additionally, before the `library()` functions, run `install.packages(c("httr","jsonlite"))`.
 
 ```r
 library(httr)
@@ -118,7 +118,7 @@ With these codes we can access subagency data.
 
 ## 2. Retrieving Data from Subagencies
 
-The 'toptier_codes' data frame we created contains every agency name in the USA Spending API. For this example we'll look at the total obligations of each subagency of the Department of Defense.
+The 'toptier_codes' data frame we created contains every agency name in the USAspending API. For this example we'll look at the total obligations of each subagency of the Department of Defense.
 
 
 ```r
@@ -178,7 +178,7 @@ legend("topright", legend = subagency_data_other$abbreviation, fill = custom_col
 
 ## 3. Acessing Fiscal Data Per Year
 
-Using the USA Spending API, we can also examine the annual budget of an agency 2017 and onward.
+Using the USAspending API, we can also examine the annual budget of an agency 2017 and onward.
 
 ```r
 # Specify Agency

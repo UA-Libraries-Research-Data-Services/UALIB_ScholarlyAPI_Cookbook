@@ -260,7 +260,7 @@ parts:
       - file: src/r-gpl3/us-census
         title: "...in R"
 
-    # USA Spending
+    # USAspending
     - file: src/overview/usa-spending
       sections:
       - file: src/python/usa-spending
