@@ -5,7 +5,9 @@ output:
     keep_md: true
 ---
 
-by Adam M. Nguyen
+# arXiv API in R
+
+by Adam M. Nguyen and Michael T. Moen
 
 Hosted and maintained by Cornell University, arXiv is an open-access and free distribution service containing nearly 2.5 million scholarly articles in fields including physics, mathematics, computer science, quantitative biology, quantitative finance, statistics, electrical engineering and systems science and economics at the time of writing. In this tutorial we will introduce how to use the API with some examples, but for larger bulk downloads of data from arXiv, we recommend <a href="https://www.kaggle.com/datasets/Cornell-University/arxiv/data" target="_blank">Kaggle's arXiv Dataset</a>, which is updated monthly with the full arXiv data set and metadata.
 
@@ -246,3 +248,4 @@ paste0('The percentage of preprints is ',round(percentage_preprints, digits = 2)
 ```
 ## [1] "The percentage of preprints is 23.93%."
 ```
+
