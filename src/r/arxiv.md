@@ -30,9 +30,10 @@ Please see the following resources for more information on API usage:
 
 The following packages libraries need to be installed into your environment to run the code examples in this tutorial. These packages can be installed with `install.packages()`.
 
-- <a href="https://cran.r-project.org/web/packages/aRxiv/index.html" target="_blank">arXiv: Interface to the arXiv API</a>
+- <a href="https://cran.r-project.org/web/packages/aRxiv/index.html" target="_blank">aRxiv: Interface to the arXiv API</a>
 - <a href="https://cran.r-project.org/web/packages/ggplot2/index.html" target="_blank">ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</a>
 
+We load the libraries used in this tutorial below:
 
 ``` r
 library(aRxiv)
