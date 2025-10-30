@@ -331,35 +331,35 @@ imgs <- lapply(list, function(x) {(charToRaw(x$image))})
 image_scale(image_read(imgs[[1]]),200)
 ```
 
-![](casc_files/figure-html/disp%20list-1.png)
+![](casc_files/figure-html/list-1.png)
 
 ``` r
 # "Ethyl 2-nonynoate"
 image_scale(image_read(imgs[[2]]),200)
 ```
 
-![](casc_files/figure-html/disp%20list-2.png)
+![](casc_files/figure-html/list-2.png)
 
 ``` r
 # "Ethyl 1<em>H</em>-pyrazole-1-acetate"
 image_scale(image_read(imgs[[3]]),200)
 ```
 
-![](casc_files/figure-html/disp%20list-3.png)
+![](casc_files/figure-html/list-3.png)
 
 ``` r
 # "Ethyl 3-(ethoxycarbonyl)benzenepropanoate"
 image_scale(image_read(imgs[[4]]),200)
 ```
 
-![](casc_files/figure-html/disp%20list-4.png)
+![](casc_files/figure-html/list-4.png)
 
 ``` r
 # "Ethyl 1-cyclohexene-1-carboximidate"
 image_scale(image_read(imgs[[5]]),200)
 ```
 
-![](casc_files/figure-html/disp%20list-5.png)
+![](casc_files/figure-html/list-5.png)
 
 ### Select Specific Data    
 
