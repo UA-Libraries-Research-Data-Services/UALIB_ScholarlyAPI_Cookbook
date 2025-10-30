@@ -12,6 +12,12 @@ parts:
       - file: src/python/osf
         title: "...in Python"
 
+    # Sage
+    - file: src/overview/sage
+      sections:
+      - file: src/python/sage
+        title: "...in Python"
+
     # ScienceDirect
     - file: src/overview/sdirect
       sections:
