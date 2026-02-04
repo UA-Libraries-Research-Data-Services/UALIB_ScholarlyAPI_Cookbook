@@ -5,32 +5,41 @@ What is this?
 *************
 
 This is an open online book containing short scholarly API code examples (i.e., "recipes") 
-that demonstrate how to work with various scholarly web service APIs. It is part of the University of 
-Alabama Libraries efforts to support `Research Data Services`_.
+that demonstrate how to work with various scholarly web service APIs. It is part of the
+University of Alabama Libraries efforts to support `Research Data Services`_.
 
 .. _Research Data Services: https://guides.lib.ua.edu/ResearchDataServices
 
 What should I be aware of before getting started?
 *************************************************
 
-Before interacting with any scholarly APIs (or similar web service), it is very important to review the
-usage policies, which generally includes information such as query limits and data reuse policies.
-We have endeavored to follow all appropriate API usage policies in our examples and have linked
-to the specific API policies where possible. While some APIs are openly accessible and do
-not require special authentication, other scholarly APIs require that you are affiliated with a
-subscribing institution, and have registered for an API key to use for authentication in API queries.
-We have added instructions about any necessary authentication within the relevant code recipes.
-
-
 .. important::
+
+   Before interacting with any scholarly APIs (or similar web services), it is important to
+   review the provider's usage policies. These typically outline information such as query
+   limits, permitted use-cases, and restrictions on data reuse. In this Cookbook, we have
+   endeavored to follow all relevant API usage policies and have linked to the specific policy
+   pages whenever possible.
+
+   While some APIs are accessible without special authentication, others require that you are
+   affiliated with a subscribing institution and have registered for an API key. Any required
+   authentication steps are noted within the individual code recipes.
+
+   For APIs associated with subscription-licensed resources, please contact your affiliated
+   institution before getting started. Library or other staff can confirm whether API access is
+   included in your institution's subscriptions and provide guidance on setup and use.
+   
+   Remember that each database or publisher maintains its own terms for downstream use-cases
+   such as text and data mining. If you have questions about these policies or appropriate use,
+   contact your institution for assistance.
 
    In general, scholarly APIs are designed for the collection of small to medium
    sized datasets; that is, in the range of 100s or maybe a few thousand queries at most
-   (various with API). If you need large bulk datasets, an API is likely not the method to use, and
-   there may be bulk data downloads available from the database instead.
+   (various with API). If you need large bulk datasets, an API is likely not the method to use,
+   and there may be bulk data downloads available from the database instead.
 
-If you decide that your use-case is appropriate for a scholarly API (or similar web service), here are a few good general practices 
-to follow when working with any web API:
+If you decide that your use-case is appropriate for a scholarly API (or similar web service),
+here are a few good general practices to follow when working with any web API:
 
 1. Read the API documentation and usage guidelines before starting.
 2. Start with testing the behavior of the API using a single programmatic API request (i.e., not in a loop).
@@ -56,8 +65,7 @@ UA Libraries Scout database for programming books (e.g., `TI python`).
    UA Libraries Workshop lessons and references therein for more general 
    programming content [#ua_work]_.
 
-
-Which Programming Languages are Covered?
+What programming languages are covered?
 ****************************************
 
 Currently, we have scholarly API code examples in Python and R (and a Z39.50 tutorial in Bash). 
@@ -77,7 +85,7 @@ For good luck, let's add ``Hello World!`` in each programming language:
 
          > print("Hello World!")
 
-Who is Creating the Content?
+Who is creating the content?
 ****************************
 
 The Scholarly API Cookbook content is authored by University of Alabama 
