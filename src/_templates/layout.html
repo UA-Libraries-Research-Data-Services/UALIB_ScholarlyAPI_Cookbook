@@ -1,0 +1,73 @@
+{% extends "!layout.html" %}
+
+{%- block extrahead %}
+  {{ super() }}
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "{{ html_baseurl }}#org-ua",
+          "name": "The University of Alabama",
+          "alternateName": ["UA"],
+          "url": "https://www.ua.edu/",
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/University_of_Alabama"
+          ]
+          "subOrganization": {
+            "@type": "Organization",
+            "@id": "{{ html_baseurl }}#org-ua-libraries",
+            "name": "The University of Alabama Libraries",
+            "alternateName": [
+              "UA Libraries",
+              "UALIB",
+              "University of Alabama Libraries",
+              "University Libraries"
+            ],
+            "url": "https://www.lib.ua.edu/",
+            "subOrganization": [
+              {
+                "@type": "Organization",
+                "@id": "{{ html_baseurl }}#org-rds",
+                "name": "Research Data Services",
+                "alternateName": ["RDS"],
+                "url": "https://guides.lib.ua.edu/rds/"
+              },
+              {
+                "@type": "Organization",
+                "@id": "{{ html_baseurl }}#org-rcs",
+                "name": "Research Computing Services",
+                "alternateName": ["RCS"],
+                "url": "https://guides.lib.ua.edu/RCS/"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "{{ html_baseurl }}#website",
+          "name": "University of Alabama Libraries Scholarly API Cookbook",
+          "url": "{{ html_baseurl }}",
+          "publisher": {
+            "@id": "{{ html_baseurl }}#org-ua-libraries"
+          },
+          "logo": {
+            "@type": "ImageObject",
+            "url": "{{ html_baseurl }}images/script-a-icon.png"
+          }
+        },
+        {
+          "@type": "WebPage",
+          "@id": {{ (html_baseurl ~ pathto(pagename, 1) ~ "#webpage") | tojson }},
+          "name": {{ title | striptags | tojson }},
+          "url": {{ (html_baseurl ~ pathto(pagename, 1)) | tojson }},
+          "isPartOf": { "@id": "{{html_baseurl}}#website" },
+          "publisher": { "@id": "{{html_baseurl}}#org-ua-libraries" }
+        }
+      ]
+    }
+  </script>
+
+{%- endblock %}

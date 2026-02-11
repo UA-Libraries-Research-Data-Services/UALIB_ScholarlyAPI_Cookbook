@@ -21,9 +21,9 @@ What should I be aware of before getting started?
    endeavored to follow all relevant API usage policies and have linked to the specific policy
    pages whenever possible.
 
-   While some APIs are accessible without special authentication, others require that you are
-   affiliated with a subscribing institution and have registered for an API key. Any required
-   authentication steps are noted within the individual code recipes.
+   While some APIs are accessible without special authentication, others require that you
+   register or are affiliated with a subscribing institution and have registered for an API
+   key. Any required authentication steps are noted within the individual code recipes.
 
    For APIs associated with subscription-licensed resources, please contact your affiliated
    institution before getting started. Library or other staff can confirm whether API access is
