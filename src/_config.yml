@@ -44,4 +44,4 @@ sphinx:
   config:
     templates_path:
       - _templates
-    html_basepath: https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/
+    html_baseurl: https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/
