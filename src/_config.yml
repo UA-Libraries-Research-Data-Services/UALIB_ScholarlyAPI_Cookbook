@@ -1,10 +1,13 @@
 # Book settings
-
 title: Scholarly API Cookbook
 author: The University of Alabama Libraries
-copyright: "2025"
+copyright: "2026"
 logo: images/UALIB_logo.png
-exclude_patterns: [readme.md, old, conversion_scripts]
+exclude_patterns:
+  - readme.md
+  - old
+  - conversion_scripts
+
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
@@ -16,13 +19,13 @@ latex:
     targetname: book.tex
 
 # Add a bibtex file so that we can create citations
-#bibtex_bibfiles:
-#  - references.bib
+# bibtex_bibfiles:
+#   - references.bib
 
 # Information about where the book exists on the web
 repository:
   url: https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook  # Online location of your book
-#  path_to_book: # Optional path to your book, relative to the repository root
+  path_to_book: src/ # Optional path to your book, relative to the repository root
   branch: main  # Which branch of the repository should be used when creating links (optional)
 
 # Add GitHub buttons to your book
@@ -36,3 +39,9 @@ launch_buttons:
   colab_url: ""
   binderhub_url: ""
   jupyterhub_url: ""
+
+sphinx:
+  config:
+    templates_path:
+      - _templates
+    html_basepath: https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/

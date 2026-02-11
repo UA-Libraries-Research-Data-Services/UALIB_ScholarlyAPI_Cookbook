@@ -1,43 +1,43 @@
 # Table of contents
 format: jb-book
-root: src/about/introduction
+root: about/introduction
 parts:
 
-  - caption: ARTICLE FULL-TEXT
+  - caption: ARTICLE FULL TEXT
     chapters:
 
     # Open Science Framework
-    - file: src/overview/osf
+    - file: overview/osf
       sections:
-      - file: src/python/osf
+      - file: python/osf
         title: "...in Python"
 
     # Sage
-    - file: src/overview/sage
+    - file: overview/sage
       sections:
-      - file: src/python/sage
+      - file: python/sage
         title: "...in Python"
 
     # ScienceDirect
-    - file: src/overview/sdirect
+    - file: overview/sdirect
       sections:
-      - file: src/python/sdirect
+      - file: python/sdirect
         title: "...in Python"
-      - file: src/r/sdirect
+      - file: r/sdirect
         title: "...in R"
 
     # Springer
-    - file: src/overview/springer
+    - file: overview/springer
       sections:
-      - file: src/python/springer
+      - file: python/springer
         title: "...in Python"
 
     # Wiley TDM
-    - file: src/overview/wiley-tdm
+    - file: overview/wiley-tdm
       sections:
-      - file: src/python/wiley-tdm
+      - file: python/wiley-tdm
         title: "...in Python"
-      - file: src/r/wiley-tdm
+      - file: r/wiley-tdm
         title: "...in R"
 
 
@@ -45,41 +45,41 @@ parts:
     chapters:
 
     # arXiv
-    - file: src/overview/arxiv
+    - file: overview/arxiv
       sections:
-      - file: src/r/arxiv
+      - file: r/arxiv
         title: "...in R"
     
     # Crossref 
-    - file: src/overview/crossref
+    - file: overview/crossref
       sections:
-      - file: src/python/crossref
+      - file: python/crossref
         title: "...in Python"
-      - file: src/r/crossref
+      - file: r/crossref
         title: "...in R"
 
     # OpenAlex
-    - file: src/overview/openalex
+    - file: overview/openalex
       sections:
-      - file: src/python/openalex
+      - file: python/openalex
         title: "...in Python"
 
     # Research Organization Registry
-    - file: src/overview/ror
+    - file: overview/ror
       sections:
-      - file: src/python/ror
+      - file: python/ror
         title: "...in Python"
 
     # Scopus
-    - file: src/overview/scopus
+    - file: overview/scopus
       sections:
-      - file: src/python/scopus
+      - file: python/scopus
         title: "...in Python"
 
     # Web of Science
-    - file: src/overview/wos
+    - file: overview/wos
       sections:
-      - file: src/python/wos
+      - file: python/wos
         title: "...in Python"
 
 
@@ -87,37 +87,37 @@ parts:
     chapters:
 
     # U.S. Bureau of Economic Analysis
-    - file: src/overview/bea
+    - file: overview/bea
       sections:
-      - file: src/python/bea
+      - file: python/bea
         title: "...in Python"
 
     # U.S. Bureau of Labor Statistics
-    - file: src/overview/bls
+    - file: overview/bls
       sections:
-      - file: src/python/bls
+      - file: python/bls
         title: "...in Python"
 
     # U.S. Securities and Exchange
-    - file: src/overview/sec-edgar
+    - file: overview/sec-edgar
       sections:
-      - file: src/python/sec-edgar
+      - file: python/sec-edgar
         title: "...in Python"
-      - file: src/r/sec-edgar
+      - file: r/sec-edgar
         title: "...in R"
 
     # U.S. Treasury
-    - file: src/overview/us-treasury
+    - file: overview/us-treasury
       sections:
-      - file: src/python/us-treasury
+      - file: python/us-treasury
         title: "...in Python"
 
     # World Bank
-    - file: src/overview/world-bank
+    - file: overview/world-bank
       sections:
-      - file: src/python/world-bank
+      - file: python/world-bank
         title: "...in Python"
-      - file: src/r/world-bank
+      - file: r/world-bank
         title: "...in R"
 
 
@@ -125,27 +125,27 @@ parts:
     chapters:
 
     # National Park Service
-    - file: src/overview/nps
+    - file: overview/nps
       sections:
-      - file: src/python/nps
+      - file: python/nps
         title: "...in Python"
 
     # Speedrun.com
-    - file: src/overview/speedrun
+    - file: overview/speedrun
       sections:
-      - file: src/python/speedrun
+      - file: python/speedrun
         title: "...in Python"
 
     # Stack Exchange
-    - file: src/overview/stack-exchange
+    - file: overview/stack-exchange
       sections:
-      - file: src/python/stack-exchange
+      - file: python/stack-exchange
         title: "...in Python"
 
     # Z39.50
-    - file: src/overview/z3950
+    - file: overview/z3950
       sections:
-      - file: src/shell/z3950
+      - file: shell/z3950
         title: "...in Bash"
 
 
@@ -153,27 +153,27 @@ parts:
     chapters:
 
     # GeoNames
-    - file: src/overview/geonames
+    - file: overview/geonames
       sections:
-      - file: src/python/geonames
+      - file: python/geonames
         title: "...in Python"
 
     # OpenStreetMap
-    - file: src/overview/osm
+    - file: overview/osm
       sections:
-      - file: src/python/osm
+      - file: python/osm
         title: "...in Python"
 
     # U.S. Census Geocoding
-    - file: src/overview/us-census-geocoding
+    - file: overview/us-census-geocoding
       sections:
-      - file: src/python/us-census-geocoding
+      - file: python/us-census-geocoding
         title: "...in Python"
     
     # USGS National Map
-    - file: src/overview/usgs-national-map
+    - file: overview/usgs-national-map
       sections:
-      - file: src/python/usgs-national-map
+      - file: python/usgs-national-map
         title: "...in Python"
         
 
@@ -181,11 +181,11 @@ parts:
     chapters:
 
     # Chronicling America
-    - file: src/overview/chronam
+    - file: overview/chronam
       sections:
-      - file: src/python/chronam
+      - file: python/chronam
         title: "...in Python"
-      - file: src/r/chronam
+      - file: r/chronam
         title: "...in R"
 
 
@@ -193,51 +193,51 @@ parts:
     chapters:
 
     # CAS Common Chemistry
-    - file: src/overview/casc
+    - file: overview/casc
       sections:
-      - file: src/python/casc
+      - file: python/casc
         title: "...in Python"
-      - file: src/r/casc
+      - file: r/casc
         title: "...in R"
 
     # FoodData Central
-    - file: src/overview/fdc
+    - file: overview/fdc
       sections:
-      - file: src/python/fdc
+      - file: python/fdc
         title: "...in Python"
 
     # NASA Images
-    - file: src/overview/nasa-images
+    - file: overview/nasa-images
       sections:
-      - file: src/python/nasa-images
+      - file: python/nasa-images
         title: "...in Python"
 
     # National Weather Service
-    - file: src/overview/nws
+    - file: overview/nws
       sections:
-      - file: src/python/nws
+      - file: python/nws
         title: "...in Python"
 
     # PubChem
-    - file: src/overview/pubchem
+    - file: overview/pubchem
       sections:
-      - file: src/python/pubchem
+      - file: python/pubchem
         title: "...in Python"
-      - file: src/r-gpl3/pubchem
+      - file: r-gpl3/pubchem
         title: "...in R"
 
     # PubChem Periodic Table
-    - file: src/overview/pubchem-periodic-table
+    - file: overview/pubchem-periodic-table
       sections:
-      - file: src/python/pubchem-periodic-table
+      - file: python/pubchem-periodic-table
         title: "...in Python"
 
     # PubMed
-    - file: src/overview/pubmed
+    - file: overview/pubmed
       sections:
-      - file: src/python/pubmed
+      - file: python/pubmed
         title: "...in Python"
-      - file: src/r-gpl3/pubmed
+      - file: r-gpl3/pubmed
         title: "...in R"
 
 
@@ -245,37 +245,37 @@ parts:
     chapters:
 
     # College Scorecard
-    - file: src/overview/college-scorecard
+    - file: overview/college-scorecard
       sections:
-      - file: src/python/college-scorecard
+      - file: python/college-scorecard
         title: "...in Python"
-      - file: src/r/college-scorecard
+      - file: r/college-scorecard
         title: "...in R"
 
     # Congress.gov
-    - file: src/overview/congress
+    - file: overview/congress
       sections:
-      - file: src/python/congress
+      - file: python/congress
         title: "...in Python"
 
     # U.S. Census Data
-    - file: src/overview/us-census
+    - file: overview/us-census
       sections:
-      - file: src/python/us-census
+      - file: python/us-census
         title: "...in Python"
-      - file: src/r-gpl3/us-census
+      - file: r-gpl3/us-census
         title: "...in R"
 
     # USAspending
-    - file: src/overview/usa-spending
+    - file: overview/usa-spending
       sections:
-      - file: src/python/usa-spending
+      - file: python/usa-spending
         title: "...in Python"
-      - file: src/r/usa-spending
+      - file: r/usa-spending
         title: "...in R"
 
   - caption: ABOUT
     chapters:
-    - file: src/about/contributing
-    - file: src/about/license-reuse
-    - file: src/about/tech-details
+    - file: about/contributing
+    - file: about/license-reuse
+    - file: about/tech-details
