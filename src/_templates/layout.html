@@ -3,18 +3,20 @@
 {%- block extrahead %}
   {{ super() }}
 
+  {% set metadata = meta if meta is defined and meta is not none else {} %}
+
   {% set site_name = "University of Alabama Libraries Scholarly API Cookbook" %}
   {% set base = (html_baseurl or "https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/") %}
   {% set page_url = base ~ pagename ~ ('' if pagename.endswith('.html') else '.html') %}
 
   {# Prefer page description; fallback to a global site description #}
   {% set site_desc = "Example tutorials for working with scholarly APIs for academic scholarly research and teaching using Python and R." %}
-  {% set page_desc = meta.get("description") if meta is defined else None %}
+  {% set page_desc = metadata.get("description") %}
   {% set desc = page_desc or site_desc %}
 
   {# Allow per-page overrides for social #}
-  {% set og_title = (meta.get("og:title") if meta is defined else None) or (title|striptags) %}
-  {% set og_type  = (meta.get("og:type")  if meta is defined else None) or "website" %}
+  {% set og_title = metadata.get("og:title") or (title|striptags) %}
+  {% set og_type  = metadata.get("og:type") or "website" %}
 
   <!-- Canonical Link -->
   <link rel="canonical" href="{{ page_url }}" />
@@ -92,10 +94,10 @@
         },
         {
           "@type": "WebPage",
-          "@id": {{ page_url ~ "#webpage" | tojson }},
+          "@id": {{ (page_url ~ "#webpage") | tojson }},
           "name": {{ title | striptags | tojson }},
           "url": {{ page_url | tojson }},
-          "dateModified": "{{ last_updated | tojson }}",
+          "dateModified": {{ last_updated | tojson }},
           "isPartOf": { "@id": "{{ base }}#website" },
           "publisher": { "@id": "{{ base }}#org-ua-libraries" }
         }
