@@ -43,7 +43,7 @@ launch_buttons:
 sphinx:
   extra_extensions:
     - sphinx_sitemap
-    - sphinx-last-updated-by-git
+    - sphinx_last_updated_by_git
   config:
     templates_path:
       - _templates
