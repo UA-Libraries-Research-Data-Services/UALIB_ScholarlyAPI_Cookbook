@@ -4,7 +4,6 @@
   {{ super() }}
 
   {% set metadata = meta if meta is defined and meta is not none else {} %}
-
   {% set site_name = "University of Alabama Libraries Scholarly API Cookbook" %}
   {% set base = (html_baseurl or "https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/") %}
   {% set page_url = base ~ pagename ~ ('' if pagename.endswith('.html') else '.html') %}
@@ -14,7 +13,6 @@
   {% set page_desc = metadata.get("description") %}
   {% set desc = page_desc or site_desc %}
 
-  {# Allow per-page overrides for social #}
   {% set og_title = metadata.get("og:title") or (title|striptags) %}
   {% set og_type  = metadata.get("og:type") or "website" %}
 
