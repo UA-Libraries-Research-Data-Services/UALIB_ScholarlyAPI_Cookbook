@@ -94,7 +94,7 @@
           "@type": "WebPage",
           "@id": {{ page_url ~ "#webpage" | tojson }},
           "name": {{ title | striptags | tojson }},
-          "url": {{ page_url | to_json }},
+          "url": {{ page_url | tojson }},
           "dateModified": "{{ last_updated | tojson }}",
           "isPartOf": { "@id": "{{ base }}#website" },
           "publisher": { "@id": "{{ base }}#org-ua-libraries" }
