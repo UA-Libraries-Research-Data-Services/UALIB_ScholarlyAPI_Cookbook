@@ -3,22 +3,55 @@
 {%- block extrahead %}
   {{ super() }}
 
+  {% set site_name = "Scholarly API Cookbook" %}
+  {% set base = (html_baseurl or "https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/") %}
+  {% set page_url = base ~ pagename ~ ('' if pagename.endswith('.html') else '.html') %}
+
+  {# Prefer page description; fallback to a global site description #}
+  {% set site_desc = "Practical tutorials and examples for working with scholarly APIs, research metadata, and reproducible data workflows using Python and R." %}
+  {% set page_desc = meta.get("description") if meta is defined else None %}
+  {% set desc = page_desc or site_desc %}
+
+  {# Allow per-page overrides for social #}
+  {% set og_title = (meta.get("og:title") if meta is defined else None) or (title|striptags) %}
+  {% set og_type  = (meta.get("og:type")  if meta is defined else None) or "website" %}
+  {% set og_image = (meta.get("og:image") if meta is defined else None) %}
+
+  {% set tw_card  = (meta.get("twitter:card") if meta is defined else None) or "summary" %}
+  {% set tw_image = (meta.get("twitter:image") if meta is defined else None) or og_image %}
+
+  <!-- Canonical Link -->
+  <link rel="canonical" href="{{ page_url }}" />
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="{{ site_name }}" />
+  <meta property="og:title" content="{{ og_title }}" />
+  <meta property="og:description" content="{{ desc }}" />
+  <meta property="og:type" content="{{ og_type }}" />
+  <meta property="og:url" content="{{ page_url }}" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="{{ tw_card }}" />
+  <meta name="twitter:title" content="{{ og_title }}" />
+  <meta name="twitter:description" content="{{ desc }}" />
+
+  <!-- LD+JSON -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
           "@type": "Organization",
-          "@id": "{{ html_baseurl }}#org-ua",
+          "@id": "{{ base }}#org-ua",
           "name": "The University of Alabama",
-          "alternateName": ["UA"],
+          "alternateName": ["UA", "Bama"],
           "url": "https://www.ua.edu/",
           "sameAs": [
             "https://en.wikipedia.org/wiki/University_of_Alabama"
-          ]
+          ],
           "subOrganization": {
             "@type": "Organization",
-            "@id": "{{ html_baseurl }}#org-ua-libraries",
+            "@id": "{{ base }}#org-ua-libraries",
             "name": "The University of Alabama Libraries",
             "alternateName": [
               "UA Libraries",
@@ -30,14 +63,14 @@
             "subOrganization": [
               {
                 "@type": "Organization",
-                "@id": "{{ html_baseurl }}#org-rds",
+                "@id": "{{ base }}#org-rds",
                 "name": "Research Data Services",
                 "alternateName": ["RDS"],
                 "url": "https://guides.lib.ua.edu/rds/"
               },
               {
                 "@type": "Organization",
-                "@id": "{{ html_baseurl }}#org-rcs",
+                "@id": "{{ base }}#org-rcs",
                 "name": "Research Computing Services",
                 "alternateName": ["RCS"],
                 "url": "https://guides.lib.ua.edu/RCS/"
@@ -47,24 +80,33 @@
         },
         {
           "@type": "WebSite",
-          "@id": "{{ html_baseurl }}#website",
+          "@id": "{{ base }}#website",
           "name": "University of Alabama Libraries Scholarly API Cookbook",
-          "url": "{{ html_baseurl }}",
+          "alternateName": [
+            "UA Libraries Scholarly API Cookbook",
+            "University Libraries Scholarly API Cookbook",
+            "UALIB Scholarly API Cookbook",
+            "Scholarly API Cookbook",
+            "Scholarly API Guide"
+          ],
+          "description": "{{ site_desc }}",
+          "url": "{{ base }}",
           "publisher": {
-            "@id": "{{ html_baseurl }}#org-ua-libraries"
+            "@id": "{{ base }}#org-ua-libraries"
           },
           "logo": {
             "@type": "ImageObject",
-            "url": "{{ html_baseurl }}images/script-a-icon.png"
+            "url": "{{ base }}images/script-a-icon.png"
           }
         },
         {
           "@type": "WebPage",
-          "@id": {{ (html_baseurl ~ pathto(pagename, 1) ~ "#webpage") | tojson }},
+          "@id": {{ page_url ~ "#webpage" | tojson }},
           "name": {{ title | striptags | tojson }},
-          "url": {{ (html_baseurl ~ pathto(pagename, 1)) | tojson }},
-          "isPartOf": { "@id": "{{html_baseurl}}#website" },
-          "publisher": { "@id": "{{html_baseurl}}#org-ua-libraries" }
+          "url": {{ page_url | to_json }},
+          "dateModified": "{{ last_updated | tojson }}",
+          "isPartOf": { "@id": "{{ base }}#website" },
+          "publisher": { "@id": "{{ base }}#org-ua-libraries" }
         }
       ]
     }

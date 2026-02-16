@@ -41,7 +41,13 @@ launch_buttons:
   jupyterhub_url: ""
 
 sphinx:
+  extra_extensions:
+    - sphinx_sitemap
+    - sphinx-last-updated-by-git
   config:
     templates_path:
       - _templates
     html_baseurl: https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/
+    html_context:
+      html_baseurl: https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/
+    sitemap_url_scheme: "{link}"
