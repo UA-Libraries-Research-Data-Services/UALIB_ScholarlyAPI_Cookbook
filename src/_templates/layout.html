@@ -3,22 +3,18 @@
 {%- block extrahead %}
   {{ super() }}
 
-  {% set site_name = "Scholarly API Cookbook" %}
+  {% set site_name = "University of Alabama Libraries Scholarly API Cookbook" %}
   {% set base = (html_baseurl or "https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/") %}
   {% set page_url = base ~ pagename ~ ('' if pagename.endswith('.html') else '.html') %}
 
   {# Prefer page description; fallback to a global site description #}
-  {% set site_desc = "Practical tutorials and examples for working with scholarly APIs, research metadata, and reproducible data workflows using Python and R." %}
+  {% set site_desc = "Example tutorials for working with scholarly APIs for academic scholarly research and teaching using Python and R." %}
   {% set page_desc = meta.get("description") if meta is defined else None %}
   {% set desc = page_desc or site_desc %}
 
   {# Allow per-page overrides for social #}
   {% set og_title = (meta.get("og:title") if meta is defined else None) or (title|striptags) %}
   {% set og_type  = (meta.get("og:type")  if meta is defined else None) or "website" %}
-  {% set og_image = (meta.get("og:image") if meta is defined else None) %}
-
-  {% set tw_card  = (meta.get("twitter:card") if meta is defined else None) or "summary" %}
-  {% set tw_image = (meta.get("twitter:image") if meta is defined else None) or og_image %}
 
   <!-- Canonical Link -->
   <link rel="canonical" href="{{ page_url }}" />
@@ -29,11 +25,6 @@
   <meta property="og:description" content="{{ desc }}" />
   <meta property="og:type" content="{{ og_type }}" />
   <meta property="og:url" content="{{ page_url }}" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="{{ tw_card }}" />
-  <meta name="twitter:title" content="{{ og_title }}" />
-  <meta name="twitter:description" content="{{ desc }}" />
 
   <!-- LD+JSON -->
   <script type="application/ld+json">

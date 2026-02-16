@@ -1,3 +1,7 @@
+.. meta::
+   :title: Scholarly API Cookbook Introduction
+   :og:type: article
+
 Introduction
 %%%%%%%%%%%%%%
 
