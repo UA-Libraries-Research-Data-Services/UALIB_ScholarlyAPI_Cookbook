@@ -1,5 +1,7 @@
 # University of Alabama Libraries Scholarly API Cookbook
 
+[![DOI](https://img.shields.io/badge/Cite-Scholarly_API_Cookbook-crimson)](https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/about/license-reuse.html)
+
 > [!IMPORTANT]
 > Please check the individual scholarly API documentation for current information on API usage and policies.
 >
