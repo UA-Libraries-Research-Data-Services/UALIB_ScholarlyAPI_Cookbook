@@ -1,5 +1,7 @@
 # University of Alabama Libraries Scholarly API Cookbook
 
+[![DOI](https://img.shields.io/badge/Cite-Scholarly_API_Cookbook-crimson)](https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/about/license-reuse.html)
+
 > [!IMPORTANT]
 > Please check the individual scholarly API documentation for current information on API usage and policies.
 >
@@ -13,7 +15,7 @@ The University of Alabama Libraries Scholarly API Cookbook is an open online boo
 
 Most of the code in this repository is licensed under the [MIT License](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE).
 
-The Python scripts in this repository are licensed under the MIT License. However, these scripts may rely on external libraries such as matplotlib, pandas, and others. These libraries are licensed under their own respective terms, and will need to be installed separately. Refer to the documentation of each library for installation instructions and licensing details.
+The Python scripts in this repository are licensed under the MIT License. However, these scripts may rely on external libraries such as matplotlib, pandas, and others. These libraries are licensed under their own respective terms and need to be installed separately. Refer to the documentation of each library for installation instructions and licensing details.
 
 The Bash tutorials are licensed under the MIT License (Bash itself is licensed under the GNU General Public License). Some of the included scripts may rely on external tools such as curl, jq, YAZ, and gnuplot, each of which is licensed under its own terms. Users must obtain and install these tools separately. Refer to the documentation of each tool for installation instructions and licensing details.
 
@@ -52,7 +54,7 @@ We have decided to no longer maintain the Matlab, Mathematica, Bash (except the 
 
 The code in the UA Libraries Scholarly API Cookbook Archive is licensed under the [MIT License](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive/blob/main/LICENSE). This includes code written to be used with Wolfram Mathematica and MathWorks MATLAB. However, these proprietary software packages themselves are not covered under the MIT License, and users must have valid licenses for Mathematica and MATLAB to run the associated code.
 
-The Python scripts in this repository are licensed under the MIT License. However, these scripts may rely on external libraries such as matplotlib, pandas, and others. These libraries are licensed under their own respective terms, and will need to be installed separately. Refer to the documentation of each library for installation instructions and licensing details.
+The Python scripts in this repository are licensed under the MIT License. However, these scripts may rely on external libraries such as matplotlib, pandas, and others. These libraries are licensed under their own respective terms and need to be installed separately. Refer to the documentation of each library for installation instructions and licensing details.
 
 The Bash tutorials are licensed under the MIT License (Bash itself is licensed under the GNU General Public License). Some of the included scripts may rely on external tools such as curl, jq, and gnuplot, each of which is licensed under its own terms. Users must obtain and install these tools separately. Refer to the documentation of each tool for installation instructions and licensing details.
 
