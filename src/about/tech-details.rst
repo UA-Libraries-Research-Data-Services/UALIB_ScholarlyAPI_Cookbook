@@ -12,5 +12,5 @@ Technology and Software Used
 
 .. _Jupyter Notebooks: https://jupyter.org/
 .. _reStructuredText: https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html
-.. _Jupyter Book: https://jupyterbook.org/intro.html
+.. _Jupyter Book: https://jupyterbook.org/
 .. _GitHub Actions: https://docs.github.com/en/actions
