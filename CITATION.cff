@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use the UA Libraries Scholarly API Cookbook, please cite the associated peer-reviewed article."
+title: "UA Libraries Scholarly API Cookbook"
+type: software
+preferred-citation:
+  type: article
+  title: "Creating a Scholarly API Cookbook: Supporting Library Users with Programmatic Access to Information"
+  journal: "Issues in Science and Technology Librarianship"
+  year: 2023
+  issue: 104
+  doi: "10.29173/istl2766"
+  url: "https://journals.library.ualberta.ca/istl/index.php/istl/article/view/2766"
+  authors:
+    - family-names: Scalfani
+      given-names: Vincent F.
+    - family-names: Walker
+      given-names: Kevin W.
+    - family-names: Simpson
+      given-names: Lance
+    - family-names: Fernandez
+      given-names: Avery M.
+    - family-names: Patel
+      given-names: Vishank D.
+    - family-names: Ramig
+      given-names: Anastasia
+    - family-names: Gomes
+      given-names: Cyrus
+    - family-names: Moen
+      given-names: Michael T.
+    - family-names: Nguyen
+      given-names: Adam M.
+repository-code: "https://github.com/ua-libraries-research-data-services/UALIB_ScholarlyAPI_Cookbook"
+url: "https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/"
+license: MIT
+license-url: https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE
