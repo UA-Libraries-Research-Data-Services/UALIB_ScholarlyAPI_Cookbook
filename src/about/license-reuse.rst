@@ -42,7 +42,7 @@ Citation: Scalfani, V. F.; Walker, K. W.; Simpson, L.; Fernandez, A. M.; Patel, 
 Scholarly API Cookbook Archive
 ******************************
 
-We have decided to no longer maintain the Matlab, Mathematica, Bash (except the Z39.50 Bash recipe), and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are still in the `UA Libraries Scholarly API Cookbook Archive <https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive>`_.
+We have decided to no longer maintain the MATLAB, Mathematica, Bash (except the Z39.50 Bash recipe), and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are still in the `UA Libraries Scholarly API Cookbook Archive <https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive>`_.
 
 The code in the UA Libraries Scholarly API Cookbook Archive is licensed under the `MIT License <https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive/blob/main/LICENSE>`_. This includes code written to be used with Wolfram Mathematica and MathWorks MATLAB. However, these proprietary software packages themselves are not covered under the MIT License, and users must have valid licenses for Mathematica and MATLAB to run the associated code.
 
