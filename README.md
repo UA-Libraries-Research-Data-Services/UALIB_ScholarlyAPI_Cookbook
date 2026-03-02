@@ -47,4 +47,4 @@ Citation: Scalfani, V. F.; Walker, K. W.; Simpson, L.; Fernandez, A. M.; Patel, 
 
 ## Archived Recipes
 
-As of March 2025, we have decided to no longer maintain the Matlab, Mathematica, Bash (except the Z39.50 Bash recipe), and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are still in the [UA Libraries Scholarly API Cookbook Archive](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive). Please see the archive repo for more information about the licensing of old Cookbook recipes.
+As of March 2025, we have decided to no longer maintain the MATLAB, Mathematica, Bash (except the Z39.50 Bash recipe), and C recipes and have removed them from the Scholarly API Cookbook. These archived recipes are still in the [UA Libraries Scholarly API Cookbook Archive](https://github.com/UA-Libraries-Research-Data-Services/Scholarly_API_Cookbook_Archive). Please see the archive repo for more information about the licensing of old Cookbook recipes.
