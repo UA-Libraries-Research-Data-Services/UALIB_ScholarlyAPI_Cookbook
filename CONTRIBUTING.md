@@ -22,9 +22,8 @@ We review issues regularly and will respond as soon as possible.
 If you would like to see support for a specific scholarly API, please open a GitHub issue describing:
 
 - The name of the API
-- A link to its official documentation
+- A link to its official documentation and terms
 - Why it would be useful for research or teaching
-- Whether the API is open access or requires institutional credentials
 
 ### Submitting Code Contributions
 
@@ -32,10 +31,10 @@ Before submitting a pull request, please open an issue to discuss proposed chang
 
 For tutorial contributions:
 
-- Follow existing Python or R tutorial structure and formatting, particularly as it relates to licensing, external packages, and API authentication.
+- Follow existing Python or R tutorial structure and formatting, particularly as it relates to documenting licensing, external packages, and API authentication details.
 - Ensure all code runs without errors.
 - Include clear explanations and comments.
-- Avoid hard-coded credentials or private API keys.
+- Do not hard code credentials or private API keys.
 
 All contributions are reviewed for accuracy, clarity, reproducibility, and consistency with project standards.
 
@@ -52,8 +51,6 @@ The Scholarly API Cookbook is built using the following tools:
 - Narrative content is written in [reStructuredText](https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html).
 - The site is compiled using [Jupyter Book](https://jupyterbook.org/).
 - An automated GitHub workflow builds the site and deploys it using [GitHub Actions](https://docs.github.com/en/actions).
-
-Contributors should ensure that all notebooks and Markdown files build successfully before submitting changes.
 
 ## Questions
 
