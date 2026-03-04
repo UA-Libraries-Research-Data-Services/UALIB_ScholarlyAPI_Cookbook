@@ -274,8 +274,10 @@ parts:
       - file: r/usa-spending
         title: "...in R"
 
+
   - caption: ABOUT
     chapters:
-    - file: about/contributing
+    - file: about/history
+    - file: about/cite
+    - file: about/contributing  # Note: This page redirects to CONTRIBUTING.md
     - file: about/license-reuse
-    - file: about/tech-details

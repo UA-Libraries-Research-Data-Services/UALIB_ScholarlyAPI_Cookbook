@@ -5,8 +5,9 @@ What is this?
 *************
 
 This is an open online book containing short scholarly API code examples (i.e., "recipes") 
-that demonstrate how to work with various scholarly web service APIs. It is part of the University of
-Alabama Libraries efforts to support `Research Data Services`_.
+that demonstrate how to work with various scholarly web service APIs. It is part of the
+University of Alabama Libraries `Research Data Services`_ efforts to support data-intensive
+academic research and teaching.
 
 .. _Research Data Services: https://guides.lib.ua.edu/ResearchDataServices
 
@@ -35,8 +36,8 @@ What should I be aware of before getting started?
 
    In general, scholarly APIs are designed for the collection of small to medium
    sized datasets; that is, in the range of 100s or maybe a few thousand queries at most
-   (various with API). If you need large bulk datasets, an API is likely not the method to use, and
-   there may be bulk data downloads available from the database instead.
+   (various with API). If you need large bulk datasets, an API is likely not the method to use,
+   and there may be bulk data downloads available from the database instead.
 
 If you decide that your use-case is appropriate for a scholarly API (or similar web service), here are a few good general practices
 to follow when working with any web API:
@@ -95,5 +96,3 @@ tutorial or document page.
 .. rubric:: References
 
 .. [#ua_work] `<https://github.com/UA-Libraries-Research-Data-Services/UALIB_Workshops>`_
-
-

@@ -20,6 +20,7 @@ Please see the following resources for more information on API usage:
     - <a href="https://dev.elsevier.com/sd_api_spec.html" target="_blank">ScienceDirect API Documentation</a>
 - Terms
     - <a href="https://dev.elsevier.com/api_key_settings.html" target="_blank">ScienceDirect API Terms of Use</a>
+    - <a href="https://www.elsevier.com/about/open-science/research-data/text-and-data-mining" target="_blank">Elsevier Text and Data Mining</a>
 - Data Reuse
     - <a href="https://dev.elsevier.com/tecdoc_text_mining.html" target="_blank">Elsevier Text & Data Mining</a>
 
