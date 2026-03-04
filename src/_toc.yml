@@ -278,5 +278,6 @@ parts:
   - caption: ABOUT
     chapters:
     - file: about/history
+    - file: about/cite
     - file: about/contributing  # Note: This page redirects to CONTRIBUTING.md
     - file: about/license-reuse
