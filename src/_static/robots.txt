@@ -1,8 +1,0 @@
-User-agent: *
-Allow: /
-
-Disallow: /_static/
-Disallow: /_sources/
-Disallow: /_downloads/
-
-Sitemap: https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/sitemap.xml

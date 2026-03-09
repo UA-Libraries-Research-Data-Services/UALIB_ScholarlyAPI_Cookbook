@@ -51,7 +51,3 @@ sphinx:
     html_context:
       html_baseurl: https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/
     sitemap_url_scheme: "{link}"
-    html_static_path:
-      - _static
-    html_extra_path:
-      - "_static/robots.txt"
