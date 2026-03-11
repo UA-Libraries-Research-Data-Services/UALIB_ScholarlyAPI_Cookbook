@@ -12,19 +12,7 @@ The University of Alabama Libraries Scholarly API Cookbook is an open online boo
 
 ## License and Reuse
 
-Most of the code in this repository is licensed under the [MIT License](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE).
-
-The Python scripts in this repository are licensed under the MIT License. However, these scripts may rely on external libraries such as matplotlib, pandas, and others. These libraries are licensed under their own respective terms and need to be installed separately. Refer to the documentation of each library for installation instructions and licensing details.
-
-Most of the R tutorial scripts are MIT licensed, but some are licensed under the [GPL-3 License](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials) because they depend on GPL-licensed R libraries (refer to the documentation of each R library for installation instructions and licensing details). The R tutorials with GPL-3 licenses are indicated at the top of the respective files and organized separately in the `src/r-gpl3/` folder.
-
-Lastly, the Bash tutorials are licensed under the MIT License (Bash itself is licensed under the GNU General Public License). Some of the included scripts may rely on external tools such as curl, jq, YAZ, and gnuplot, each of which is licensed under its own terms. Users must obtain and install these tools separately. Refer to the documentation of each tool for installation instructions and licensing details.
-
-We have endeavored to follow the appropriate terms and usage policies of each scholarly API, web service, and Z39.50 server. We have linked to the terms and policies where possible. Some database APIs may require a valid library subscription, institutional access, or individual account to use their services. Please be responsible when reusing these scripts and respect the API terms and usage policies (e.g., query limits, record downloads, data sharing restrictions). Data output snippets shown in this book are for demonstration purposes and are credited to the individual API or database service. The output generated from APIs or services remains subject to the terms and conditions of the respective provider. Some outputs (e.g., U.S. Government works) may be in the public domain, while others may require attribution or adherence to other conditions.
-
-If you reuse the code, attribution would be appreciated. Please link to the Cookbook and see the [Cite page](https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/about/cite) for full citation information.
-
-Link to Cookbook: https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook
+Most of the code in this repository is licensed under the [MIT License](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE), but some of the R tutorial scripts are under the [GPL-3 License](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials). Please see the [License and Reuse page](https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/about/license-reuse) for more information about licensing and reuse. We have endeavored to follow the appropriate terms and usage policies of each scholarly API, web service, and Z39.50 server. We have linked to the terms and policies where possible. If you reuse the code, attribution would be appreciated. Please link to the Cookbook and see the [Cite page](https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/about/cite) for full citation information.
 
 ## Archived Recipes
 

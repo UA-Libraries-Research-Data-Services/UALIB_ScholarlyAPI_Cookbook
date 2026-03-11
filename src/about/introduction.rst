@@ -58,13 +58,19 @@ While there may be some introductory programming content in this book, the
 content is not meant to be a general introduction to programming. 
 Instead, our aim with the Scholarly API Cookbook is to provide 
 some short scripting based workflows for working with scholarly data and information APIs. 
-For more general introductions to programming, we recommend searching the 
-UA Libraries Scout database for programming books (e.g., `TI python`). 
+For more general introductions to programming, we recommend searching your institution's
+library catalog or discovery service for introductory books on programming
+(e.g., for UA Libraries, try `Scout`_). See also the `UA Libraries Research Computing Services Guide`_.
+
+.. _Scout: https://research.ebsco.com/c/2cdwag/search
+.. _UA Libraries Research Computing Services Guide: https://guides.lib.ua.edu/RCS/generalprogramming
 
 .. seealso::
 
-   UA Libraries Workshop lessons and references therein for more general 
-   programming content [#ua_work]_.
+   UA Libraries teaches a variety of computing related workshops, including introductions to 
+   general programming. See our `workshop calendar`_ for more information.
+
+.. _workshop calendar: https://ua.libcal.com/
 
 What programming languages are covered?
 ****************************************
@@ -91,8 +97,5 @@ Who is creating the content?
 
 The Scholarly API Cookbook content is authored by University of Alabama 
 Libraries faculty and student assistants. Specific authors are noted on each 
-tutorial or document page.
-
-.. rubric:: References
-
-.. [#ua_work] `<https://github.com/UA-Libraries-Research-Data-Services/UALIB_Workshops>`_
+tutorial or document page. See the :doc:`History page <history>` for more information 
+on the site's history and contributors.
