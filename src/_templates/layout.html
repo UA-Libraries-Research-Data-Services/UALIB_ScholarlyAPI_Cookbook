@@ -4,8 +4,7 @@
   {% set site_name = "University of Alabama Libraries Scholarly API Cookbook" %}
   {% set base = (html_baseurl or "https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/") %}
   {% set page_url = base ~ pagename ~ ('' if pagename.endswith('.html') else '.html') %}
-  <!-- Canonical Link and Sitemap -->
-  <link rel="canonical" href="{{ page_url }}" />
+  <!-- Sitemap -->
   <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ base }}sitemap.xml">
   {% set og_title = title|striptags %}
   {% set site_desc = "Example tutorials for working with scholarly APIs for academic research and teaching using Python and R." %}
