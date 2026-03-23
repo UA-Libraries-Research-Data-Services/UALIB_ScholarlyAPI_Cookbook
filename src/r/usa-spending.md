@@ -1,281 +1,442 @@
 ---
-title: \...in R
+title: "USAspending API in R"
 output: 
   html_document:
     keep_md: true
 ---
 
-# USAspending API in R
 
-by Adam M. Nguyen
+
+# USAspending API in Python
+
+by Adam M. Nguyen and Michael T. Moen
 
 Please see the following resources for more information on API usage:
 
-### Documentation
-- [USAspending Website](https://www.usaspending.gov/)
-- [USAspending Documentation](https://api.usaspending.gov/)
-- [USAspending API](https://github.com/fedspendingtransparency/usaspending-api)
+- Documentation
+    - <a href="https://www.usaspending.gov/" target="_blank">USAspending Website</a>
+    - <a href="https://api.usaspending.gov/" target="_blank">USAspending Documentation</a>
+- Terms
+    - <a href="https://github.com/fedspendingtransparency/usaspending-api?tab=CC0-1.0-1-ov-file" target="_blank">USAspending API License</a>: <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en" target="_blank">CC0 1.0 Univeral</a>
+- Data Reuse
+    - <a href="https://www.usaspending.gov/about#about-licensing" target="_blank">USAspending Data Reuse</a>
 
-### Data Reuse
-- [USAspending Data Reuse](https://www.usaspending.gov/about#about-licensing)
-
-
-These recipe examples were tested on December 1, 2023.
-
+*These recipe examples were tested on March 23, 2026.*
 
 ## Setup
 
-Run the following lines of code to load the libraries `httr` and `jsonlite`. If you have not done so already, additionally, before the `library()` functions, run `install.packages(c("httr","jsonlite"))`.
+The following packages need to be installed into your environment to run the code examples in this tutorial. These packages can be installed with `install.packages()`.
 
-```r
+- <a href="https://cran.r-project.org/web/packages/httr/index.html" target="_blank">httr: Tools for Working with URLs and HTTP</a>
+- <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" target="_blank">jsonlite: A Simple and Robust JSON Parser and Generator for R</a>
+
+We load the libraries used in this tutorial below:
+
+
+``` r
 library(httr)
 library(jsonlite)
 ```
-## 1. Get Agency Names and Toptier Codes  
 
-To obtain data from the API, it'll be useful to have an object we can reference agency names and their toptier codes, the latter of which will be used to access subagency data.
+## 1. Get Agency Names and Toptier Codes
 
-```r
-# Set base url for API
-base_url <- 'https://api.usaspending.gov'
+To obtain data from the API, it is useful to first build a dictionary containing agency names and toptier codes, the latter of which will be used to access subagency data. The toptier codes serve as unique identifiers for each agency, so they are needed for accessing some of the data in the API.
 
-# Define URL to obtain agency names and codes
-toptier_agencies_url <- paste0(base_url,'/api/v2/references/toptier_agencies/')
 
-# Query API using prepared URL and grab the results
-toptier_data <- fromJSON(rawToChar(GET(toptier_agencies_url)$content))$results
+``` r
+BASE_URL <- "https://api.usaspending.gov/api/v2/"
+toptier_agencies_endpoint <- "references/toptier_agencies/"
 
-# Let's check the first entry
-head(toptier_data, n=1)
+# Request data from the API
+toptier_response <- GET(paste0(BASE_URL, toptier_agencies_endpoint))
+
+# Response code of 200 indicates success
+toptier_response$status_code
 ```
 
 ```
-##   agency_id toptier_code abbreviation  agency_name
-## 1      1146          310         USAB Access Board
-##   congressional_justification_url active_fy active_fq outlay_amount
-## 1 https://www.access-board.gov/cj      2023         4       9232761
-##   obligated_amount budget_authority_amount
-## 1          8863661                11366459
+## [1] 200
+```
+
+
+``` r
+# Extract data from response
+toptier_df <- fromJSON(rawToChar(toptier_response$content))$results
+
+# Print number of agencies
+nrow(toptier_df)
+```
+
+```
+## [1] 111
+```
+
+
+``` r
+# Display the data for the first 5 results
+head(toptier_df, n = 5)
+```
+
+```
+##   agency_id toptier_code abbreviation
+## 1      1525          247         AAHC
+## 2      1146          310         USAB
+## 3      1136          302         ACUS
+## 4      1144          306         ACHP
+## 5      1527          166        USADF
+##                                        agency_name
+## 1 400 Years of African-American History Commission
+## 2                                     Access Board
+## 3            Administrative Conference of the U.S.
+## 4        Advisory Council on Historic Preservation
+## 5                   African Development Foundation
+##                                                                           congressional_justification_url
+## 1                                                                                                    <NA>
+## 2                                                                         https://www.access-board.gov/cj
+## 3                                                                                 https://www.acus.gov/cj
+## 4 https://www.achp.gov/sites/default/files/2021-06/ACHP%202022%20Budget%20Justification-final-5-10-21.pdf
+## 5                                                                                https://www.usadf.gov/cj
+##   active_fy active_fq outlay_amount obligated_amount budget_authority_amount
+## 1      2026         2             0                0                       0
+## 2      2026         2       2937972          2177662                 6834308
+## 3      2026         2       1017478          1050524                 1215211
+## 4      2026         2       2573530          4160479                17256104
+## 5      2026         2       3159752          2599974                35589405
 ##   current_total_budget_authority_amount percentage_of_total_budget_authority
-## 1                          1.188986e+13                         9.559789e-07
-##    agency_slug
-## 1 access-board
+## 1                          1.328608e+13                         0.000000e+00
+## 2                          1.328608e+13                         5.143962e-07
+## 3                          1.328608e+13                         9.146500e-08
+## 4                          1.328608e+13                         1.298811e-06
+## 5                          1.328608e+13                         2.678699e-06
+##                                        agency_slug
+## 1 400-years-of-african-american-history-commission
+## 2                                     access-board
+## 3              administrative-conference-of-the-us
+## 4        advisory-council-on-historic-preservation
+## 5                   african-development-foundation
 ```
 
-```r
-# Show total number agencies in data
-nrow(toptier_data)
-```
+Now we can create a mapping containing the agency names as keys and the toptier codes as the data.
 
-```
-## [1] 108
-```
-Now we can create a reference for agencies and their toptier codes, we call 'toptier_codes'.
 
-```r
-toptier_codes <- toptier_data[c("agency_name", "toptier_code")]
+``` r
+toptier_codes <- setNames(toptier_df$toptier_code, toptier_df$agency_name)
+
 # Let's see the first 10 agencies and their toptier codes
-head(toptier_codes,n=10)
+head(toptier_codes, n = 10)
 ```
 
 ```
-##                                                           agency_name
-## 1                                                        Access Board
-## 2                               Administrative Conference of the U.S.
-## 3                           Advisory Council on Historic Preservation
-## 4                                      African Development Foundation
-## 5                                Agency for International Development
-## 6                                American Battle Monuments Commission
-## 7                                     Appalachian Regional Commission
-## 8                                        Armed Forces Retirement Home
-## 9  Barry Goldwater Scholarship and Excellence In Education Foundation
-## 10       Commission for the Preservation of America's Heritage Abroad
-##    toptier_code
-## 1           310
-## 2           302
-## 3           306
-## 4           166
-## 5           072
-## 6           074
-## 7           309
-## 8           084
-## 9           313
-## 10          321
+##                   400 Years of African-American History Commission 
+##                                                              "247" 
+##                                                       Access Board 
+##                                                              "310" 
+##                              Administrative Conference of the U.S. 
+##                                                              "302" 
+##                          Advisory Council on Historic Preservation 
+##                                                              "306" 
+##                                     African Development Foundation 
+##                                                              "166" 
+##                               Agency for International Development 
+##                                                              "072" 
+##                               American Battle Monuments Commission 
+##                                                              "074" 
+##                                    Appalachian Regional Commission 
+##                                                              "309" 
+##                                       Armed Forces Retirement Home 
+##                                                              "084" 
+## Barry Goldwater Scholarship and Excellence In Education Foundation 
+##                                                              "313"
 ```
-Finally, let's test the data frame, 'toptier_codes', by obtaining the toptier code of an agency.
+
+Finally, let's print the toptier code for a particular agency using the `toptier_codes` mapping. This will be useful when building URLs to view other data from the API.
 
 
-```r
+``` r
 # Look up toptier code of specific agency, in this case Department of Transportation
-toptier_codes$toptier_code[toptier_codes$agency_name == "Department of Transportation"]
+toptier_codes["Department of Transportation"]
 ```
 
 ```
-## [1] "069"
+## Department of Transportation 
+##                        "069"
 ```
-With these codes we can access subagency data.
-
 
 ## 2. Retrieving Data from Subagencies
 
-The 'toptier_codes' data frame we created contains every agency name in the USAspending API. For this example we'll look at the total obligations of each subagency of the Department of Defense.
+The `toptier_codes` mapping we created above contains every agency name in the API. For this example, we'll look at the total obligations of each subagency of the Department of Defense.
 
 
-```r
-# Designate Desired Agency
-desired_agency_name <- 'Department of Defense'
+``` r
+# Specify agency name
+agency_name <- 'Department of Defense'
 
-# Find toptier code
-desired_toptier_code <- toptier_codes$toptier_code[toptier_codes$agency_name == desired_agency_name]
+# Assemble URL and send API request
+dod_url <- paste0(BASE_URL, "agency/", toptier_codes[agency_name], "/sub_agency/")
+params <- list(
+  fiscal_year = 2024
+)
+dod_response <- GET(dod_url, query = params)
 
-# Create URL to Query
-subagency_url <- paste0(base_url, '/api/v2/agency/', desired_toptier_code, '/sub_agency/?fiscal_year=2023')
-
-# Query API and grab Results
-subagency_data <- fromJSON(rawToChar(GET(subagency_url)$content))$results
+# Status code 200 indicates success
+dod_response$status_code
 ```
-### Visualization: Pie Chart
-Let's try making a pie chart to visualize our data. Additionally, we will group the last four sub agencies to relieve clutter. 
+
+```
+## [1] 200
+```
 
 
-```r
-# Select Categories we'd like to collect into 'Other'
-last_four_rows <- tail(subagency_data, 4)
+``` r
+# Extract data from HTTP response
+dod_df <- fromJSON(rawToChar(dod_response$content))$results
 
-# R is funny so we create a "better" as numeric function
-as_numeric_with_na <- function(x) {
-  as.numeric(as.character(x))
+# Drop children column of data frame for display
+dod_df <- dod_df[, names(dod_df) != "children"]
+
+# Display the first 6 responses
+head(dod_df)
+```
+
+```
+##   abbreviation                        name total_obligations transaction_count
+## 1          USN      Department of the Navy      135984528084            227615
+## 2          USA      Department of the Army      108188048621            158007
+## 3         USAF Department of the Air Force      101536586326            115687
+## 4          DLA    Defense Logistics Agency       53148863110           3815438
+## 5          DHA       Defense Health Agency       20196091028             15496
+## 6          MDA      Missile Defense Agency        8463883396              3837
+##   new_award_count
+## 1           78953
+## 2           53065
+## 3           37597
+## 4         3639087
+## 5            4299
+## 6             356
+```
+
+We'll represent our data using a pie chart. To make the data easier to read, we can create an "Other" category for smaller subagencies.
+
+
+``` r
+obligations <- dod_df$total_obligations
+names(obligations) <- dod_df$name
+
+total_obligations <- sum(obligations)
+
+threshold <- 0.015
+small <- obligations < threshold * total_obligations
+
+if (sum(small) > 1) {
+  obligations <- c(obligations[!small], Other = sum(obligations[small]))
 }
 
-# Convert last four rows to numeric
-last_four_rows[, -1] <- lapply(last_four_rows[, -1], as_numeric_with_na)
+par(mar = c(5, 4, 4, 8))
 
-# Sum last four rows
-summed_values <- colSums(last_four_rows[, -1], na.rm = TRUE)
+pie(
+  obligations,
+  # Format data labels to billions of dollars
+  labels = paste0("$", formatC(obligations / 1e9, format = "f", digits = 2), "B"),
+  col = rainbow(length(obligations)),
+  main = paste("Subagency Obligations of the", agency_name)
+)
 
-# Collect summed values into "other_row"
-other_row <- c("other", as.character(summed_values))
-
-# Remove last four rows
-subagency_data_removed <- head(subagency_data, -4)
-
-# Attach new "other_row" and rename it to 'Other'
-subagency_data_other <- rbind(subagency_data_removed,other_row)
-subagency_data_other$name[7] <- 'Other'
-
-# Make more fancy Colors
-custom_colors <- rainbow(length(subagency_data_other$total_obligations))
-
-# Make new and improved pie chart
-pie(as.numeric(subagency_data_other$total_obligations), labels = paste0(subagency_data_other$abbreviation," (",round(100*as.numeric(subagency_data_other$total_obligations)/sum(as.numeric(subagency_data_other$total_obligations)),digits = 3),"%)"), main = "Subagency Obligations of the Department of Defense", col = custom_colors)
-
-# Make new and improved legend
-legend("topright", legend = subagency_data_other$abbreviation, fill = custom_colors)
+legend(
+  "bottomright",
+  inset = c(-0.25, -0.25),
+  xpd = TRUE,
+  legend = names(obligations),
+  fill = rainbow(length(obligations)),
+  cex = 0.8
+)
 ```
 
-![](USA_Spending_R_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](_figures/usa-spending/subagency-obligations-1.png)<!-- -->
+
+## 3. Accessing Fiscal Data Per Year
+
+We can use the API to examine the annual budget of an agency from 2017 onward.
 
 
-## 3. Acessing Fiscal Data Per Year
+``` r
+# Specify agency name
+agency_name <- "Department of Health and Human Services"
 
-Using the USAspending API, we can also examine the annual budget of an agency 2017 and onward.
+# Assemble URL and send API request
+hhs_url <- paste0(BASE_URL, "agency/", toptier_codes[agency_name], "/budgetary_resources/")
+hhs_response <- GET(hhs_url)
 
-```r
-# Specify Agency
-desired_agency_name <- "Department of Health and Human Services"
-
-# Store toptier code of specified agency using 'toptier_codes' df
-desired_toptier_code <- toptier_codes$toptier_code[toptier_codes$agency_name == desired_agency_name]
-
-# Create URL for accessing budgetary resources of specified agency
-budgetary_resources_url <- paste0(base_url,'/api/v2/agency/',desired_toptier_code,'/budgetary_resources/')
-
-# Query API
-budgetary_resources_data <- fromJSON(rawToChar(GET(budgetary_resources_url)$content))$agency_data_by_year
-
-# Format Collected data into a dataframe containing the Fiscal Year and Total Obligated
-budget_by_year <- as.data.frame(cbind('Year'=tail(budgetary_resources_data, n=6)$fiscal_year,'Total_Obligated'=tail(budgetary_resources_data, n=6)$agency_total_obligated)) # We use the tail function to select only the last 6 years in the dataframe, because 2023 does not contain the entire annual budget as of the time of writing
+# Status code 200 indicates success
+hhs_response$status_code
 ```
 
-We can now use ggplot2 to create a bar chart for the collected budgetary data.
-
-
-```r
-# Load ggplot2 library
-library(ggplot2)
-
-# Create Barplot of Total Budgetary Resources by Fiscal Year
-p <- ggplot(data = budget_by_year, aes(x = Year, y = Total_Obligated))
-p + geom_bar(stat = "identity", fill = "plum") +
-  labs(title = "Department of Health and Human Services Budgetary Resources", x = "Fiscal Year", y = "Total Budgetary Resources") +
-  theme_minimal()
+```
+## [1] 200
 ```
 
-![](USA_Spending_R_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
-## 4. Breaking Down Budget Categories
+``` r
+# Extract data into a data frame
+hhs_df <- fromJSON(rawToChar(hhs_response$content))$agency_data_by_year
 
-The API can also be used to view the spending breakdown of a specific agency
+# Drop agency_obligation_by_period column for display purpose
+hhs_df <- hhs_df[, names(hhs_df) != "agency_obligation_by_period"]
 
-```r
-# Specify Agency
-desired_agency_name <- "Department of the Interior"
+# Print the first few rows of the data frame
+head(hhs_df, n = 5)
+```
 
-# Store toptier code of specified agency
-desired_toptier_code <- toptier_codes$toptier_code[toptier_codes$agency_name == desired_agency_name]
+```
+##   fiscal_year agency_budgetary_resources agency_total_obligated
+## 1        2026               2.604643e+12           1.188028e+12
+## 2        2025               3.129725e+12           2.794350e+12
+## 3        2024               2.864471e+12           2.518648e+12
+## 4        2023               2.841385e+12           2.475674e+12
+## 5        2022               2.735931e+12           2.452970e+12
+##   agency_total_outlayed total_budgetary_resources
+## 1          1.000654e+12              1.328608e+13
+## 2          2.722170e+12              1.326370e+13
+## 3          2.474861e+12              1.224855e+13
+## 4          2.423435e+12              1.188986e+13
+## 5          2.386741e+12              1.140981e+13
+```
 
-# Store URL to view agency's spending breakdown
-obligations_by_category_url <- paste0(base_url,"/api/v2/agency/",desired_toptier_code, "/obligations_by_award_category/?fiscal_year=2023")
 
-# Query API
-obligations_by_category_data <- fromJSON(rawToChar(GET(obligations_by_category_url)$content))
+``` r
+# Drop the most recent year, since the data is not complete
+hhs_df <- hhs_df[hhs_df$fiscal_year != max(hhs_df$fiscal_year), ]
+head(hhs_df, n = 5)
+```
 
-# Select the total aggregated obligations for this particular agency
-total_aggregated_amount <- obligations_by_category_data$total_aggregated_amount
+```
+##   fiscal_year agency_budgetary_resources agency_total_obligated
+## 2        2025               3.129725e+12           2.794350e+12
+## 3        2024               2.864471e+12           2.518648e+12
+## 4        2023               2.841385e+12           2.475674e+12
+## 5        2022               2.735931e+12           2.452970e+12
+## 6        2021               2.660484e+12           2.355524e+12
+##   agency_total_outlayed total_budgetary_resources
+## 2          2.722170e+12              1.326370e+13
+## 3          2.474861e+12              1.224855e+13
+## 4          2.423435e+12              1.188986e+13
+## 5          2.386741e+12              1.140981e+13
+## 6          2.168495e+12              1.221910e+13
+```
 
-# Store results of query
-obligations_by_category_data <- obligations_by_category_data$results
-obligations_by_category_data
+Now, we can create a bar plot of the retrieved data.
+
+
+``` r
+# Extract and name values for plotting
+values <- hhs_df$agency_total_obligated / 1e12
+names(values) <- hhs_df$fiscal_year
+
+# Sort by fiscal year
+values <- values[order(names(values))]
+
+y_breaks <- pretty(c(0, values), n = 6)
+y_lim    <- c(0, max(y_breaks))
+
+barplot(
+  values,
+  xlab = "Fiscal Year",
+  ylab = "Total Obligations (Trillions of $)",
+  main = "Agency Total Obligations for HHS",
+  col = "aquamarine4",
+  border = "white",
+  space = 0,
+  cex.axis = 0.8,
+  cex.names = 0.8,
+  ylim = y_lim
+)
+```
+
+![](_figures/usa-spending/hhs-bar-plot-1.png)<!-- -->
+
+## 4. Breaking Down Award Categories
+
+We can use the API to view the breakdown the spending of a particular agency.
+
+
+``` r
+# Specify agency name
+agency_name <- "Department of the Interior"
+
+# Define parameters and make API request
+doi_url <- paste0(BASE_URL, "agency/", toptier_codes[agency_name],
+                  "/obligations_by_award_category")
+params <- list(
+  fiscal_year = 2023
+)
+doi_response <- GET(doi_url, query = params)
+
+# Status code 200 indicates success
+doi_response$status_code
+```
+
+```
+## [1] 200
+```
+
+
+``` r
+# Extract data from API response
+doi_df <- fromJSON(rawToChar(doi_response$content))$results
+
+# Print results
+doi_df
 ```
 
 ```
 ##          category aggregated_amount
-## 1       contracts        7811857503
-## 2 direct_payments        3311940758
-## 3          grants        7198549492
-## 4            idvs           3580836
+## 1       contracts        7641526477
+## 2 direct_payments        3435334040
+## 3          grants        6893917437
+## 4            idvs           3579836
 ## 5           loans                 0
-## 6           other         335594193
+## 6           other         338985935
 ```
 
-```r
-# Let's  remove the categories where 'aggregated_amount' = 0
-budget_breakdown <-obligations_by_category_data[obligations_by_category_data$aggregated_amount>0,]
-budget_breakdown
+
+``` r
+# Clean data frame values
+doi_df <- doi_df[doi_df$aggregated_amount > 0, ]
+doi_df
 ```
 
 ```
 ##          category aggregated_amount
-## 1       contracts        7811857503
-## 2 direct_payments        3311940758
-## 3          grants        7198549492
-## 4            idvs           3580836
-## 6           other         335594193
-```
-Similar to the previous example, let's create a bar chart to visualize this data.
-
-```r
-# Sort 'budget_breakdown' from greatest to least 'aggregated_amount'
-budget_breakdown_sorted <- budget_breakdown[order(-budget_breakdown$aggregated_amount), ]
-
-# Create bar chart using ggplot2
-ggplot(data = budget_breakdown_sorted, aes(x = reorder(category, -aggregated_amount), y = aggregated_amount)) +
-  geom_bar(stat = "identity", fill = "plum") +
-  labs(title = "Department of the Interior Budget Breakdown",
-       x = "Category",
-       y = "Aggregated Amount (USD)") +
-  theme_minimal() +
-  geom_text(aes(label = paste0(round(aggregated_amount / sum(budget_breakdown_sorted$aggregated_amount) * 100, 1), "%"), vjust = -0.5), size = 3)
+## 1       contracts        7641526477
+## 2 direct_payments        3435334040
+## 3          grants        6893917437
+## 4            idvs           3579836
+## 6           other         338985935
 ```
 
-![](USA_Spending_R_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+
+``` r
+values <- doi_df$aggregated_amount
+names(values) <- doi_df$category
+
+total_aggregated_amount <- sum(values)
+
+par(mar = c(4, 4, 4, 5))
+
+pie(
+  values,
+  # Format data labels to billions of dollars
+  labels = paste0("$", formatC(values / 1e9, format = "f", digits = 2), "B"),
+  col = rainbow(length(values)),
+  main = paste("Award Categories of the", agency_name)
+)
+
+legend(
+  "bottomright",
+  xpd = TRUE,
+  legend = names(values),
+  fill = rainbow(length(values)),
+  cex = 0.8
+)
+```
+
+![](_figures/usa-spending/award-categories-1.png)<!-- -->
