@@ -2,3 +2,6 @@ _build/
 .ipynb_checkpoints/
 .env
 .Renviron
+rmarkdown/_figures*
+rmarkdown/*.md
+rmarkdown/*.html
