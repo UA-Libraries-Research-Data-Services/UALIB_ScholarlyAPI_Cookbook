@@ -1,0 +1,393 @@
+---
+title: "College Scorecard API in R"
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.path = "_figures/college-scorecard/"
+)
+```
+
+# College Scorecard API in R
+
+by Michael T. Moen
+
+The College Scorecard API is an online tool hosted by the U.S. Department of Education that contains data concerning higher education institutions.
+
+Please see the following resources for more information on API usage:
+
+- Documentation
+    - <a href="https://collegescorecard.ed.gov/data/api-documentation/" target="_blank">College Scorecard API Documentation</a>
+- Data Reuse
+    - <a href="https://www.ed.gov/about/ed-overview/required-notices/website-policies/copyright-status-notice-us-department-of-education" target="_blank">College Scorecard Copyright Status</a>
+    - <a href="https://data.gov/privacy-policy/" target="_blank">Data\.gov Privacy Policy</a>
+
+**_NOTE:_** The College Scorecard API limits requests to a maximum of 1000 requests per IP address per hour.
+
+*These recipe examples were tested on March 23, 2026.*
+
+## Setup
+
+### Load Libraries
+
+The following packages need to be installed into your environment to run the code examples in this tutorial. These packages can be installed with `install.packages()`.
+
+- <a href="https://cran.r-project.org/web/packages/httr/index.html" target="_blank">httr: Tools for Working with URLs and HTTP</a>
+- <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" target="_blank">jsonlite: A Simple and Robust JSON Parser and Generator for R</a>
+
+We load the libraries used in this tutorial below:
+
+```{r import-libraries}
+library(httr)
+library(jsonlite)
+```
+
+### Import API Key
+
+An API key is required for to access the College Scorecard API. You can sign up for one at <a href="https://collegescorecard.ed.gov/data/api-documentation#api-access-and-authentication" target="_blank">College Scorecard Website</a>.
+
+We keep our token in a `.Renviron` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.Renviron` should have an entry like the one below.
+
+```text
+COLLEGE_SCORECARD_API_KEY="PUT_YOUR_API_KEY_HERE"
+```
+
+Below, we can test to whether the key was successfully imported.
+
+```{r import-api-key}
+if (nzchar(Sys.getenv("COLLEGE_SCORECARD_API_KEY"))) {
+  print("API key successfully loaded.")
+} else {
+  warning("API key not found or is empty.")
+}
+```
+
+## 1. Get Names of All Institutions
+
+To start, we'll use a basic query to find the names of all educational institutions recognized by the College Scorecard API.
+
+All of the data for the API can be found using the `v1/schools` endpoint.
+
+Fields in the College Scorecard API are accessed with a `<time>.<category>.<name>` sequence:
+- `<time>` indicates the year of the data to be accessed. To access the most recent data, use `latest`.
+- `<category>` and `<name>` can be found in the Data Dictionary file that can be downloaded from the API's documentation. The `<category>` of a field is given by the `dev-category` column in the `Institution_Data_Dictionary` section, and the `<name>` is given by the `developer-friendly name` column.
+
+```{r}
+# Define base URL
+BASE_URL <- "https://api.data.gov/ed/collegescorecard/v1/schools?"
+
+# Define parameters
+params <- list(
+  fields = "school.name",
+  api_key = Sys.getenv("COLLEGE_SCORECARD_API_KEY")
+)
+
+# Perform HTTP GET request
+response <- GET(BASE_URL, query = params)
+
+# Status code 200 indicates success
+response$status_code
+```
+
+```{r}
+names_data <- fromJSON(rawToChar(response$content))
+names_data$metadata
+```
+
+The `total` value indicates the total number results returned in this query. These results are paginated, so each query will return only the number indicated by `page_size`, which has a default value of 20 and a maximum value of 100. The page number is indicated by `page`, which by default is set to 0.
+
+We can use a loop to create an API request for each page:
+
+```{r}
+field <- "school.name"
+sort_key <- "school.name"
+page_size <- 100
+
+total_pages <- ceiling(names_data$metadata$total / page_size)
+institution_names <- c()
+
+for (page_number in 0:(total_pages - 1)) {
+  params <- list(
+    fields = field,
+    page = page_number,
+    per_page = page_size,
+    sort = sort_key,
+    api_key = Sys.getenv("COLLEGE_SCORECARD_API_KEY")
+  )
+  response <- GET(BASE_URL, query = params)
+  name_data <- fromJSON(rawToChar(response$content))$results
+  institution_names <- c(institution_names, name_data$school.name)
+  Sys.sleep(1)
+}
+
+# Print number of institutions returned
+length(institution_names)
+```
+
+```{r}
+# Print first 10 institution names
+institution_names[1:10]
+```
+
+## 2. Get Names of All Universities
+
+College Scorecard API requests can also take conditions to only select certain institutions.
+
+In this example, we limit the results to only include institutions that award graduate degrees. In order to do this, we set the `degrees_awarded.highest` parameter to `4` to indicate that the highest degree awarded by an institution is a graduate degree. This information is within the `Institution_Data_Dictionary` section of the College Scorecard data dictionary.
+
+```{r}
+page_size <- 100
+field <- "school.name"
+sort_key <- "school.name"
+
+params <- list(
+  fields = field,
+  latest.school.degrees_awarded.highest = 4,
+  api_key = Sys.getenv("COLLEGE_SCORECARD_API_KEY")
+)
+
+response <- GET(BASE_URL, query = params)
+names_data <- fromJSON(rawToChar(response$content))
+total_pages <- ceiling(names_data$metadata$total / page_size)
+
+university_names <- c()
+for (page_number in 0:(total_pages - 1)) {
+  params <- list(
+    fields = field,
+    latest.school.degrees_awarded.highest = 4,
+    sort = sort_key,
+    page = page_number,
+    per_page = page_size,
+    api_key = Sys.getenv("COLLEGE_SCORECARD_API_KEY")
+  )
+  response <- GET(BASE_URL, query = params)
+  name_data <- fromJSON(rawToChar(response$content))$results
+  university_names <- c(university_names, name_data[[field]])
+  Sys.sleep(1)
+}
+
+# Print number of university names found
+length(university_names)
+```
+
+```{r}
+# Print first 10 university names
+university_names[1:10]
+```
+
+## 3. Find Number of Universities by State
+
+The `school.state_fips` data element contains a number that corresponds to each state. This mapping is given below:
+
+```{r}
+states <- list(
+  "1" = "Alabama", "2" = "Alaska", "4" = "Arizona", "5" = "Arkansas", "6" = "California",
+  "8" = "Colorado", "9" = "Connecticut", "10" = "Delaware", "11" = "District of Columbia",
+  "12" = "Florida", "13" = "Georgia", "15" = "Hawaii", "16" = "Idaho", "17" = "Illinois",
+  "18" = "Indiana", "19" = "Iowa", "20" = "Kansas", "21" = "Kentucky", "22" = "Louisiana",
+  "23" = "Maine", "24" = "Maryland", "25" = "Massachusetts", "26" = "Michigan",
+  "27" = "Minnesota", "28" = "Mississippi", "29" = "Missouri", "30" = "Montana",
+  "31" = "Nebraska", "32" = "Nevada", "33" = "New Hampshire", "34" = "New Jersey",
+  "35" = "New Mexico", "36" = "New York", "37" = "North Carolina", "38" = "North Dakota",
+  "39" = "Ohio", "40" = "Oklahoma", "41" = "Oregon", "42" = "Pennsylvania",
+  "44" = "Rhode Island", "45" = "South Carolina", "46" = "South Dakota",  "47" = "Tennessee",
+  "48" = "Texas", "49" = "Utah", "50" = "Vermont", "51" = "Virginia", "53" = "Washington",
+  "54" = "West Virginia", "55" = "Wisconsin", "56" = "Wyoming", "60" = "American Samoa",
+  "64" = "Federated States of Micronesia", "66" = "Guam", "69" = "Northern Mariana Islands",
+  "70" = "Palau", "72" = "Puerto Rico", "78" = "Virgin Islands"
+)
+```
+
+Using this mapping, we can find the number of universities in each state:
+
+```{r}
+field <- "latest.school.state_fips"
+page_size <- 100
+
+# Calculate the number of loops needed to page through every result
+params <- list(
+  latest.school.degrees_awarded.highest = 4,
+  fields = field,
+  api_key = Sys.getenv("COLLEGE_SCORECARD_API_KEY")
+)
+response <- GET(BASE_URL, query = params)
+state_data <- fromJSON(rawToChar(response$content))
+total_pages <- ceiling(names_data$metadata$total / page_size)
+
+state_freq <- list()
+for (page_number in 0:(total_pages - 1)) {
+
+  params <- list(
+    latest.school.degrees_awarded.highest = 4,
+    fields = field,
+    page = page_number,
+    per_page = page_size,
+    api_key = Sys.getenv("COLLEGE_SCORECARD_API_KEY")
+  )
+  response <- GET(BASE_URL, query = params)
+  state_data <- fromJSON(rawToChar(response$content))$results
+
+  state_fips_codes <- as.character(state_data$latest.school.state_fips)
+  for (state_fips in state_fips_codes) {
+    state_name <- states[[state_fips]]
+      state_freq[[state_name]] <- ifelse(is.null(state_freq[[state_name]]), 1, state_freq[[state_name]] + 1)
+  }
+  Sys.sleep(1)
+}
+```
+
+Now, we can sort and display the results:
+
+```{r}
+# Print the top 20 states/territories with the most universities
+head(sort(unlist(state_freq), decreasing = TRUE), 20)
+```
+
+## 4. Retrieve Multiple Data Points in a Single Query
+
+The following example uses multiple conditions and multiple fields. The conditions in the query are separated by `&` while the fields are separated by `,`.
+
+```{r}
+# Join fields into a comma-delimited string
+fields <- paste(
+  "school.name",
+  "latest.admissions.admission_rate.overall",
+  "latest.student.size",
+  "latest.cost.tuition.out_of_state",
+  "latest.cost.tuition.in_state",
+  "latest.student.demographics.median_hh_income",
+  "latest.school.endowment.begin",
+  sep = ","
+)
+sort_key <- "school.name"
+page_size <- 100
+
+# Calculate the number of loops needed to page through every result
+params <- list(
+  fields = fields,
+  latest.school.degrees_awarded.highest = 4,
+  latest.student.size__range = "1000..",  # Schools with 1000 or more students
+  api_key = Sys.getenv("COLLEGE_SCORECARD_API_KEY")
+)
+
+response <- GET(BASE_URL, query = params)
+names_data <- fromJSON(rawToChar(response$content))
+total_pages <- ceiling(names_data$metadata$total / page_size)
+
+rows <- list()
+for (page_number in 0:(total_pages - 1)) {
+  params <- list(
+    fields = fields,
+    latest.school.degrees_awarded.highest = 4,
+    latest.student.size__range = "1000..",
+    page = page_number,
+    per_page = page_size,
+    sort = sort_key,
+    api_key = Sys.getenv("COLLEGE_SCORECARD_API_KEY")
+  )
+  response <- GET(BASE_URL, query = params)
+  data <- fromJSON(rawToChar(response$content))$results
+  for (university in 1:nrow(data)) {
+    row <- list(
+      Name = data$school.name[university],
+      Admission_Rate = data$latest.admissions.admission_rate.overall[university],
+      Size = data$latest.student.size[university],
+      Tuition_Out_State = data$latest.cost.tuition.out_of_state[university],
+      Tuition_In_State = data$latest.cost.tuition.in_state[university],
+      Median_HH_Income = data$latest.student.demographics.median_hh_income[university],
+      Endowment = data$latest.school.endowment.begin[university]
+    )
+    rows <- append(rows, list(row))
+  }
+  Sys.sleep(1)
+}
+
+df <- do.call(rbind.data.frame, rows)
+
+# Print first 10 rows
+head(df, 10)
+```
+
+We can query the resulting data frame to find the data for specific universities:
+
+```{r}
+ua_df <- df[df$Name == "The University of Alabama", ]
+print(ua_df)
+```
+
+We can also query the data frame to find the data for universities that satisfy certain conditions:
+
+```{r}
+filtered_df <- df[df$Admission_Rate < 0.1, ]
+filtered_df <- na.omit(filtered_df)
+filtered_df <- filtered_df[order(filtered_df$Admission_Rate), ]
+filtered_df
+```
+
+```{r}
+filtered_df <- df[df$Endowment > 1.0e+10, ]
+filtered_df <- na.omit(filtered_df)
+filtered_df <- filtered_df[order(-filtered_df$Endowment), ]
+filtered_df
+```
+
+## 5. Retrieve All Data for an Institution
+
+The College Scorecard API can also be used to retrieve all of the data for a particular institution. The example below finds all data for The University of Alabama:
+
+```{r}
+params <- list(
+  school.name = "The University of Alabama",
+  api_key = Sys.getenv("COLLEGE_SCORECARD_API_KEY")
+)
+response <- GET(BASE_URL, query = params)
+ua_data <- fromJSON(rawToChar(response$content))$results
+
+# Print structure of the result
+str(ua_data, max.level = 1)
+```
+
+Finally, we'll look at the breakdown of size of each program at the University of Alabama:
+
+```{r ua-program-pie-chart}
+program_percentage_data <- ua_data[[1]]$academics$program_percentage
+perc <- unlist(program_percentage_data)
+
+threshold <- 0.03
+small <- perc < threshold
+
+if (sum(small) > 1) {
+  perc <- c(perc[!small], other = sum(perc[small]))
+}
+
+par(mar = c(5, 4, 4, 8))
+
+pie(
+  perc,
+  labels = paste0(round(perc * 100, 1), "%"),
+  col = rainbow(length(perc)),
+  main = "Program Percentage at The University of Alabama"
+)
+
+legend(
+  "topright",
+  inset = c(-0.25, 0),
+  xpd = TRUE,
+  legend = names(perc),
+  fill = rainbow(length(perc)),
+  cex = 0.8
+)
+```
+
+```{r}
+# Sort the list by values in descending order
+sorted_program_percentage_data <- program_percentage_data[order(-unlist(program_percentage_data))]
+
+# Print the sorted data
+for (key in names(sorted_program_percentage_data)) {
+  cat(paste(key, ":", sorted_program_percentage_data[[key]], "\n"))
+}
+```
