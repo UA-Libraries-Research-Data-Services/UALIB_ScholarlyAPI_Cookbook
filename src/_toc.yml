@@ -17,6 +17,8 @@ parts:
       sections:
       - file: python/sage
         title: "...in Python"
+      - file: r/sage
+        title: "...in R"
 
     # ScienceDirect
     - file: overview/sdirect
@@ -223,7 +225,7 @@ parts:
       sections:
       - file: python/pubchem
         title: "...in Python"
-      - file: r-gpl3/pubchem
+      - file: r/pubchem
         title: "...in R"
 
     # PubChem Periodic Table
@@ -237,7 +239,7 @@ parts:
       sections:
       - file: python/pubmed
         title: "...in Python"
-      - file: r-gpl3/pubmed
+      - file: r/pubmed
         title: "...in R"
 
 
@@ -263,7 +265,7 @@ parts:
       sections:
       - file: python/us-census
         title: "...in Python"
-      - file: r-gpl3/us-census
+      - file: r/us-census
         title: "...in R"
 
     # USAspending
