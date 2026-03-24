@@ -9,7 +9,7 @@ output:
 
 # U.S. Census Data API in R
 
-By Michael T. Moen and Adam M. Nguyen
+by Michael T. Moen and Adam M. Nguyen
 
 The U.S. Census Data API provides programmatic access to demographic, economic, and geographic data collected by the U.S. Census Bureau. It enables users to retrieve and analyze a wide variety of data sets, including Census surveys and population statistics.
 

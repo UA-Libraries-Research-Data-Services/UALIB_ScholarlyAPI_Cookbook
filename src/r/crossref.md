@@ -9,7 +9,7 @@ output:
 
 # Crossref API in R
 
-By Michael T. Moen, Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
+by Michael T. Moen, Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
 
 The Crossref API provides metadata about publications, including articles, books, and conference proceedings. This metadata spans items such as author details, journal details, references, and DOIs (Digital Object Identifiers). Working with Crossref allows for programmatic access to bibliographic information and can streamline large-scale metadata retrieval.
 

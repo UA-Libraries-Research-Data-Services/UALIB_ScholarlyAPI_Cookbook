@@ -9,7 +9,7 @@ output:
 
 # SEC EDGAR API in R
 
-By Adam M. Nguyen and Michael T. Moen
+by Adam M. Nguyen and Michael T. Moen
 
 The U.S. Securities and Exchange Commission (SEC) allows free public access to documents filed by publicly traded companies in the Electronic Data Gathering, Analysis, and Retrieval (EDGAR) system.
 
