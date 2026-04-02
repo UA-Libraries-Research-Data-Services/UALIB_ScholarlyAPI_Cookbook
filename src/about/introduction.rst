@@ -1,17 +1,14 @@
 Introduction
 %%%%%%%%%%%%%%
 
-What is this?
-*************
-
-This is an open online book containing short scholarly API code examples (i.e., "recipes") 
+The UA Libraries Scholarly API Cookbook is an open online book containing short scholarly API code examples (i.e., "recipes") 
 that demonstrate how to work with various scholarly web service APIs. It is part of the
 University of Alabama Libraries `Research Data Services`_ efforts to support data-intensive
 academic research and teaching.
 
 .. _Research Data Services: https://guides.lib.ua.edu/ResearchDataServices
 
-What should I be aware of before getting started?
+What should I know before getting started?
 *************************************************
 
 .. important::
