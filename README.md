@@ -6,13 +6,13 @@
 > [!IMPORTANT]
 > Please check the individual scholarly API documentation for current information on API usage and policies.
 >
-> November 2024 - Some R code tutorials that were originally MIT Licensed, are now licensed under the GPL-3 License to comply with the licensing terms of dependent R libraries.
+> April 2026 - Some earlier R code tutorials in this repository were licensed under the GPL‑3.0 License. The tutorials have since been revised, and the current versions are licensed under the MIT License.
 
 The University of Alabama Libraries Scholarly API Cookbook is an open online book containing short scholarly API code examples (i.e., "recipes") that demonstrate how to work with various scholarly web service APIs. It is part of the University of Alabama Libraries efforts to support Research Data Services. Read the book [here](https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook).
 
 ## License and Reuse
 
-Most of the code in this repository is licensed under the [MIT License](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE), but some of the R tutorial scripts are under the [GPL-3 License](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE_selected_R_tutorials). Please see the [License and Reuse page](https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/about/license-reuse) for more information about licensing and reuse. We have endeavored to follow the appropriate terms and usage policies of each scholarly API, web service, and Z39.50 server. We have linked to the terms and policies where possible. If you reuse the code, attribution would be appreciated. Please link to the Cookbook and see the [Cite page](https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/about/cite) for full citation information.
+The code in this repository is licensed under the [MIT License](https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE). Please see the [License and Reuse page](https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/about/license-reuse) for more information about licensing and reuse. We have endeavored to follow the appropriate terms and usage policies of each scholarly API, web service, and Z39.50 server. We have linked to the terms and policies where possible. If you reuse the code, attribution would be appreciated. Please link to the Cookbook and see the [Citing the Cookbook page](https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/about/cite) for full citation information.
 
 ## Archived Recipes
 
