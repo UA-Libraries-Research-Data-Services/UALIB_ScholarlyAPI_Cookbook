@@ -5,6 +5,8 @@ output:
     keep_md: true
 ---
 
+
+
 # Wiley Text and Data Mining (TDM) in R
 
 by Michael T. Moen
@@ -22,7 +24,7 @@ Please see the following resources for more information on API usage:
 - Data Reuse
     - <a href="https://onlinelibrary.wiley.com/library-info/resources/text-and-datamining#accordionHeader-3" target="_blank">Wiley TDM Data Reuse</a> (see sections 4 and 5 of Text and Data Mining Agreement)
 
-*These recipe examples were tested on October 27, 2025.*
+*These recipe examples were tested on March 23, 2026.*
 
 **_NOTE:_** The Wiley TDM API limits requests to a maximum of 3 requests per second.
 
@@ -66,7 +68,7 @@ if (nzchar(Sys.getenv("WILEY_TDM_TOKEN"))) {
 ## [1] "API key successfully loaded."
 ```
 
-## 1. Retrieve full-text of an article
+## 1. Retrieve Full Text of an Article
 
 The Wiley TDM API returns the full-text of an article as a PDF when given the article's DOI.
 
@@ -95,7 +97,7 @@ if (status_code(response) == 200) {
 ## 10.1002_net.22207.pdf downloaded successfully
 ```
 
-## 2. Retrieve full-text of multiple articles
+## 2. Retrieve Full Text of Multiple Articles
 
 In this example, we download 5 articles found in the Wiley Online Library:
 

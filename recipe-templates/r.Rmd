@@ -1,0 +1,85 @@
+---
+title: "[API Name] in R"
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.path = "_figures/[API NAME]/"
+)
+```
+
+# [API Name] in R
+
+By [Author Name], [Author Name], and [Author Name]
+
+<!-- Brief 1-2 sentence description of the API -->
+
+<!-- *This tutorial content is intended to help facilitate academic research. Please check your institution for their Text and Data Mining or related License Agreement with [Company name].* -->
+
+Please see the following resources for more information on API usage:
+- Documentation
+    - <a href="" target="_blank">[Service Name]</a>
+    - <a href="" target="_blank">[Service Name] Documentation</a>
+- Terms
+    - <a href="URL" target="_blank">[Service Name] Terms of Use</a>
+- Data Reuse
+    - <a href="URL" target="_blank">[Service Name] Data Reuse</a>
+
+<!-- Use official names provided by the service when describing the content in the links above. -->
+<!-- Also include links to any licenses, official code examples, and other useful sources above. -->
+<!-- Use title capitalization in the bolded text above. -->
+<!-- Also include links to any licenses, official code examples, and other useful sources above. -->
+<!-- If you are using any specific libraries for accessing the API, include terms of use, documentation, etc. for those as well. -->
+
+_**NOTE:**_ The [API Name] limits requests to a maximum of [limit].
+
+*These recipe examples were tested on [Month] [Date], [Year].*
+
+<!-- Try to stick to the formatting defined in this template as closely as possible for consistency with other tutorials, but prioritize please break the guidelines to include necessary info if needed. -->
+
+## Setup
+
+<!-- If there is only one category necessary for the tutorial, then remove the level 3 header (i.e., if `### Import Libraries` is the only header under `## Setup`, then remove `### Import Libraries` and just have the other markdown text and code directly under `## Setup`). -->
+
+### Load Libraries
+
+The following packages need to be installed into your environment to run the code examples in this tutorial. These packages can be installed with `install.packages()`.
+
+- <a href="https://cran.r-project.org/web/packages/dplyr/index.html" target="_blank">dplyr: A Grammar of Data Manipulation</a>
+- <a href="https://cran.r-project.org/web/packages/ggplot2/index.html" target="_blank">ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</a>
+- <a href="https://cran.r-project.org/web/packages/httr/index.html" target="_blank">httr: Tools for Working with URLs and HTTP</a>
+- <a href="https://cran.r-project.org/web/packages/imager/index.html" target="_blank">imager: Image Processing Library Based on 'CImg'</a>
+- <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" target="_blank">jsonlite: A Simple and Robust JSON Parser and Generator for R</a>
+- <a href="https://cran.r-project.org/web/packages/knitr/index.html" target="_blank">knitr: A General-Purpose Package for Dynamic Report Generation in R</a>
+- <a href="https://cran.r-project.org/web/packages/magick/index.html" target="_blank">magick: Advanced Graphics and Image-Processing in R</a>
+- <a href="https://cran.r-project.org/web/packages/purrr/index.html" target="_blank">purrr: Function Programming Tools</a>
+- <a href="https://cran.r-project.org/web/packages/tidyverse/index.html" target="_blank">tidyverse: Easily Install and Load the 'Tidyverse'</a>
+
+We load the libraries used in this tutorial below:
+
+```{r}
+library(httr)
+```
+
+### Import API Key
+
+An API key is required for to access the [API Name]. You can sign up for one at <a href="" target="_blank">webpage name</a>.
+
+We keep our token in a `.Renviron` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.Renviron` should have an entry like the one below.
+
+```text
+API_KEY="PUT_YOUR_API_KEY_HERE"
+```
+
+Below, we can test to whether the key was successfully imported.
+
+```{r}
+if (nzchar(Sys.getenv("API_KEY"))) {
+  print("API key successfully loaded.")
+} else {
+  warning("API key not found or is empty.")
+}
+```

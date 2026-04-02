@@ -1,0 +1,405 @@
+---
+title: "CAS Common Chemistry API in R"
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  fig.path = "_figures/casc/"
+)
+```
+
+# CAS Common Chemistry API in R
+
+by Adam M. Nguyen and Michael T. Moen
+
+The CAS Common Chemistry API provides programmatic access to a curated subset, offering information on nearly 500,000 chemical substances.
+
+Please see the following resources for more information on API usage:
+
+- Documentation
+    - <a href="https://commonchemistry.cas.org/" target="_blank">CAS Common Chemistry</a>
+    - <a href="https://commonchemistry.cas.org/api-overview" target="_blank">CAS Common Chemistry API Overview</a>
+- Terms
+    - <a href="https://www.cas.org/legal" target="_blank">CAS Policies</a>
+- Data Reuse
+    - CAS Common Chemistry is provided under the <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">Creative Commons CC BY-NC 4.0 license</a>
+
+*These recipe examples were tested on March 24, 2026.*
+
+## Setup
+
+### Load Libraries
+
+The following packages need to be installed into your environment to run the code examples in this tutorial. These packages can be installed with `install.packages()`.
+
+- <a href="https://cran.r-project.org/web/packages/httr/index.html" target="_blank">httr: Tools for Working with URLs and HTTP</a>
+- <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" target="_blank">jsonlite: A Simple and Robust JSON Parser and Generator for R</a>
+- <a href="https://cran.r-project.org/web/packages/magick/index.html" target="_blank">magick: Advanced Graphics and Image-Processing in R</a>
+
+We load the libraries used in this tutorial below:
+
+```{r library, warning=FALSE, message=FALSE}
+library(httr)
+library(jsonlite)
+library(magick)
+```
+
+### Import API Key
+
+An API key is required to access the CAS Common Chemistry API. You can sign up for one at the <a href="https://www.cas.org/services/commonchemistry-api" target="_blank">Request API Access for CAS Common Chemistry</a> page.
+
+We keep our token in a `.Renviron` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.Renviron` should have an entry like the one below.
+
+```text
+CAS_API_KEY="PUT_YOUR_API_KEY_HERE"
+```
+
+Below, we can test to whether the key was successfully imported.
+
+```{r}
+if (nzchar(Sys.getenv("CAS_API_KEY"))) {
+  print("API key successfully loaded.")
+} else {
+  warning("API key not found or is empty.")
+}
+```
+
+## 1. Common Chemistry Record Detail Retrieval
+
+Common Chemistry is an extremely useful open community resource for accessing chemical information for nearly 500,000 chemical chemistry from the CAS registry. In this example, we detail the steps for accessing a simple example chemical substance, ethyl cyclohexanepropionate.
+
+### API Parameter Setup   
+
+First, let's setup the API parameters for Common Chemistry. Below we are going to provide a variable `detail_base_url` to query Common Chemistry for details and more specifically. In this example, using a registry number, or as we abbreviate it an `rn`.
+
+```{r, warning=FALSE, message = FALSE}
+DETAIL_BASE_URL <- "https://commonchemistry.cas.org/api/detail?"
+casrn1 <- "10094-36-7" # ethyl cyclohexanepropionate
+```
+
+### Request Data from CAS Common Chemistry Detail API
+
+Using the `httr` and `jsonlite` libraries, we query the API and convert the data to a usable format.
+
+```{r, warning=FALSE, message=FALSE}
+url <- paste0(DETAIL_BASE_URL, "cas_rn=", casrn1)
+
+# Use httr's 'GET()' function to retrieve raw data from a URL
+casrn1_response <-GET(url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+casrn1_response
+```
+
+The `GET()` function returns `Response`, `Date`, `Status: 200` indicating a successful request, `Size`, and `Content-Type`. In most cases when accessing APIs, the `Content-Type` returns JSON, so we need the `jsonlite` to parse it.
+
+```{r convert}
+# Extract JSON data from the response
+casrn1_data <- fromJSON(rawToChar(casrn1_response$content))
+
+casrn1_data
+```
+
+### Accessing Specific Data
+
+The `$` operator can be used to extract specific parts of `casrn1_data`.
+
+```{r warning=FALSE, message=FALSE}
+# Access the canonical SMILE
+casrn1_smile <- casrn1_data$canonicalSmile
+casrn1_smile
+```
+
+```{r warning=FALSE, message=FALSE}
+# Another example may be finding synonyms for Ethyl cyclohexanepropionate
+casrn1_synonyms <- casrn1_data$synonyms
+casrn1_synonyms
+```
+
+The methods above work for any parts of the data object, to find a list of the data objects, you can use the `ls()` function.
+
+```{r, warning=FALSE, message=FALSE}
+ls(casrn1_data)
+```
+
+Given this list we can select different data as seen in previous examples, i.e. `casrn1_data$(example)`.
+
+### Display the Molecule Drawing      
+
+The `images` section of the data contains data formatted as Scalable Vector Graphics (SVG). SVG is an XML based vector format for defining two-dimensional graphics and has been an open standard since 1999. Using the SVG data provided by the API, we display the molecule drawing using the package `magick`, a useful toolkit for image processing in R.
+
+```{r molecule-drawing, warning=FALSE, message=FALSE}
+image_str <- charToRaw(casrn1_data$image)
+image_read(image_str, density = 300)
+```
+
+## 2. Common Chemistry API Record Detail Retrieval in a Loop   
+
+In this example, we show how to query Common Chemistry for details given a list of registry numbers.
+
+```{r, warning=FALSE, message=FALSE}
+# Create a list of CAS RNs
+casrns <- c(
+  "10094-36-7",
+  "10031-92-2",
+  "10199-61-8",
+  "10036-21-2",
+  "1019020-13-3"
+)
+
+# Iterate through list of CAS RN and append to list
+list <- lapply(casrns, function(casrn) {
+  url <- paste0(DETAIL_BASE_URL, "cas_rn=", casrn)
+  response <- GET(url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+  casrn_data <- fromJSON(rawToChar(response$content))
+  Sys.sleep(1)
+  return(casrn_data)
+})
+
+# Show first result in the list
+head(list, n = 1)
+```
+
+We now have a list of sub-lists of data corresponding to the CAS RNs.
+
+### Display Images
+
+```{r molecule-loop}
+# Use 'lapply' to iterate through list and convert our image data to a readable format
+imgs <- lapply(list, function(x) {charToRaw(x$image)})
+
+# Use 'image_read()' to read SVGs
+
+# "Ethyl cyclohexanepropionate"
+image_read(imgs[[1]], density = 300)
+# "Ethyl 2-nonynoate"
+image_read(imgs[[2]], density = 300)
+# "Ethyl 1<em>H</em>-pyrazole-1-acetate"
+image_read(imgs[[3]], density = 300)
+# "Ethyl 3-(ethoxycarbonyl)benzenepropanoate"
+image_read(imgs[[4]], density = 300)
+# "Ethyl 1-cyclohexene-1-carboximidate"
+image_read(imgs[[5]], density = 300)
+```
+
+### Select Specific Data    
+
+We use `lapply()` to iterate through the list and grab each sub-list's `canonicalSmile`.
+
+```{r specdat, warning=FALSE, message=FALSE}
+# Apply function(i) to receive canonicalSmiles for every instance in the list
+cansmiles <- lapply(list, function(i) {i$canonicalSmile})
+unlist(cansmiles) # Flatten list
+```
+
+Through similar means, we can also iterate through the list and grab each sub-list's synonyms.
+
+```{r getsyns, warning=FALSE, message =FALSE}
+synonyms_list <- lapply(list, function(j) {j$synonyms})
+synonyms_list
+```
+
+```{r flatsyns, warning=FALSE, message =FALSE}
+# Use the unlist() function to flatten our list of synonyms
+flatsyns <- unlist(synonyms_list)
+flatsyns
+```
+
+### Create Data Frame   
+
+Let's create a data frame from `list` with the variables `uri`, `rn`, `name`, `inchiKey`, `canonicalSmile`, and `molecularMass`.
+
+```{r list2df, warning=FALSE, message=FALSE}
+df <- data.frame(do.call
+        # Iterate through list of chemicals with function(i) and append to df
+        (rbind, lapply(list, function(item)
+          cbind(
+            item["uri"],
+            item["rn"],
+            item["name"],
+            item["inchiKey"],
+            item["canonicalSmile"],
+            item["molecularMass"]
+          ))),
+        row.names = NULL)
+
+names(df) <- c("uri", "rn", "name", "inchiKey", "canonicalSmile", "molecularMass")
+
+# Display df
+df
+```
+
+## 3. Common Chemistry 
+
+In addition to the `/detail` endpoint, the CAS Common Chemistry API has a `/search` endpoint that allows searching by CAS RN, SMILES, InChI/InChIKey, and name.
+
+### Request data form CAS Common Chemistry Search API
+
+```{r search, warning=FALSE, message = FALSE}
+SEARCH_BASE_URL <- "https://commonchemistry.cas.org/api/search?q="
+
+# InChIKey for Quinine
+IK <- "InChIKey=LOUPRKONTZGTKE-WZBLMQSHSA-N"
+url <- paste0(SEARCH_BASE_URL, IK)
+search_response <- GET(url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+search_response
+```
+
+Like before, we need to access the `content` part of the data to retrieve what we are interested. This data is stored in JSON.
+
+```{r, warning=FALSE,  message=FALSE}
+# Extract JSON data from response
+quinine_rn <- fromJSON(rawToChar(search_response$content))
+
+quinine_rn
+```
+
+Now we have the quinine's CAS RN, so we can query quinine based on this, similar to the first example.
+
+```{r warning=FALSE, message=FALSE}
+# Get detailed record for quinine
+url <- paste0(DETAIL_BASE_URL, "cas_rn=", quinine_rn$results$rn)
+detail_response <- GET(url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+detail_response
+```
+
+```{r warning=FALSE, message=FALSE}
+# Convert JSON structure to character format
+quinine_data <- fromJSON(rawToChar(detail_response$content))
+
+quinine_data
+```
+
+### Handle Multiple Results
+
+```{r multiple_results, warning=FALSE, message=FALSE}
+# SMILES for butadiene
+smi_bd <- "C=CC=C"
+
+# Request data from CAS Common Chemistry Search API
+url <- paste0(SEARCH_BASE_URL, smi_bd)
+search_response <- GET(url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+
+smi_search_data <- fromJSON(rawToChar(search_response$content))
+
+# Get results count
+smi_search_data$count
+
+# Display CAS RNs
+smi_search_data$results$rn
+
+names <- lapply(smi_search_data$results$rn, function(casrn) {
+  
+  smi_url <- paste0(DETAIL_BASE_URL, "cas_rn=", casrn)
+  smi_data <- GET(smi_url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+  smi_data <- fromJSON(rawToChar(smi_data$content))
+  
+  Sys.sleep(1)
+  return(smi_data$name)
+})
+unlist(names) # Display names
+```
+
+### Handle Multiple Page Results   
+
+The CAS Common Chemistry API returns 50 results per page, and only the first page is returned by default. If the search returns more than 50 results, the offset option can be added to page through and obtain all results:
+
+```{r multi_page, warning=FALSE, message= FALSE}
+# Set up search query parameters
+n <- "selen*"
+
+# Calculate number of pages needed
+num_results <- 200  # Total number of results to retrieve
+page_size <- 50     # Number of results to retrieve per page
+num_pages <- ceiling(num_results / page_size)
+
+# Create empty list for results
+n_search_data <- list()
+
+# Loop through the pages of data
+for (page_idx in seq_len(num_pages)) {
+  # Calculate the starting offset for the current page
+  offset <- (page_idx - 1) * page_size
+  
+  # Construct the search URL for the current page
+  search_url <- paste0(SEARCH_BASE_URL, n, "&offset=", offset)
+  
+  # Make the API request and append the response to the list of results
+  response <- GET(search_url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+  n_search_data[[page_idx]] <- fromJSON(rawToChar(response$content))
+  
+  # Pause for 1 second
+  Sys.sleep(1)
+}
+
+# Length of search data includes a top level list for each query
+length(n_search_data)
+
+# List within lists contain the results
+length(n_search_data[[1]]$results)
+length(n_search_data[[2]]$results)
+length(n_search_data[[3]]$results)
+length(n_search_data[[4]]$results)
+
+# We can index and extract out the first CAS RN as follows
+n_search_data[[1]]$results[[1]][[1]]
+```
+
+```{r, warning=FALSE, message=FALSE}
+n_casrn_list <- character()
+for (n_idx in seq_along(n_search_data)) {
+  n_casrn_list <- c(n_casrn_list, n_search_data[[n_idx]]$results$rn)
+}
+length(n_casrn_list)
+```
+
+```{r}
+n_casrn_list[1:10]
+```
+
+We can now iterate through the list of CAS RNs to store data about the chemicals. In this example we extract a list of `molecularMass` values and visualize them.
+
+```{r, warning=FALSE, message=FALSE}
+# Now we can loop through each CAS RN and use the detail API to obtain the entire record
+# This will query CAS Common Chem 191 times and take ~ 5 min.
+DETAIL_BASE_URL <- "https://commonchemistry.cas.org/api/detail?"
+n_detail_data <- list()
+for (casrn in n_casrn_list) {
+  casrn_url <- paste0(DETAIL_BASE_URL, "cas_rn=", casrn)
+  response <- GET(casrn_url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+  n_detail_data[[casrn]] <- content(response)
+  Sys.sleep(1) # Add a 1 second delay between API calls
+}
+```
+
+```{r moleMassCont., warning=FALSE, message=FALSE}
+mms <- list()
+for (mm_idx in seq_along(n_detail_data)) {
+  mms <- c(mms, n_detail_data[[mm_idx]]$molecularMass)
+}
+head(mms, n = 10)
+```
+
+### Visualization   
+
+Using the list of molecular mass values we collected, we can create visualizations in R using the `hist()` and `density()` functions.
+
+```{r molecular-mass-histogram, warning=FALSE, message=FALSE}
+# Histogram
+hist(as.numeric(mms), # Reformat mms type to numeric and call as x variable
+     breaks = 20,
+     main = "Histogram of available molecularMass values", # Set title
+     xlab = "Molecular Mass", # X Label
+     ylab = "Count", # Y Label
+     col = "plum", ) # Color
+```
+
+We can also make a kernel density plot, a graph that uses a continuous curve to depict the distribution of the data with respect to the molecular mass values. This will give some more fidelity as opposed to the histogram.
+
+```{r molecular-mass-kernel, warning=FALSE, message=FALSE}
+d <- density(na.omit(as.numeric(mms)))
+plot(d, main = "Kernel Density of Available mms values")
+polygon(d, col = "plum", border = "black")
+```

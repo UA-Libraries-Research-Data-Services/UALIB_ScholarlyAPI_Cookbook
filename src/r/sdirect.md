@@ -5,6 +5,8 @@ output:
     keep_md: true
 ---
 
+
+
 # ScienceDirect API in R
 
 by Michael T. Moen
@@ -28,7 +30,7 @@ _**NOTE:**_ See your institution's rate limit with <a href="https://dev.elsevier
 
 *If you have copyright or other related text and data mining questions, please contact The University of Alabama Libraries or your respective library/institution.*
 
-*These recipe examples were tested on October 27, 2025.*
+*These recipe examples were tested on March 23, 2026.*
 
 ## Setup
 
@@ -74,7 +76,7 @@ if (nzchar(Sys.getenv("SCIENCE_DIRECT_API_KEY"))) {
 
 We will use DOIs as the article identifiers. See our Crossref and Scopus API tutorials for workflows on how to create lists of DOIs and identfiers for specific searches and journals. The Elsevier ScienceDirect Article (Full-Text) API also accepts other identifiers like Scopus IDs and PubMed IDs (see API specification documents linked above).
 
-## 1. Retrieve full-text XML of an article
+## 1. Retrieve Full-Text XML of an Article
 
 
 ``` r
@@ -90,7 +92,7 @@ fulltext1 <- GET(paste0(
 writeLines(content(fulltext1, "text"), "fulltext1.xml")
 ```
 
-## 2. Retrieve plain text of an article
+## 2. Retrieve Plain Text of an Article
 
 
 ``` r
@@ -105,7 +107,7 @@ fulltext2 <- GET(paste0(
 writeLines(content(fulltext2, "text"), "fulltext2.txt")
 ```
 
-## 3. Retrieve full-text in a loop
+## 3. Retrieve Full-Text Articles in a Loop
 
 
 ``` r
