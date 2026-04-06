@@ -1,0 +1,240 @@
+---
+title: "World Bank API in R"
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.path = "_figures/world-bank/"
+)
+```
+
+# World Bank API in R
+
+by Michael T. Moen, Vishank Patel, and Adam M. Nguyen
+
+The World Bank offers a suite of APIs providing access to a vast array of global development data, including economic indicators, project information, and more. These APIs enable users to programmatically retrieve data for analysis, application development, and research purposes.
+
+Please see the following resources for more information on API usage:
+- Documentation
+    - <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation" target="_blank">World Bank Indicators API Documentation</a>
+    - <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/1886698-data-catalog-api" target="_blank">World Bank Data Catalog API Documentation</a>
+    - <a href="https://data.worldbank.org/" target="_blank">World Bank Data Catalog</a>
+    - <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/902064-development-best-practices" target="_blank">World Bank Development Best Practices</a>
+- Terms
+    - <a href="https://www.worldbank.org/en/about/legal/terms-and-conditions#:~:text=You%20may%20not%20use%20the,your%20use%20of%20the%20APIs." target="_blank">World Bank Terms of Use</a>
+    - <a href="https://data.worldbank.org/summary-terms-of-use" target="_blank">World Bank Summary Terms of Use</a>
+- Data Reuse
+    - <a href="https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets" target="_blank">World Bank Data Licensing and Terms of Use</a>
+
+*These recipe examples were tested on April 2, 2026.*
+
+## Setup
+
+### Import Libraries
+
+The following external libraries need to be installed into your environment to run the code examples in this tutorial:
+
+- <a href="https://cran.r-project.org/web/packages/countrycode/index.html" target="_blank">countrycode: Convert Country Names and Country Codes</a>
+- <a href="https://cran.r-project.org/web/packages/httr/index.html" target="_blank">httr: Tools for Working with URLs and HTTP</a>
+- <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" target="_blank">jsonlite: A Simple and Robust JSON Parser and Generator for R</a>
+- <a href="https://cran.r-project.org/web/packages/plotly/index.html" target="_blank">plotly: Create Interactive Web Graphics via 'plotly.js'</a>
+
+We import the libraries used in this tutorial below:
+
+```{r, message=FALSE}
+library(countrycode)
+library(httr)
+library(jsonlite)
+library(plotly)
+```
+
+### DataBank Bulk Download
+
+The World Bank offers bulk downloads of specific datasets from <a href="https://databank.worldbank.org/home.aspx" target="_blank">DataBank Bulk Download</a> or <a href="https://microdata.worldbank.org/index.php/home" target="_blank">DataBank Bulk Microdata Download</a>. If you require extensive or complete data, consider using these bulk downloads. For smaller requests or interactive analysis, the standard API calls work well.
+
+## 1. Comparing GDP per Capita by Country
+
+In this example, we look at the GDP per capita of each country using the <a href="https://data.worldbank.org/indicator/NY.GDP.PCAP.CD" target="_blank">NY.GDP.PCAP.CD</a> indicator. Note we examine both countries and dependent territories defined as having <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3" target="_blank">ISO 3166-1 alpha-3</a> (also known here as ISO 3) codes.
+
+```{r}
+BASE_URL <- "http://api.worldbank.org/v2/country/all/indicator/"
+indicator <- "NY.GDP.PCAP.CD"    # Indicator code for GDP per capita (current USD)
+
+params <- list(
+  date = 2024,
+  format = "json",
+  per_page = 500
+)
+response <- GET(paste0(BASE_URL, indicator), query = params)
+
+# Status code 200 indicates success
+response$status_code
+```
+
+```{r}
+# Extract JSON data from response
+df <- fromJSON(rawToChar(response$content))[[2]]
+
+# Drop unneeded columns
+df <- df[, !(names(df) %in% c("country", "indicator", "unit", "obs_status", "decimal"))]
+
+# Print first result
+head(df)
+```
+
+Below, we use the `countrycode` package to retrieve the names of the countries based on their ISO 3 codes. Since the World Bank also maintains listings for different aggregations, we also drop those from the data below:
+
+```{r, warning=FALSE}
+# Get country names by ISO 3 codes
+df$country_name <- countrycode(
+  df$countryiso3code,
+  origin = "iso3c",
+  destination = "country.name"
+)
+
+# Drop rows that don't have a related country name
+df <- df[!is.na(df$country_name), ]
+
+# Find and sort top 20
+top20 <- head(df[order(-df$value), ], 20)
+
+# Display results
+top20
+```
+
+```{r top20_gdp_per_capita, fig.width=10, fig.height=6}
+# Margins adjusted for rotated labels
+par(mar = c(5, 5, 4, 2) + 0.1)
+
+# Create barplot
+bp <- barplot(
+  top20$value / 1000,
+  col = "#4C72B0",
+  border = NA,
+  names.arg = NA,
+  main = "Top 20 Countries by GDP per Capita (2024)",
+  xlab = NA,
+  ylab = "GDP per Capita (Thousand USD)"
+)
+
+# Add rotated bar labels
+text(
+  x = bp,
+  y = par("usr")[3] - 0.04 * diff(par("usr")[3:4]),
+  labels = top20$country_name,
+  srt = 30,
+  adj = 1,
+  xpd = TRUE,
+  cex = 0.8
+)
+
+# Draw axis again so it appears above grid
+box(bty = "l", col = "#CCCCCC")
+```
+
+## 2. Comparing Scientific and Technical Journal Articles by Country
+
+In this example, we look at the "scientific and technical journal articles" of each country using the <a href="https://data.worldbank.org/indicator/IP.JRN.ARTC.SC" target="_blank">IP.JRN.ARTC.SC</a> indicator and the total population of each country using the <a href="https://data.worldbank.org/indicator/SP.POP.TOTL" target="_blank">SP.POP.TOTL</a>. Note we examine both countries and dependent territories defined as having <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3" target="_blank">ISO 3166-1 alpha-3</a> (also known here as ISO 3) codes.
+
+```{r, warning=FALSE}
+BASE_URL <- "https://api.worldbank.org/v2/country/all/indicator/"
+indicators <- c(
+  "IP.JRN.ARTC.SC" = "Article Count",
+  "SP.POP.TOTL" = "Population"
+)
+params <- list(
+  date = 2021,
+  format = "json",
+  per_page = 500
+)
+
+dfs <- list()
+
+for (indicator in names(indicators)) {
+  colname <- indicators[[indicator]]
+  response <- GET(paste0(BASE_URL, indicator), query = params)
+  response <- fromJSON(rawToChar(response$content))
+  df_temp <- response[[2]]
+  df_temp <- df_temp[, c("countryiso3code", "value")]
+  names(df_temp)[names(df_temp) == "value"] <- colname
+  dfs[[indicator]] <- df_temp
+}
+
+# Merge both datasets
+df <- merge(dfs[[1]], dfs[[2]], by = "countryiso3code")
+
+# Get country names by ISO 3 codes
+df$`Country Name` <- countrycode(
+  df$countryiso3code,
+  origin = "iso3c",
+  destination = "country.name"
+)
+
+# Remove aggregates like "World", "High income", etc.
+df <- df[!is.na(df$`Country Name`), ]
+
+head(df)
+```
+
+```{r}
+# Calculate article count per million people
+df$`Article Count per Million` = df$`Article Count` / df$`Population` * 1000000
+
+head(df)
+```
+
+```{r, warning=FALSE}
+fig <- plot_ly(
+  data = df,
+  type = "choropleth",
+  locations = ~countryiso3code,
+  z = ~`Article Count per Million`,
+  text = ~`Country Name`,
+  colorscale = "Viridis",
+  locationmode = "ISO-3",
+  hovertemplate = paste(
+    "<b>%{text}</b><br>",
+    "Article Count per Million: %{z:.2f}",
+    "<extra></extra>"
+  ),
+  colorbar = list(
+    title = list(text = "Article Count per Million")
+  )
+) %>%
+  layout(
+    title = list(text = "Technical Journal Articles by Country (2021)"),
+    margin = list(l = 50, r = 50, b = 50, t = 50),
+    geo = list(
+      projection = list(type = "natural earth"),
+      showframe = FALSE,
+      showcoastlines = TRUE,
+      coastlinecolor = "lightgray"
+    )
+  )
+
+fig
+```
+
+```{r, include=FALSE}
+# Note: This cell will not run or appear in the built book.
+# However, it is included here to show how to save the Plotly figure as an HTML file that can
+# be embedded in the book.
+htmlwidgets::saveWidget(
+  widget = fig,
+  file = "../src/_static/plotly/technical_journal_articles_2021_r.html",
+  selfcontained = TRUE
+)
+```
+
+```{raw} html
+<iframe
+    src="../_static/plotly/technical_journal_articles_2021_r.html"
+    width="100%"
+    height="500"
+    style="border:0;"
+    loading="lazy">
+</iframe>
+```

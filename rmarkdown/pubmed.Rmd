@@ -1,0 +1,390 @@
+---
+title: "PubMed API in R"
+output:
+  html_document:
+    keep_md: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.path = "_figures/pubmed/"
+)
+```
+
+# PubMed API in Python
+
+by Michael T. Moen and Adam M. Nguyen
+
+The PubMed API, part of NCBI's Entrez Programming Utilities (E-utilities), provides programmatic access to biomedical literature from the PubMed database, enabling retrieval of bibliographic data.
+
+Please see the following resources for more information on API usage:
+- Documentation
+    - <a href="https://www.ncbi.nlm.nih.gov/books/NBK25501/" target="_blank">Entrez Programming Utilities Help</a>
+    - <a href="https://www.ncbi.nlm.nih.gov/home/develop/api/" target="_blank">NCBI API Documentation</a>
+- Terms
+    - <a href="https://www.ncbi.nlm.nih.gov/home/about/policies/" target="_blank">NCBI Terms of Use</a>
+    - <a href="https://www.ncbi.nlm.nih.gov/books/NBK25497/" target="_blank">NCBI Entrez Programming Rate Limit</a>
+- Data Reuse
+    - <a href="https://www.ncbi.nlm.nih.gov/home/about/policies/" target="_blank">NCBI Data Reuse Policy</a>
+
+_**NOTE:**_ The PubMed API (Entrez E-utilities) limits requests to a maximum of 3 requests per second without an API key, and up to 10 requests per second with an API key.
+
+*These recipe examples were tested on March 24, 2026.*
+
+## Setup
+
+The following packages need to be installed into your environment to run the code examples in this tutorial. These packages can be installed with `install.packages()`.
+
+- <a href="https://cran.r-project.org/web/packages/httr/index.html" target="_blank">httr: Tools for Working with URLs and HTTP</a>
+- <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" target="_blank">jsonlite: A Simple and Robust JSON Parser and Generator for R</a>
+
+We load the libraries used in this tutorial below:
+
+```{r}
+library(httr)
+library(jsonlite)
+```
+
+## 1. Retieve the Metadata of an Article by PubMed ID
+
+The article we are requesting has a PubMed ID (`pmid`) of 27933103. The `retmode` parameter specifies the file format, which we specify as JSON in this example.
+
+```{r}
+ESUMMARY_URL <- "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+pmid <- "27933103"
+
+params <- list(
+  db = "pubmed",
+  id = pmid,
+  retmode = "json"
+)
+
+response <- GET(ESUMMARY_URL, query = params)
+
+# Parse JSON
+data <- content(response, as = "text", encoding = "UTF-8")
+data <- fromJSON(data)
+
+# Print the field names of the JSON response for the PubMed ID search
+names(data$result[[pmid]])
+```
+
+Below, we extract from specific information from the response:
+
+```{r}
+# Extract the title of the article
+data$result[[pmid]]$title
+```
+
+```{r}
+# Extract author data
+data$result[[pmid]]$authors
+```
+
+## 2. Retrieve Metadata for a List of PubMed IDs
+
+First, create a list of PubMed IDs:
+
+```{r}
+pmids <- c("34813985", "34813932", "34813684", "34813661", "34813372", "34813140", "34813072")
+```
+
+Now we can retrieve the data from PubMed and save the data to the list `multi_papers`:
+
+```{r}
+multi_papers <- list()
+for (pmid in pmids) {
+
+  params <- list(
+    db = "pubmed",
+    id = pmid,
+    retmode = "json"
+  )
+
+  Sys.sleep(1)   # Delay between API calls
+  response <- GET(ESUMMARY_URL, query = params)
+
+  data <- content(response, as = "text", encoding = "UTF-8")
+  data_json <- fromJSON(data)
+
+  # Store paper result using the pmid as the list key
+  multi_papers[[pmid]] <- data_json$result[[pmid]]
+}
+
+names(multi_papers)
+```
+
+Below, we compile a data frame from some of the results stored in the response data.
+
+```{r}
+# Compile some of the data of the results to a new data frame
+results_df <- data.frame(
+  pubdate = sapply(pmids, function(pmid) multi_papers[[pmid]]$pubdate),
+  issn = sapply(pmids, function(pmid) multi_papers[[pmid]]$issn),
+  source = sapply(pmids, function(pmid) multi_papers[[pmid]]$source),
+  stringsAsFactors = FALSE
+)
+
+results_df
+```
+
+## 3. PubMed API Calls with Requests & Parameters
+
+When searching through the articles, we are given a few of ways of filtering the data. A list of all the available parameters for these requests can be found in the <a href="https://www.ncbi.nlm.nih.gov/books/NBK25499/" target="_blank">NCBI documentation</a>.
+
+In this example, we use the `db` and `term` parameters:
+- `db` is set to `pubmed`, which is the database we are working with
+- `term` is set to our search query
+
+```{r}
+ESEARCH_URL <- "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+params <- list(
+  db = "pubmed",
+  term = "neuroscience intervention learning",
+  retmode = "json"
+)
+
+Sys.sleep(1)
+response <- GET(ESEARCH_URL, query = params)
+data <- fromJSON(content(response, as = "text", encoding = "UTF-8"))
+
+# Print the number of articles found by the query
+data$esearchresult$count
+```
+
+```{r}
+# Print the number of articles returned by the query
+length(data$esearchresult$idlist)
+```
+
+```{r}
+# Print the PubMed IDs of the first 5 results
+data$esearchresult$idlist[1:5]
+```
+
+The number of returned IDs can be adjusted with the `retmax` paramater:
+
+```{r}
+params <- list(
+  db = "pubmed",
+  term = "neuroscience intervention learning",
+  retmode = "json",
+  retmax = 25
+)
+
+Sys.sleep(1)
+response <- GET(ESEARCH_URL, query = params)
+data <- fromJSON(content(response, as = "text", encoding = "UTF-8"))
+
+# Note how the number of returned articles is now 25 instead of 20
+length(data$esearchresult$idlist)
+```
+
+The PubMed API can also be used the query to search for an author. To do so, add `[au]` after the name to specify it is an author.
+
+```{r}
+params <- list(
+  db = "pubmed",
+  term = "Darwin[au]",
+  retmode = "json"
+)
+
+Sys.sleep(1)
+response <- GET(ESEARCH_URL, query = params)
+data <- fromJSON(content(response, as = "text", encoding = "UTF-8"))
+
+# Print total number of results of the query
+data$esearchresult$count
+```
+
+### Sorting Results
+
+We can use the following parameters to store the data for it to be sorted in the same API call:
+- `usehistory` is set to `y`, which indicates "yes"
+- `sort` is set to `pub date`, which indicates that we are sorting by publication date
+
+```{r}
+params <- list(
+  db = "pubmed",
+  term = "Coral Reefs",
+  retmode = "json",
+  usehistory = "y",
+  sort = "pub date"
+)
+
+Sys.sleep(1)
+response <- GET(ESEARCH_URL, query = params)
+data <- fromJSON(content(response, as = "text", encoding = "UTF-8"))
+
+# Print the PubMed IDs of the first 5 results
+data$esearchresult$idlist[1:5]
+```
+
+```{r}
+# Compare to unsorted
+params <- list(
+  db = "pubmed",
+  term = "Coral Reefs",
+  retmode = "json"
+)
+
+Sys.sleep(1)
+response <- GET(ESEARCH_URL, query = params)
+data <- fromJSON(content(response, as = "text", encoding = "UTF-8"))
+
+# Notice that the IDs returned are different
+data$esearchresult$idlist[1:5]
+```
+
+### Searching Based on Publication Type
+
+We can sort by publication type by adding `AND` into the search:
+- `AND` in the `term` parameter indicates that both conditions must be present
+- `[pt]` specifies that the filter type is publication type
+
+More filters can be found at <a href="https://pubmed.ncbi.nlm.nih.gov/help/" target="_blank">PubMed Help</a>.
+
+```{r}
+params <- list(
+  db = "pubmed",
+  term = "stem cells AND clinical trial[pt]",
+  retmode = "json"
+)
+
+Sys.sleep(1)
+response <- GET(ESEARCH_URL, query = params)
+data <- fromJSON(content(response, as = "text", encoding = "UTF-8"))
+
+# Print number of total results
+data$esearchresult$count
+```
+
+## 4. Visualize Publication Frequencies for Different Topics
+
+### Frequency of Topic sortpubdate Field
+
+Extracting the sortpubdate field for a “hydrogel drug” search results, limited to the "clinical trial" publication type:
+
+```{r}
+params <- list(
+  db = "pubmed",
+  term = "hydrogel drug AND clinical trial[pt]",
+  retmode = "json",
+  usehistory = "y",
+  sort = "pub date",
+  retmax = 500
+)
+
+Sys.sleep(1)
+response <- GET(ESEARCH_URL, query = params)
+data <- fromJSON(content(response, as = "text", encoding = "UTF-8"))
+ids <- data$esearchresult$idlist
+
+# Print the number of results
+length(ids)
+```
+
+```{r}
+# Print the first 5 results
+ids[1:5]
+```
+
+```{r}
+# Loop through each ID and get the sortpubdate field
+# Note that the sortpubdate field may not be equivalent to the publication date
+pub_dates <- character(length(ids))
+for (i in seq_along(ids)) {
+  params <- list(
+    db = "pubmed",
+    id = ids[i],
+    retmode = "json"
+  )
+  Sys.sleep(1)
+  response <- GET(ESUMMARY_URL, query = params)
+  data <- fromJSON(content(response, as = "text", encoding = "UTF-8"))
+
+  pub_dates[i] <- substr(data$result[[ids[i]]]$sortpubdate, start = 1, stop = 10)
+}
+
+# Print the first 5 publication dates
+pub_dates[1:5]
+```
+
+```{r publication-histogram}
+# Convert pub_dates to the Date class
+pub_dates <- as.Date(pub_dates)
+
+# Extract years from Date objects
+pub_years <- as.integer(format(pub_dates, "%Y"))
+
+# Drop current year from the data
+pub_years <- pub_years[pub_years != max(pub_years)]
+
+# Plot data as a histogram
+hist(
+  pub_years,
+  breaks = seq(min(pub_years), max(pub_years), by = 5),
+  main = "\"Clinical Trial\" Publications with \"Hydrogel Drug\" in Search Data",
+  xlab = "Publication Year",
+  ylab = "Number of Publications",
+  
+  col = "steelblue",
+  border = "white"
+)
+```
+
+### Frequency of Publication for an Author Search
+
+```{r}
+params <- list(
+  db = "pubmed",
+  term = "Reed LK[au]",
+  retmode = "json",
+  usehistory = "y",
+  sort = "pub date",
+  retmax = 500
+)
+
+Sys.sleep(1)
+response  <- GET(ESEARCH_URL, query = params)
+data <- fromJSON(content(response, as = "text", encoding = "UTF-8"))
+ids <- data$esearchresult$idlist
+
+# Print the number of results
+length(ids)
+```
+
+```{r}
+auth_dates <- character(length(ids))
+for (i in seq_along(ids)) {
+  params <- list(
+    db = "pubmed",
+    id = ids[i],
+    retmode = "json"
+  )
+  Sys.sleep(1)
+  response <- GET(ESUMMARY_URL, query = params)
+  data <- fromJSON(content(response, as = "text", encoding = "UTF-8"))
+
+  auth_dates[i] <- substr(data$result[[ids[i]]]$sortpubdate, start = 1, stop = 10)
+}
+
+# Print the first 5 publication dates
+auth_dates[1:5]
+```
+
+```{r reed-histogram}
+auth_dates <- as.Date(pub_dates)
+auth_years <- as.integer(format(pub_dates, "%Y"))
+auth_years <- pub_years[pub_years != max(pub_years, na.rm = TRUE)]
+hist(
+  auth_years,
+  breaks = seq(min(auth_years), max(auth_years), by = 1),
+  main = "Publications by LK Reed",
+  xlab = "Publication Year",
+  ylab = "Number of Publications",
+  
+  col = "steelblue",
+  border = "white"
+)
+```

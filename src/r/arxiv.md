@@ -5,7 +5,9 @@ output:
     keep_md: true
 ---
 
-# arXiv API in R
+
+
+# arXiv API in R 
 
 by Adam M. Nguyen and Michael T. Moen
 
@@ -24,16 +26,17 @@ Please see the following resources for more information on API usage:
 
 *Acknowledgment: Thank you to arXiv for use of its open access interoperability.*
 
-*These recipe examples were tested on October 20, 2025.*
+*These recipe examples were tested on March 23, 2026.*
 
 ## Setup
 
-The following packages libraries need to be installed into your environment to run the code examples in this tutorial. These packages can be installed with `install.packages()`.
+The following packages need to be installed into your environment to run the code examples in this tutorial. These packages can be installed with `install.packages()`.
 
 - <a href="https://cran.r-project.org/web/packages/aRxiv/index.html" target="_blank">aRxiv: Interface to the arXiv API</a>
 - <a href="https://cran.r-project.org/web/packages/ggplot2/index.html" target="_blank">ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</a>
 
 We load the libraries used in this tutorial below:
+
 
 ``` r
 library(aRxiv)
@@ -47,7 +50,7 @@ Before we get started, a useful function provided by the `aRxiv` package is `arx
 
 ``` r
 # Here are the first 10 categories to showcase the function
-head(arxiv_cats[c("category", "field", "short_description")], n=10)
+head(arxiv_cats[c("category", "field", "short_description")], n = 10)
 ```
 
 ```
@@ -71,7 +74,8 @@ Possibly the function of most utility in the package is `arxiv_search()`. The se
 
 ``` r
 # Search for Hydrodynamics papers
-hydrodynamic_search <- arxiv_search('ti:Hydrodynamics', batchsize =410, limit=10000, force = TRUE)
+hydrodynamic_search <- arxiv_search('ti:Hydrodynamics', batchsize = 410,
+                                    limit = 10000, force = TRUE)
 ```
 
 ```
@@ -114,6 +118,46 @@ hydrodynamic_search <- arxiv_search('ti:Hydrodynamics', batchsize =410, limit=10
 ## retrieved batch 10
 ```
 
+```
+## retrieved batch 11
+```
+
+```
+## retrieved batch 12
+```
+
+```
+## retrieved batch 13
+```
+
+```
+## retrieved batch 14
+```
+
+```
+## retrieved batch 15
+```
+
+```
+## retrieved batch 16
+```
+
+```
+## retrieved batch 17
+```
+
+```
+## retrieved batch 18
+```
+
+```
+## retrieved batch 19
+```
+
+```
+## retrieved batch 20
+```
+
 ``` r
 # Extract out the authors
 authors <- hydrodynamic_search[, c('title', 'authors')]
@@ -123,13 +167,13 @@ head(authors)
 ```
 
 ```
-##                                                                                                 title
-## 1                                               A finite model of two-dimensional ideal hydrodynamics
-## 2              Hydrodynamic Stability Analysis of Burning Bubbles in Electroweak Theory\n  and in QCD
-## 3                                                             Hydrodynamics of Relativistic Fireballs
-## 4 Comparison of Spectral Method and Lattice Boltzmann Simulations of\n  Two-Dimensional Hydrodynamics
-## 5                Classical differential geometry and integrability of systems of\n  hydrodynamic type
-## 6                       Hydrodynamic Spinodal Decomposition: Growth Kinetics and Scaling\n  Functions
+##                                                                                              title
+## 1                                            A finite model of two-dimensional ideal hydrodynamics
+## 2              Hydrodynamic Stability Analysis of Burning Bubbles in Electroweak Theory and in QCD
+## 3                                                          Hydrodynamics of Relativistic Fireballs
+## 4 Comparison of Spectral Method and Lattice Boltzmann Simulations of Two-Dimensional Hydrodynamics
+## 5                Classical differential geometry and integrability of systems of hydrodynamic type
+## 6                       Hydrodynamic Spinodal Decomposition: Growth Kinetics and Scaling Functions
 ##                                                   authors
 ## 1                                  J. S. Dowker|A. Wolski
 ## 2  P. Huet|K. Kajantie|R. G. Leigh|B. -H. Liu|L. McLerran
@@ -155,12 +199,12 @@ head(ordered_cofreq)
 
 ```
 ##                  Var1 Freq
-## 1  Radoslaw Ryblewski   31
-## 2    Tetsufumi Hirano   31
-## 3 Wojciech Florkowski   30
-## 4     Volker Springel   29
-## 5  Michael Strickland   28
-## 6           T. Kodama   28
+## 1  Radoslaw Ryblewski   55
+## 2 Wojciech Florkowski   55
+## 3  Michael Strickland   48
+## 4       Jorge Noronha   43
+## 5      Benjamin Doyon   41
+## 6    Tetsufumi Hirano   40
 ```
 
 ### Visualization
@@ -170,16 +214,16 @@ Additionally, we can create a visualization using the `ggplot2` library. See the
 
 ``` r
 # Visualize the top 20 highest publishers
-ggplot(head(ordered_cofreq,n=20), aes(x = Var1, y = Freq)) +
+ggplot(head(ordered_cofreq, n = 20), aes(x = Var1, y = Freq)) +
   geom_bar(stat = "identity", fill = "#D16103") +
   labs(title = "Top 20 Most Published Authors in Hydrodynamics in arXiv",
        x = "Author",
        y = "Number of Publications") +
   # Rotate x-axis labels for readability
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 ```
 
-![](arxiv_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](_figures/arxiv/top20-published-authors-1.png)<!-- -->
 
 ## 2. Retrieving Number of Query Results
 
@@ -192,7 +236,7 @@ arxiv_count('ti:"hydrodynamics"')
 ```
 
 ```
-## [1] 7272
+## [1] 7490
 ```
 
 We can also see how many HEP-th papers there are.
@@ -204,32 +248,34 @@ arxiv_count("cat: HEP-th")
 ```
 
 ```
-## [1] 177084
+## [1] 180800
 ```
 
 And finally we can see how many HEP-th papers have been published throughout the years.
 
 
 ``` r
-# Create a vector of years we are interested in, 1991:2023
-years <- 1991:2023
+# Create a vector of years we are interested in
+years <- 1995:2020
 
 # Create empty vector for annual counts
 counts <- c()
 
 # Loop through years to create list of counts per year
-for(year in years){
-  counts <- c(counts, arxiv_count(paste0('cat:HEP-th AND submittedDate:[',year,' TO ',year+1,']')))
+for (year in years) {
+  counts <- c(counts,
+              arxiv_count(paste0('cat:HEP-th AND submittedDate:[', year, ' TO ', year+1, ']')))
+  Sys.sleep(1)
 }
-counts_df <- as.data.frame(cbind(1991:2023,counts))
+counts_df <- as.data.frame(cbind(years, counts))
 # Simple base R plot of the data
 plot(counts_df,
      main = 'Theoretical High Energy Physics Papers Published per Year',
      xlab = 'Year',
-     ylab='Number of Papers')
+     ylab = 'Number of Papers')
 ```
 
-![](arxiv_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](_figures/arxiv/hep-papers-1.png)<!-- -->
 
 ## 3. Proportion of Preprints in Hydrodynamics Papers
 
@@ -243,10 +289,9 @@ hydrodynamic_preprint_count <- sum(hydrodynamic_search$doi == "")
 # Calculate a percentage of preprints
 percentage_preprints <- (hydrodynamic_preprint_count / nrow(hydrodynamic_search)) * 100
 
-paste0('The percentage of preprints is ',round(percentage_preprints, digits = 2),'%.')
+paste0('The percentage of preprints is ', round(percentage_preprints, digits = 2), '%.')
 ```
 
 ```
-## [1] "The percentage of preprints is 23.93%."
+## [1] "The percentage of preprints is 31.86%."
 ```
-

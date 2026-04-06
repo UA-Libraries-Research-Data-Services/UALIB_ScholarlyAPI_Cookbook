@@ -1,0 +1,328 @@
+---
+title: "CrossRef API in R"
+output:
+  html_document:
+    keep_md: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.path = "_figures/crossref/"
+)
+```
+
+# Crossref API in Python
+
+by Michael T. Moen, Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
+
+The Crossref API provides metadata about publications, including articles, books, and conference proceedings. This metadata spans items such as author details, journal details, references, and DOIs (Digital Object Identifiers). Working with Crossref allows for programmatic access to bibliographic information and can streamline large-scale metadata retrieval.
+
+Please see the following resources for more information on API usage:
+- Documentation
+    - <a href="https://api.crossref.org/swagger-ui/index.html" target="_blank">Crossref API Documentation</a>
+    - <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/a-non-technical-introduction-to-our-api/" target="_blank">Crossref API Introduction</a>
+    - <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining/" target="_blank">Crossref Data Mining</a>
+    - <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining-for-members/" target="_blank">Crossref Data Mining for Members</a>
+    - <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining-for-researchers/" target="_blank">Crossref Data Mining for Researchers</a>
+    - <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/providing-full-text-links-to-tdm-tools/" target="_blank">Crossref Full-Text Links</a>
+- Terms
+    - <a href="https://www.crossref.org/membership/terms/" target="_blank">Crossref Terms of Use</a>
+- Data Reuse
+    - <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/rest-api-metadata-license-information/" target="_blank">Crossref Metadata Reuse</a>
+    - <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/providing-licensing-information-to-tdm-tools/" target="_blank">Crossref TDM Licensing</a>
+
+**_NOTE:_** The <a href="https://api.crossref.org/swagger-ui/index.html" target="_blank">Crossref API</a> limits requests to a maximum of 50 per second.
+
+*These recipe examples were tested on March 23, 2026.*
+
+_**Note:**_ From our testing, we have found that the Crossref metadata across publishers and even journals can vary considerably. As a result, it can be easier to work with one journal at a time when using the Crossref API (particularly when trying to extract selected data from records).
+
+## Setup
+
+### Load Libraries
+
+The following packages need to be installed into your environment to run the code examples in this tutorial. These packages can be installed with `install.packages()`.
+
+- <a href="https://cran.r-project.org/web/packages/httr/index.html" target="_blank">httr: Tools for Working with URLs and HTTP</a>
+- <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" target="_blank">jsonlite: A Simple and Robust JSON Parser and Generator for R</a>
+
+We load the libraries used in this tutorial below:
+
+```{r}
+library(httr)
+library(jsonlite)
+```
+
+### Import API Key
+
+It is important to provide an email address when making requests to the Crossref API. This is used to contact you in case of any issues with your requests.
+
+We keep our token in a `.Renviron` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.Renviron` should have an entry like the one below.
+
+```text
+CROSSREF_EMAIL="PUT_YOUR_EMAIL_HERE"
+```
+
+Below, we can test to whether the email was successfully imported.
+
+```{r}
+if (nzchar(Sys.getenv("CROSSREF_EMAIL"))) {
+  print("Email successfully loaded.")
+} else {
+  warning("Email not found or is empty.")
+}
+```
+
+## 1. Basic Crossref API Call
+
+In this section, we perform a basic API call to the Crossref service to retrieve metadata for a single DOI.
+
+We will:
+1. Build the Crossref endpoint using our base URL, DOI, and the `mailto` parameter.
+2. Retrieve the response.
+3. Examine and parse the JSON data.
+
+```{r}
+# Set base URL to Crossref API
+WORKS_URL <- "https://api.crossref.org/works/"
+
+doi <- "10.1186/1758-2946-4-12"  # Example DOI
+params <- list(
+  mailto = Sys.getenv("CROSSREF_EMAIL")
+)
+
+response <- GET(paste0(WORKS_URL, doi), query = params)
+
+# Status code 200 indicates success
+response$status_code
+```
+This calls the Crossref API to retrieve metadata for a single DOI, but the data is in a hexadecimal format. We can extract the information we need from the call using `fromJSON()` with `rawToChar()`.
+
+```{r}
+data <- fromJSON(rawToChar(response$content))
+data$status
+```
+
+### Extract Data from API Response
+
+In the snippet below, we parse and extract some key fields from the response:
+1. **Journal title** via the `container-title` key.
+2. **Article title** via the `title` key.
+3. **Author names** via the `author` key.
+4. **Bibliographic references** via the `reference` key.
+
+```{r}
+# Extract journal title
+data$message$`container-title`
+```
+
+```{r}
+# Extract article title
+data$message$title
+```
+
+```{r}
+# Extract author names
+authors_data <- data$message$author
+authors <- paste(authors_data$given, authors_data$family)
+authors
+```
+
+```{r}
+# Extract bibliography references
+bib_refs <- data$message$reference$unstructured
+
+# Print first 3 references
+bib_refs[1:3]
+```
+
+## 2. Crossref API Call with a Loop
+
+In this section, we want to request metadata from multiple DOIs at once. We will:
+1. Create a list of several DOIs.
+2. Loop through that list, calling the Crossref API for each DOI.
+3. Store each response in a new list.
+4. Parse specific data, such as article titles and affiliations.
+
+> **Note**: We include a one-second sleep (`Sys.sleep(1)`) between requests to respect Crossref's <a href="https://api.crossref.org/swagger-ui/index.html" target="_blank">policies</a>. Crossref has usage guidelines that discourage extremely rapid repeated requests. Please also check out Crossref's <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/tips-for-using-public-data-files-and-plus-snapshots/" target="_blank">public data file</a> for bulk downloads.
+
+```{r}
+dois <- c(
+  '10.1021/acsomega.1c03250',                          
+  '10.1021/acsomega.1c05512',
+  '10.1021/acsomega.8b01647',
+  '10.1021/acsomega.1c04287',
+  '10.1021/acsomega.8b01834'
+)
+
+doi_metadata <- list(list()) # A list of lists is used to hold the data from the 5 DOIs
+i <- 1
+for (doi in dois) {
+  response <- GET(paste0(WORKS_URL, doi), query = params)
+  doi_metadata[[i]] <- fromJSON(rawToChar(response$content))
+  i <- i + 1
+  Sys.sleep(1)  # Important to add a delay between API calls
+}
+```
+
+```{r}
+# Extract article titles
+titles <- sapply(doi_metadata, function(x) x$message$title)
+titles
+```
+
+```{r}
+i <- 1
+for (article in doi_metadata) {
+
+  cat(paste("DOI", i, "\n"))
+  authors <- article$message$author
+
+  for (k in seq_len(NROW(authors))) {
+    affiliations <- authors$affiliation[[k]]
+    if (is.null(affiliations) || length(affiliations) == 0) {
+      cat(" - No affiliation provided\n")
+    } else {
+      cat(" - ", affiliations$name[1], "\n", sep = "")
+    }
+  }
+
+  i <- i + 1
+  cat("\n")
+}
+```
+
+## 3. Retrieve Journal Information
+
+Crossref also provides an endpoint to query journal metadata using the **ISSN**. In this section, we:
+1. Use the `journals` endpoint.
+2. Provide an ISSN.
+3. Inspect the returned JSON data.
+
+```{r}
+JOURNALS_URL <- "https://api.crossref.org/journals/"
+params <- list(
+  mailto = Sys.getenv("CROSSREF_EMAIL")
+)
+
+# ISSN for the journal BMC Bioinformatics
+issn <- "1471-2105"
+
+response <- GET(paste0(JOURNALS_URL, issn), query = params)
+data <- fromJSON(rawToChar(response$content))
+
+# Print top-level structure of the response message
+str(data$message, max.level = 1)
+```
+
+```{r}
+# Extract total number of articles from the journal in Crossref
+data$message$counts$`total-dois`
+```
+
+```{r}
+# Extract percentage of articles from the journal with abstracts in Crossref
+data$message$coverage$`abstracts-current`
+```
+
+## 4. Get Article DOIs for a Journal
+
+We can get all article DOIs for a given journal and year range by combining the **journals** endpoint with **filters**.
+For example, to retrieve all DOIs for BMC Bioinformatics published in **2014**, we filter between the start date (`from-pub-date`) and end date (`until-pub-date`) of 2014.
+
+> **Note**: By default, the API only returns the first 20 results. We can specify `rows` to increase this up to **1000**. If the total number of results is **greater** than 1000, we can use the `offset` parameter to page through the results in multiple calls.
+
+Below, we demonstrate:
+1. Filtering to get only DOIs from 2014.
+2. Increasing the `rows` to 700.
+3. Pushing beyond the 1000-row limit by using `offset`.
+
+### Retrieve and Display First 20 DOIs
+
+```{r}
+params <- list(
+  select = "DOI",
+  filter = "from-pub-date:2014,until-pub-date:2014",
+  mailto = Sys.getenv("CROSSREF_EMAIL")
+)
+issn <- "1471-2105"  # ISSN for the journal BMC Bioinformatics
+
+response <- GET(paste0(JOURNALS_URL, issn, "/works"), query = params)
+doi_data = fromJSON(rawToChar(response$content))
+
+# Print DOIs from the response
+doi_data$message$items$DOI
+```
+
+### Increase Rows to Retrieve More Than 20 DOIs
+
+```{r}
+# Add the rows parameter to increase the number of results
+params <- list(
+  select = "DOI",
+  filter = "from-pub-date:2014,until-pub-date:2014",
+  rows = 700,
+  mailto = Sys.getenv("CROSSREF_EMAIL")
+)
+issn <- "1471-2105"  # ISSN for the journal BMC Bioinformatics
+
+response <- GET(paste0(JOURNALS_URL, issn, "/works"), query = params)
+doi_data = fromJSON(rawToChar(response$content))
+
+# Print number of DOIs in the response
+length(doi_data$message$items$DOI)
+```
+
+### Paged Retrieval with Offsets
+
+If we need more than 1000 records, we can combine `rows=1000` with the `offset` parameter. We:
+1. Determine the total number of results (`total-results`).
+2. Calculate how many loops we need based on 1000 items per page.
+3. For each page, we adjust the `offset` by `1000 * n`.
+4. Collect all DOIs into one large list.
+
+```{r}
+# First, get total number of results to see if we exceed 1000
+params <- list(
+  filter = "from-pub-date:2014,until-pub-date:2016",
+  select = "DOI",
+  rows = 1000,
+  mailto = Sys.getenv("CROSSREF_EMAIL")
+)
+response <- GET(paste0(JOURNALS_URL, issn, "/works"), query = params)
+initial_data <- fromJSON(rawToChar(response$content))
+
+num_results <- initial_data$message$`total-results`
+cat("Total results for 2014-2016:", num_results)
+```
+
+```{r}
+# Page through results if more than 1000
+journal_dois <- c()
+
+# Calculate how many pages we need
+pages_needed <- as.integer(num_results/1000) + 1
+
+for (n in 0:pages_needed) {
+  # Build URL using offset
+  params <- list(
+    filter = "from-pub-date:2014,until-pub-date:2016",
+    select = "DOI",
+    rows = 1000,
+    offset = as.character(1000 * n),
+    mailto = Sys.getenv("CROSSREF_EMAIL")
+  )
+  response <- GET(paste0(JOURNALS_URL, issn, "/works"), query = params)
+  page_data <- fromJSON(rawToChar(response$content))
+  journal_dois <- c(journal_dois, page_data$message$items$DOI)
+  Sys.sleep(1)  # Important to respect Crossref usage guidelines
+}
+
+# Print number of DOIs extracted
+length(journal_dois)
+```
+
+```{r}
+# Show results 1000 through 1010
+print(journal_dois[1000:1010])
+```

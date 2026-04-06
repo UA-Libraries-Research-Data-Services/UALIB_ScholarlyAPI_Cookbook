@@ -1,0 +1,270 @@
+---
+title: "USAspending API in R"
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.path = "_figures/usa-spending/"
+)
+```
+
+# USAspending API in Python
+
+by Adam M. Nguyen and Michael T. Moen
+
+Please see the following resources for more information on API usage:
+
+- Documentation
+    - <a href="https://www.usaspending.gov/" target="_blank">USAspending Website</a>
+    - <a href="https://api.usaspending.gov/" target="_blank">USAspending Documentation</a>
+- Terms
+    - <a href="https://github.com/fedspendingtransparency/usaspending-api?tab=CC0-1.0-1-ov-file" target="_blank">USAspending API License</a>: <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en" target="_blank">CC0 1.0 Univeral</a>
+- Data Reuse
+    - <a href="https://www.usaspending.gov/about#about-licensing" target="_blank">USAspending Data Reuse</a>
+
+*These recipe examples were tested on March 23, 2026.*
+
+## Setup
+
+The following packages need to be installed into your environment to run the code examples in this tutorial. These packages can be installed with `install.packages()`.
+
+- <a href="https://cran.r-project.org/web/packages/httr/index.html" target="_blank">httr: Tools for Working with URLs and HTTP</a>
+- <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" target="_blank">jsonlite: A Simple and Robust JSON Parser and Generator for R</a>
+
+We load the libraries used in this tutorial below:
+
+```{r}
+library(httr)
+library(jsonlite)
+```
+
+## 1. Get Agency Names and Toptier Codes
+
+To obtain data from the API, it is useful to first build a dictionary containing agency names and toptier codes, the latter of which will be used to access subagency data. The toptier codes serve as unique identifiers for each agency, so they are needed for accessing some of the data in the API.
+
+```{r}
+BASE_URL <- "https://api.usaspending.gov/api/v2/"
+toptier_agencies_endpoint <- "references/toptier_agencies/"
+
+# Request data from the API
+toptier_response <- GET(paste0(BASE_URL, toptier_agencies_endpoint))
+
+# Response code of 200 indicates success
+toptier_response$status_code
+```
+
+```{r}
+# Extract data from response
+toptier_df <- fromJSON(rawToChar(toptier_response$content))$results
+
+# Print number of agencies
+nrow(toptier_df)
+```
+
+```{r}
+# Display the data for the first 5 results
+head(toptier_df, n = 5)
+```
+
+Now we can create a mapping containing the agency names as keys and the toptier codes as the data.
+
+```{r}
+toptier_codes <- setNames(toptier_df$toptier_code, toptier_df$agency_name)
+
+# Let's see the first 10 agencies and their toptier codes
+head(toptier_codes, n = 10)
+```
+
+Finally, let's print the toptier code for a particular agency using the `toptier_codes` mapping. This will be useful when building URLs to view other data from the API.
+
+```{r}
+# Look up toptier code of specific agency, in this case Department of Transportation
+toptier_codes["Department of Transportation"]
+```
+
+## 2. Retrieving Data from Subagencies
+
+The `toptier_codes` mapping we created above contains every agency name in the API. For this example, we'll look at the total obligations of each subagency of the Department of Defense.
+
+```{r}
+# Specify agency name
+agency_name <- 'Department of Defense'
+
+# Assemble URL and send API request
+dod_url <- paste0(BASE_URL, "agency/", toptier_codes[agency_name], "/sub_agency/")
+params <- list(
+  fiscal_year = 2024
+)
+dod_response <- GET(dod_url, query = params)
+
+# Status code 200 indicates success
+dod_response$status_code
+```
+
+```{r}
+# Extract data from HTTP response
+dod_df <- fromJSON(rawToChar(dod_response$content))$results
+
+# Drop children column of data frame for display
+dod_df <- dod_df[, names(dod_df) != "children"]
+
+# Display the first 6 responses
+head(dod_df)
+```
+
+We'll represent our data using a pie chart. To make the data easier to read, we can create an "Other" category for smaller subagencies.
+
+```{r subagency-obligations, fig.width = 8, fig.height = 5}
+obligations <- dod_df$total_obligations
+names(obligations) <- dod_df$name
+
+total_obligations <- sum(obligations)
+
+threshold <- 0.015
+small <- obligations < threshold * total_obligations
+
+if (sum(small) > 1) {
+  obligations <- c(obligations[!small], Other = sum(obligations[small]))
+}
+
+par(mar = c(5, 4, 4, 8))
+
+pie(
+  obligations,
+  # Format data labels to billions of dollars
+  labels = paste0("$", formatC(obligations / 1e9, format = "f", digits = 2), "B"),
+  col = rainbow(length(obligations)),
+  main = paste("Subagency Obligations of the", agency_name)
+)
+
+legend(
+  "bottomright",
+  inset = c(-0.25, -0.25),
+  xpd = TRUE,
+  legend = names(obligations),
+  fill = rainbow(length(obligations)),
+  cex = 0.8
+)
+```
+
+## 3. Accessing Fiscal Data Per Year
+
+We can use the API to examine the annual budget of an agency from 2017 onward.
+
+```{r}
+# Specify agency name
+agency_name <- "Department of Health and Human Services"
+
+# Assemble URL and send API request
+hhs_url <- paste0(BASE_URL, "agency/", toptier_codes[agency_name], "/budgetary_resources/")
+hhs_response <- GET(hhs_url)
+
+# Status code 200 indicates success
+hhs_response$status_code
+```
+
+```{r}
+# Extract data into a data frame
+hhs_df <- fromJSON(rawToChar(hhs_response$content))$agency_data_by_year
+
+# Drop agency_obligation_by_period column for display purpose
+hhs_df <- hhs_df[, names(hhs_df) != "agency_obligation_by_period"]
+
+# Print the first few rows of the data frame
+head(hhs_df, n = 5)
+```
+
+```{r}
+# Drop the most recent year, since the data is not complete
+hhs_df <- hhs_df[hhs_df$fiscal_year != max(hhs_df$fiscal_year), ]
+head(hhs_df, n = 5)
+```
+
+Now, we can create a bar plot of the retrieved data.
+
+```{r hhs-bar-plot, fig.width = 6, fig.height = 4}
+# Extract and name values for plotting
+values <- hhs_df$agency_total_obligated / 1e12
+names(values) <- hhs_df$fiscal_year
+
+# Sort by fiscal year
+values <- values[order(names(values))]
+
+y_breaks <- pretty(c(0, values), n = 6)
+y_lim    <- c(0, max(y_breaks))
+
+barplot(
+  values,
+  xlab = "Fiscal Year",
+  ylab = "Total Obligations (Trillions of $)",
+  main = "Agency Total Obligations for HHS",
+  col = "aquamarine4",
+  border = "white",
+  space = 0,
+  cex.axis = 0.8,
+  cex.names = 0.8,
+  ylim = y_lim
+)
+```
+
+## 4. Breaking Down Award Categories
+
+We can use the API to view the breakdown the spending of a particular agency.
+
+```{r}
+# Specify agency name
+agency_name <- "Department of the Interior"
+
+# Define parameters and make API request
+doi_url <- paste0(BASE_URL, "agency/", toptier_codes[agency_name],
+                  "/obligations_by_award_category")
+params <- list(
+  fiscal_year = 2023
+)
+doi_response <- GET(doi_url, query = params)
+
+# Status code 200 indicates success
+doi_response$status_code
+```
+
+```{r}
+# Extract data from API response
+doi_df <- fromJSON(rawToChar(doi_response$content))$results
+
+# Print results
+doi_df
+```
+
+```{r}
+# Clean data frame values
+doi_df <- doi_df[doi_df$aggregated_amount > 0, ]
+doi_df
+```
+
+```{r award-categories}
+values <- doi_df$aggregated_amount
+names(values) <- doi_df$category
+
+total_aggregated_amount <- sum(values)
+
+par(mar = c(4, 4, 4, 5))
+
+pie(
+  values,
+  # Format data labels to billions of dollars
+  labels = paste0("$", formatC(values / 1e9, format = "f", digits = 2), "B"),
+  col = rainbow(length(values)),
+  main = paste("Award Categories of the", agency_name)
+)
+
+legend(
+  "bottomright",
+  xpd = TRUE,
+  legend = names(values),
+  fill = rainbow(length(values)),
+  cex = 0.8
+)
+```

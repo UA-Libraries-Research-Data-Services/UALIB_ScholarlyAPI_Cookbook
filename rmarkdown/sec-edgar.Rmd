@@ -1,0 +1,284 @@
+---
+title: "SEC EDGAR API in R"
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.path = "_figures/sec-edgar/"
+)
+```
+
+# SEC EDGAR API in R
+
+by Adam M. Nguyen and Michael T. Moen
+
+The U.S. Securities and Exchange Commission (SEC) allows free public access to documents filed by publicly traded companies in the Electronic Data Gathering, Analysis, and Retrieval (EDGAR) system.
+
+Please see the following resources for more information on API usage:
+
+- Documentation
+    - <a href="https://www.sec.gov/search-filings" target="_blank">SEC EDGAR</a>
+    - <a href="https://www.sec.gov/search-filings/edgar-application-programming-interfaces" target="_blank">SEC EDGAR Documentation</a>
+    - <a href="https://www.sec.gov/search-filings/edgar-search-assistance/accessing-edgar-data" target="_blank">SEC EDGAR Search Assistance</a>
+- Terms
+    - <a href="https://www.sec.gov/privacy#security" target="_blank">SEC Website Policies</a>
+- Data Reuse
+    - <a href="https://www.sec.gov/about/privacy-information#dissemination" target="_blank">SEC Website Dissemination</a>
+
+**_NOTE:_** The SEC EDGAR API limits requests to a maximum of 10 requests per second.
+
+*These recipe examples were tested on March 23, 2026.*
+
+## Setup
+
+### Load Libraries
+
+The following packages need to be installed into your environment to run the code examples in this tutorial. These packages can be installed with `install.packages()`.
+
+- <a href="https://cran.r-project.org/web/packages/httr/index.html" target="_blank">httr: Tools for Working with URLs and HTTP</a>
+- <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" target="_blank">jsonlite: A Simple and Robust JSON Parser and Generator for R</a>
+
+We load the libraries used in this tutorial below:
+
+```{r import-libraries}
+library(httr)
+library(jsonlite)
+```
+
+### Import User Agent
+
+A user agent is required to access the SEC EDGAR API.
+
+We keep our user agent in a `.Renviron` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.Renviron` should have an entry like the one below.
+
+```text
+SEC_EDGAR_USER_AGENT="Institution, email@domain.com"
+```
+
+Below, we can test to whether the user agent was successfully imported.
+
+```{r import-user-agent}
+if (nzchar(Sys.getenv("SEC_EDGAR_USER_AGENT"))) {
+  print("User agent successfully loaded.")
+} else {
+  warning("User agent not found or is empty.")
+}
+```
+
+### SEC EDGAR Data Installation
+
+In addition to the publicly available API, SEC EDGAR data can also be access via a bulk data download, which is compiled nightly. This approach is advantageous when working with large datasets, since it does not require making many individual API calls. However, it requires about 15 GB of storage to install and is more difficult to keep up to date.
+
+To access this data, download the companyfacts.zip file under the 'Bulk data' heading at the bottom of <a href="https://www.sec.gov/edgar/sec-api-documentation" target="_blank">the SEC EDGAR documentation</a>.
+
+## 1. Obtaining Marketing Expenses for Amazon
+
+To access the data from an individual company, we must first obtain its Central Index Key (CIK) value. These values can be obtained by searching for a company <a href="https://www.sec.gov/edgar/search/#" target="_blank">here</a>. Alternatively, you can find a list of all companies and their CIK value <a href="https://www.sec.gov/Archives/edgar/cik-lookup-data.txt" target="_blank">here</a>.
+
+For this section of the guide, we'll use Amazon (AMZN) as an example, which has a CIK of 0001018724.
+
+With this CIK, we can now build a URL for the `/companyfacts/` endpoint:
+
+```{r}
+BASE_URL <- "https://data.sec.gov/api/xbrl/"
+endpoint <- "companyfacts/"
+cik <- "0001018724"  # CIK for Amazon
+
+# Make the API request
+response <- GET(paste0(BASE_URL, endpoint, "CIK", cik, ".json"),
+                add_headers("User-Agent" = Sys.getenv("SEC_EDGAR_USER_AGENT")))
+
+# Status code 200 indicates success
+response$status_code
+```
+
+We can also access individual pieces of information with our retrieved data:
+
+**_NOTE:_** It may be useful to open the <a href="https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json" target="_blank">URL</a> we created in Firefox, which has a built in JSON viewer that other browsers lack.
+
+```{r}
+# Extract data from the response
+amzn <- fromJSON(rawToChar(response$content))
+
+# Extract the company name from the response
+company_name <- amzn$entityName
+company_name
+```
+
+For an example, let's look at the yearly marketing expenses of Amazon, which is defined as "Expenditures for planning and executing the conception, pricing, promotion, and distribution of ideas, goods, and services. Costs of public relations and corporate promotions are typically considered to be marketing costs."
+
+```{r}
+# Retrieve marketing expenses in USD
+amzn_me <- amzn$facts$`us-gaap`$MarketingExpense$units$USD
+
+# View data frame
+head(amzn_me)
+```
+
+```{r}
+# Filter out unneeded entries
+amzn_me <- amzn_me[amzn_me["form"] == "10-K" & !is.na(amzn_me["frame"]), ]
+
+# View filtered results
+head(amzn_me)
+```
+
+```{r}
+# Cumulative sum of marketing expenses over the years
+total_marketing_expenses <- sum(amzn_me$val)
+
+# Let's take a look
+paste("Amazon's Total Marketing Expenses:", total_marketing_expenses / 1e9,
+      "billion USD")
+```
+
+Finally, we can plot the data:
+
+```{r amzn_marketing_expenses, fig.height=8, fig.width=13}
+# Extract years and values cleanly
+years <- as.integer(substr(amzn_me$start, 1, 4))
+values <- amzn_me$val / 1e9
+
+barplot(
+  values, years,
+  names.arg = years,
+  col = "#4d4d4d",
+  border = NA,
+  main = paste(company_name, "Marketing Expenses"),
+  xlab = "Fiscal Year",
+  ylab = "Marketing Expenses (in Billion USD)",
+  yaxt = "n"
+)
+
+axis(2, las = 1)
+```
+
+## 2. Number of Shares Outstanding for Tesla
+
+For another use case, let's look at the number of shares outstanding for Tesla, which the SEC defines as "Number of shares of common stock outstanding. Common stock represent the ownership interest in a corporation."
+
+```{r}
+endpoint <- "companyfacts/"
+cik <- "0001318605"  # CIK value for Tesla
+url <- paste0("https://data.sec.gov/api/xbrl/companyfacts/CIK", cik, ".json")
+
+# Make the API request
+response <- GET(paste0(BASE_URL, endpoint, "CIK", cik, ".json"),
+                add_headers("User-Agent" = Sys.getenv("SEC_EDGAR_USER_AGENT")))
+
+# Query API
+tsla <- fromJSON(rawToChar(response$content))
+
+# Check the name of the company of the data retrieved
+tsla$entityName
+```
+
+```{r}
+# Retrieve shares outstanding data
+tsla_so <- tsla$facts$`us-gaap`$CommonStockSharesOutstanding$units$shares
+
+# Print out some sample data from the response
+head(tsla_so)
+```
+
+```{r}
+# Filter out unneeded entries
+tsla_so <- tsla_so[tsla_so["form"] == "10-K" & !is.na(tsla_so["frame"]), ]
+
+# Print some sample data from the response
+head(tsla_so)
+```
+
+Let's see the FY and the corresponding value of shares outstanding
+
+```{r}
+cbind(tsla_so$fy, tsla_so$val)
+```
+
+## 3. Comparing Total Assets of All Filing Companies
+
+The SEC EDGAR API also has an endpoint called `/frames` that returns the data from all companies for a given category and filing period. In this example, we’ll look at the total assets of all companies reported for Q1 2024.
+
+```{r}
+# Specify query parameters
+endpoint <- "frames/us-gaap/Assets/USD/"
+year <- "2024"
+quarter <- "1"
+
+# Make the API request
+response <- GET(paste0(BASE_URL, endpoint, "CY", year, "Q", quarter, "I.json"),
+                add_headers("User-Agent" = Sys.getenv("SEC_EDGAR_USER_AGENT")))
+asset_df <- fromJSON(rawToChar(response$content))$data
+
+# Display number of results
+nrow(asset_df)
+```
+
+```{r}
+# Sort companies based on total assets
+asset_df <- asset_df[order(asset_df$val, decreasing = TRUE), ]
+
+# Display the first few results
+head(asset_df[, c("entityName", "val")], n = 20)
+```
+
+### Graphing the Total Assets of All Companies
+
+Since the total assets of all companies is a dataset that ranges from values as low as zero to those as large as 4.3 trillion, these values must be graphed logarithmically. Below, we take the $\log_{10}$ of each of the total asset values so that we can group the total assets in groups of ones ($10^0$), tens ($10^1$), hundreds ($10^2$), thousands ($10^3$), and so on.
+
+**_Note:_** Since 0 is outside the domain of the log function, it must be handled separately in order to avoid throwing an error. In this case, we group these values into the ones ($10^0$) group, although this is not actually true.
+
+```{r total-assets, fig.width = 13, fig.height = 8}
+transformed_values <- ifelse(
+  asset_df$val == 0,
+  0,
+  log10(asset_df$val)
+)
+
+hist(
+  transformed_values,
+  main = paste0("Companies by Total Assets Reported Q", quarter, " ", year, " (Logarithmic)"),
+  xlab = "Total Assets (in 10^n USD)",
+  ylab = "Number of Companies",
+  col = "#4D4D4D",
+  border = NA,
+  yaxt = "n"
+)
+
+axis(2, las = 1)
+```
+
+Note that for the above data, the 0-1 bucket indicates that a company reported between 0 and 9 USD in assets, while the 12-13 bucket indicates that a company reported between $10^{12}$ and $10^{13}$ (or one trillion and ten trillion) USD in assets.
+
+## 4. Finding the Top 500 Companies by Revenue
+
+The Fortune 500 is a ranking of the top 500 companies by revenue, according to the data filed in their 10-K or a comparable form. In this example, we'll look at only the revenues reported in the 10-K forms to construct a similar ranking of U.S. companies by revenue.
+
+```{r}
+# Define query and parameters
+endpoint <- "frames/us-gaap/Revenues/USD"
+year <- "2022"
+
+# Make the API request
+response <- GET(paste0(BASE_URL, endpoint, "/CY", year, ".json"),
+                add_headers("User-Agent" = Sys.getenv("SEC_EDGAR_USER_AGENT")))
+revenue_df <- fromJSON(rawToChar(response$content))$data
+
+# Display number of results
+nrow(revenue_df)
+```
+
+```{r}
+head(revenue_df)
+```
+
+```{r}
+# Sort companies based on total assets
+revenue_df <- revenue_df[order(revenue_df$val, decreasing = TRUE), ]
+
+# Display the first few results
+head(revenue_df[, c("entityName", "val")], n = 20)
+```
