@@ -11,6 +11,15 @@ output:
 
 by Adam M. Nguyen and Michael T. Moen
 
+<div class="rmd-btn-wrapper">
+  <a class="rmd-btn"
+     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/usa-spending.Rmd"
+     target="_blank"
+     rel="noreferrer">
+    View RMarkdown File
+  </a>
+</div>
+
 Please see the following resources for more information on API usage:
 
 - Documentation

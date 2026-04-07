@@ -11,6 +11,15 @@ output:
 
 by Michael T. Moen
 
+<div class="rmd-btn-wrapper">
+  <a class="rmd-btn"
+     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/sdirect.Rmd"
+     target="_blank"
+     rel="noreferrer">
+    View RMarkdown File
+  </a>
+</div>
+
 These recipe examples demonstrate how to use Elsevier’s <a href="https://dev.elsevier.com/" target="_blank">ScienceDirect API</a> to retrieve full-text articles in various formats (XML, text).
 
 *This tutorial content is intended to help facilitate academic research. Please check your institution for their Text and Data Mining or related License Agreement with Elsevier.*
@@ -30,7 +39,7 @@ _**NOTE:**_ See your institution's rate limit with <a href="https://dev.elsevier
 
 *If you have copyright or other related text and data mining questions, please contact The University of Alabama Libraries or your respective library/institution.*
 
-*These recipe examples were tested on March 23, 2026.*
+*These recipe examples were tested on April 7, 2026.*
 
 ## Setup
 

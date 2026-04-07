@@ -15,6 +15,15 @@ knitr::opts_chunk$set(
 
 by Michael T. Moen and Adam M. Nguyen
 
+<div class="rmd-btn-wrapper">
+  <a class="rmd-btn"
+     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/us-census.Rmd"
+     target="_blank"
+     rel="noreferrer">
+    View RMarkdown File
+  </a>
+</div>
+
 The U.S. Census Data API provides programmatic access to demographic, economic, and geographic data collected by the U.S. Census Bureau. It enables users to retrieve and analyze a wide variety of data sets, including Census surveys and population statistics.
 
 Please see the following resources for more information on API usage:

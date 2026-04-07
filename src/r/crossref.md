@@ -11,6 +11,15 @@ output:
 
 by Michael T. Moen, Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
 
+<div class="rmd-btn-wrapper">
+  <a class="rmd-btn"
+     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/crossref.Rmd"
+     target="_blank"
+     rel="noreferrer">
+    View RMarkdown File
+  </a>
+</div>
+
 The Crossref API provides metadata about publications, including articles, books, and conference proceedings. This metadata spans items such as author details, journal details, references, and DOIs (Digital Object Identifiers). Working with Crossref allows for programmatic access to bibliographic information and can streamline large-scale metadata retrieval.
 
 Please see the following resources for more information on API usage:

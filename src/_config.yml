@@ -34,6 +34,8 @@ html:
   favicon: images/UALIB_favicon.png
   use_issues_button: true
   use_repository_button: true
+  extra_css:
+    - _static/rmd-button.css
 
 launch_buttons:
   colab_url: ""
@@ -44,7 +46,6 @@ sphinx:
   extra_extensions:
     - sphinx_sitemap
     - sphinx_last_updated_by_git
-    - sphinx_plotly_directive
   config:
     templates_path:
       - _templates

@@ -11,6 +11,15 @@ output:
 
 by Adam M. Nguyen and Michael T. Moen
 
+<div class="rmd-btn-wrapper">
+  <a class="rmd-btn"
+     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/casc.Rmd"
+     target="_blank"
+     rel="noreferrer">
+    View RMarkdown File
+  </a>
+</div>
+
 The CAS Common Chemistry API provides programmatic access to a curated subset, offering information on nearly 500,000 chemical substances.
 
 Please see the following resources for more information on API usage:

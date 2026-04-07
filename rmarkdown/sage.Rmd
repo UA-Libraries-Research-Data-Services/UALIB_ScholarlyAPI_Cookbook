@@ -15,6 +15,15 @@ knitr::opts_chunk$set(
 
 by Michael T. Moen
 
+<div class="rmd-btn-wrapper">
+  <a class="rmd-btn"
+     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/sage.Rmd"
+     target="_blank"
+     rel="noreferrer">
+    View RMarkdown File
+  </a>
+</div>
+
 Sage Journals allow downloading of articles for which you have legitimate access (e.g. open access articles and those included in your institution's subscription) for non-commercial text and data mining (see restrictions in terms below). Access to text and data mining with Sage resources requires prior approval. Contact UA Libraries or your institution to check their agreement and enable access. Please see the following resources below for more information on Sage text and data mining, API usage, and policies/terms:
 
 *This tutorial content is intended to help facilitate academic research. Please check your institution for their Text and Data Mining or related License Agreement with Sage Journals.*
@@ -28,7 +37,7 @@ Sage Journals allow downloading of articles for which you have legitimate access
 - Data Reuse
     - <a href="https://www.sagepub.com/tdm-ai-policy" target="_blank">Sage Policy on Text and Data Mining (TDM) and Artificial Intelligence (AI)</a>
 
-*This recipe uses the CrossRef API to obtain the full-text URLs of the articles, as recommended in <a href="https://journals.sagepub.com/page/policies/text-and-data-mining" target="_blank">Sage's Text and Data Mining overview</a>. For more information on usage for this API, please see our <a href="https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/src/overview/crossref.html" target="_blank">CrossRef cookbook tutorials</a> and the <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining-for-researchers/" target="_blank">text and data mining for researchers page of CrossRef's API documentation</a>.*
+*This recipe uses the CrossRef API to obtain the full-text URLs of the articles, as recommended in <a href="https://journals.sagepub.com/page/policies/text-and-data-mining" target="_blank">Sage's Text and Data Mining overview</a>. For more information on usage for this API, please see our <a href="https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/overview/crossref.html" target="_blank">CrossRef cookbook tutorials</a> and the <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining-for-researchers/" target="_blank">text and data mining for researchers page of CrossRef's API documentation</a>.*
 
 **_NOTE:_** Sage Journals limits downloads to a maximum of 1 request every 6 seconds Monday to Friday from midnight to noon in the "America/Los_Angeles" timezone, and 1 request every 2 seconds outside of this time slot.
 
@@ -40,8 +49,8 @@ Sage Journals allow downloading of articles for which you have legitimate access
 
 The following external libraries need to be installed into your environment to run the code examples in this tutorial:
 
-- <a href="https://cran.r-project.org/package=httr" target="_blank">httr</a>
-- <a href="https://cran.r-project.org/package=jsonlite" target="_blank">jsonlite</a>
+- <a href="https://cran.r-project.org/web/packages/httr/index.html" target="_blank">httr: Tools for Working with URLs and HTTP</a>
+- <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" target="_blank">jsonlite: A Simple and Robust JSON Parser and Generator for R</a>
 
 We load the libraries used in this tutorial below:
 

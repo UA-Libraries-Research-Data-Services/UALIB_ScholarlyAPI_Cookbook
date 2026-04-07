@@ -15,6 +15,15 @@ knitr::opts_chunk$set(
 
 by Michael T. Moen
 
+<div class="rmd-btn-wrapper">
+  <a class="rmd-btn"
+     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/wiley-tdm.Rmd"
+     target="_blank"
+     rel="noreferrer">
+    View RMarkdown File
+  </a>
+</div>
+
 The Wiley Text and Data Mining (TDM) API allows users to retrieve the full-text articles of subscribed Wiley content in PDF form. TDM use is for non-commercial scholarly research, see terms and restrictions in below links.
 
 *This tutorial content is intended to help facilitate academic research. Please check your institution for their Text and Data Mining or related License Agreement with Wiley.*

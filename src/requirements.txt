@@ -3,4 +3,3 @@ matplotlib
 numpy
 sphinx-sitemap
 sphinx-last-updated-by-git
-sphinx-plotly-directive
