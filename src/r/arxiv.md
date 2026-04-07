@@ -11,6 +11,15 @@ output:
 
 by Adam M. Nguyen and Michael T. Moen
 
+<div class="rmd-btn-wrapper">
+  <a class="rmd-btn"
+     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/arxiv.Rmd"
+     target="_blank"
+     rel="noreferrer">
+    View RMarkdown File
+  </a>
+</div>
+
 Hosted and maintained by Cornell University, arXiv is an open-access and free distribution service containing nearly 2.5 million scholarly articles in fields including physics, mathematics, computer science, quantitative biology, quantitative finance, statistics, electrical engineering and systems science and economics at the time of writing. In this tutorial we will introduce how to use the API with some examples, but for larger bulk downloads of data from arXiv, we recommend <a href="https://www.kaggle.com/datasets/Cornell-University/arxiv/data" target="_blank">Kaggle's arXiv Dataset</a>, which is updated monthly with the full arXiv data set and metadata.
 
 Please see the following resources for more information on API usage:

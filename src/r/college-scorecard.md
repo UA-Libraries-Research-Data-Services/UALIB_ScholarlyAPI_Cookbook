@@ -11,6 +11,15 @@ output:
 
 by Michael T. Moen
 
+<div class="rmd-btn-wrapper">
+  <a class="rmd-btn"
+     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/college-scorecard.Rmd"
+     target="_blank"
+     rel="noreferrer">
+    View RMarkdown File
+  </a>
+</div>
+
 The College Scorecard API is an online tool hosted by the U.S. Department of Education that contains data concerning higher education institutions.
 
 Please see the following resources for more information on API usage:

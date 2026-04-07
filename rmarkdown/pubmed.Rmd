@@ -15,6 +15,15 @@ knitr::opts_chunk$set(
 
 by Michael T. Moen and Adam M. Nguyen
 
+<div class="rmd-btn-wrapper">
+  <a class="rmd-btn"
+     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/pubmed.Rmd"
+     target="_blank"
+     rel="noreferrer">
+    View RMarkdown File
+  </a>
+</div>
+
 The PubMed API, part of NCBI's Entrez Programming Utilities (E-utilities), provides programmatic access to biomedical literature from the PubMed database, enabling retrieval of bibliographic data.
 
 Please see the following resources for more information on API usage:

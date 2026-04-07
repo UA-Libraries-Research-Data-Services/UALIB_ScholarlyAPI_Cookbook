@@ -11,6 +11,15 @@ output:
 
 by Michael T. Moen, Cyrus Gomes, Adam M. Nguyen, and Vincent F. Scalfani
 
+<div class="rmd-btn-wrapper">
+  <a class="rmd-btn"
+     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/chronam.Rmd"
+     target="_blank"
+     rel="noreferrer">
+    View RMarkdown File
+  </a>
+</div>
+
 The Library of Congress (loc\.gov) API provides programmatic access to Chronicling America, a vast collection of historic American newspapers, and other resources, enabling researchers and developers to search, retrieve, and analyze digitized newspaper pages and metadata.
 
 Please see the following resources for more information on API usage:
