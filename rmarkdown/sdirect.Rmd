@@ -39,11 +39,11 @@ Please see the following resources for more information on API usage:
 - Data Reuse
     - <a href="https://dev.elsevier.com/tecdoc_text_mining.html" target="_blank">Elsevier Text & Data Mining</a>
 
-_**NOTE:**_ See your institution's rate limit with <a href="https://dev.elsevier.com/api_key_settings.html" target="_blank">ScienceDirect API Terms of Use</a>.
-
-*If you have copyright or other related text and data mining questions, please contact The University of Alabama Libraries or your respective library/institution.*
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
 *These recipe examples were tested on April 7, 2026.*
+
+*If you have copyright or other related text and data mining questions, please contact The University of Alabama Libraries or your respective library/institution.*
 
 ## Setup
 

@@ -36,7 +36,7 @@ Please see the following resources for more information on API usage:
     - <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/rest-api-metadata-license-information/" target="_blank">Crossref Metadata Reuse</a>
     - <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/providing-licensing-information-to-tdm-tools/" target="_blank">Crossref TDM Licensing</a>
 
-**_NOTE:_** The <a href="https://api.crossref.org/swagger-ui/index.html" target="_blank">Crossref API</a> limits requests to a maximum of 50 per second.
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
 *These recipe examples were tested on March 23, 2026.*
 

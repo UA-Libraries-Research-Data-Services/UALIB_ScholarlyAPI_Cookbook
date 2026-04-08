@@ -37,9 +37,11 @@ Please see the following resources for more information on API usage:
 -   Data Reuse
     -   <a href="https://info.arxiv.org/help/license/reuse.html" target="_blank">arXiv Permissions and Reuse</a>
 
-*Acknowledgment: Thank you to arXiv for use of its open access interoperability.*
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
 *These recipe examples were tested on March 23, 2026.*
+
+*Acknowledgment: Thank you to arXiv for use of its open access interoperability.*
 
 ## Setup
 

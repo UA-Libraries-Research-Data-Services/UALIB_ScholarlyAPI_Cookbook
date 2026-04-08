@@ -31,11 +31,11 @@ Sage Journals allow downloading of articles for which you have legitimate access
 - Data Reuse
     - <a href="https://www.sagepub.com/tdm-ai-policy" target="_blank">Sage Policy on Text and Data Mining (TDM) and Artificial Intelligence (AI)</a>
 
-*This recipe uses the CrossRef API to obtain the full-text URLs of the articles, as recommended in <a href="https://journals.sagepub.com/page/policies/text-and-data-mining" target="_blank">Sage's Text and Data Mining overview</a>. For more information on usage for this API, please see our <a href="https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/overview/crossref.html" target="_blank">CrossRef cookbook tutorials</a> and the <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining-for-researchers/" target="_blank">text and data mining for researchers page of CrossRef's API documentation</a>.*
-
-**_NOTE:_** Sage Journals limits downloads to a maximum of 1 request every 6 seconds Monday to Friday from midnight to noon in the "America/Los_Angeles" timezone, and 1 request every 2 seconds outside of this time slot.
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
 *These recipe examples were tested on February 10, 2026.*
+
+*This recipe uses the CrossRef API to obtain the full-text URLs of the articles, as recommended in <a href="https://journals.sagepub.com/page/policies/text-and-data-mining" target="_blank">Sage's Text and Data Mining overview</a>. For more information on usage for this API, please see our <a href="https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook/overview/crossref.html" target="_blank">CrossRef cookbook tutorials</a> and the <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/text-and-data-mining-for-researchers/" target="_blank">text and data mining for researchers page of CrossRef's API documentation</a>.*
 
 ## Setup
 

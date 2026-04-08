@@ -32,9 +32,11 @@ Please see the following resources for more information on API usage:
 - Data Reuse
     - <a href="https://www.ncbi.nlm.nih.gov/home/about/policies/" target="_blank">NCBI Data Reuse Policy</a>
 
-_**NOTE:**_ The PubMed API (Entrez E-utilities) limits requests to a maximum of 3 requests per second without an API key, and up to 10 requests per second with an API key.
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
 *These recipe examples were tested on March 24, 2026.*
+
+_**NOTE:**_ The PubMed API (Entrez E-utilities) limits requests to a maximum of 3 requests per second without an API key, and up to 10 requests per second with an API key.
 
 ## Setup
 

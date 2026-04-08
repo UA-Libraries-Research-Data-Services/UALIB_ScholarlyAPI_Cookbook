@@ -15,6 +15,15 @@ knitr::opts_chunk$set(
 
 By [Author Name], [Author Name], and [Author Name]
 
+<div class="rmd-btn-wrapper">
+  <a class="rmd-btn"
+     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/[ADD API NAME HERE].Rmd"
+     target="_blank"
+     rel="noreferrer">
+    View RMarkdown File
+  </a>
+</div>
+
 <!-- Brief 1-2 sentence description of the API -->
 
 <!-- *This tutorial content is intended to help facilitate academic research. Please check your institution for their Text and Data Mining or related License Agreement with [Company name].* -->
@@ -34,7 +43,7 @@ Please see the following resources for more information on API usage:
 <!-- Also include links to any licenses, official code examples, and other useful sources above. -->
 <!-- If you are using any specific libraries for accessing the API, include terms of use, documentation, etc. for those as well. -->
 
-_**NOTE:**_ The [API Name] limits requests to a maximum of [limit].
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
 *These recipe examples were tested on [Month] [Date], [Year].*
 
