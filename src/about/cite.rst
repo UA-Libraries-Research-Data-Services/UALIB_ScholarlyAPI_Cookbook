@@ -24,4 +24,12 @@ Citation: Scalfani, V. F.; Walker, K. W.; Simpson, L.; Fernandez, A. M.; Patel, 
 	   year = {2023},
    }
 
-:download:`Download CITATION.bib <../../CITATION.bib>`
+.. raw:: html
+
+    <div class="rmd-btn-wrapper">
+      <a class="rmd-btn"
+         href="../../CITATION.bib"
+         download>
+        Download CITATION.bib
+      </a>
+    </div>
