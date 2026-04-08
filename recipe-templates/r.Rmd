@@ -43,7 +43,7 @@ Please see the following resources for more information on API usage:
 <!-- Also include links to any licenses, official code examples, and other useful sources above. -->
 <!-- If you are using any specific libraries for accessing the API, include terms of use, documentation, etc. for those as well. -->
 
-_**NOTE:**_ The [API Name] limits requests to a maximum of [limit].
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
 *These recipe examples were tested on [Month] [Date], [Year].*
 

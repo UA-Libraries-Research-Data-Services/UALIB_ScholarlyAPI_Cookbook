@@ -37,7 +37,7 @@ Please see the following resources for more information on API usage:
 - Data Reuse
     - <a href="https://www.census.gov/about/policies/open-gov/open-data.html" target="_blank">U.S. Census Bureau Open Data Policy</a>
 
-_**NOTE:**_ The U.S. Census Bureau Data API limits requests to a maximum of 500 calls per IP address per day without an API key; however, users can request an API key for increased limits.
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
 *These recipe examples were tested on March 23, 2026.*
 

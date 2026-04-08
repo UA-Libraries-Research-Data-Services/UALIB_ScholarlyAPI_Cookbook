@@ -37,6 +37,8 @@ Please see the following resources for more information on API usage:
 - Data Reuse
     - CAS Common Chemistry is provided under the <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">Creative Commons CC BY-NC 4.0 license</a>
 
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
+
 *These recipe examples were tested on March 24, 2026.*
 
 ## Setup
