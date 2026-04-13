@@ -38,6 +38,8 @@ Please see the following resources for more information on API usage:
 - Data Reuse
     - <a href="https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets" target="_blank">World Bank Data Licensing and Terms of Use</a>
 
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
+
 *These recipe examples were tested on April 2, 2026.*
 
 ## Setup

@@ -37,9 +37,9 @@ Please see the following resources for more information on API usage:
 - Data Reuse
     - <a href="https://onlinelibrary.wiley.com/library-info/resources/text-and-datamining#accordionHeader-3" target="_blank">Wiley TDM Data Reuse</a> (see sections 4 and 5 of Text and Data Mining Agreement)
 
-*These recipe examples were tested on March 23, 2026.*
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
-**_NOTE:_** The Wiley TDM API limits requests to a maximum of 3 requests per second.
+*These recipe examples were tested on March 23, 2026.*
 
 ## Setup
 

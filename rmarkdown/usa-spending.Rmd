@@ -34,6 +34,8 @@ Please see the following resources for more information on API usage:
 - Data Reuse
     - <a href="https://www.usaspending.gov/about#about-licensing" target="_blank">USAspending Data Reuse</a>
 
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
+
 *These recipe examples were tested on March 23, 2026.*
 
 ## Setup

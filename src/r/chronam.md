@@ -34,6 +34,8 @@ Please see the following resources for more information on API usage:
   - <a href="https://www.loc.gov/legal/" target="_blank">Library of Congress Legal Notice</a>
   - <a href="https://www.loc.gov/collections/chronicling-america/about-this-collection/rights-and-access/" target="_blank">Library of Congress Rights and Access</a>
 
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
+
 *These recipe examples were tested on March 23, 2026.*
 
 > **Attribution:** We thank ***Professor Jessica Robertson*** (UA Libraries, Hoole Special Collections) for helpful discussions. All data was collected from the Library of Congress, Chronicling America: Historic American Newspapers site, using the API.

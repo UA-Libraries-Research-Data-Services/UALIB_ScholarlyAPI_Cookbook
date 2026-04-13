@@ -37,7 +37,7 @@ Please see the following resources for more information on API usage:
 - Data Reuse
     - <a href="https://www.sec.gov/about/privacy-information#dissemination" target="_blank">SEC Website Dissemination</a>
 
-**_NOTE:_** The SEC EDGAR API limits requests to a maximum of 10 requests per second.
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
 *These recipe examples were tested on March 23, 2026.*
 

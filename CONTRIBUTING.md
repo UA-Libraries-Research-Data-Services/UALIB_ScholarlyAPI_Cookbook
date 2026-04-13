@@ -40,7 +40,7 @@ All contributions are reviewed for accuracy, clarity, reproducibility, and consi
 
 ## Project Scope
 
-As of 2025, the Cookbook focuses on maintaining and standardizing Python and R tutorials. Other language have been archived and are no longer actively maintained.
+As of 2025, the Cookbook focuses on maintaining Python and R tutorials. Other languages have been archived and are no longer actively maintained.
 
 ### Project Infrastructure
 
