@@ -26,4 +26,4 @@ Please see the WOS API release notes [#wos4]_ to stay up-to-date on the APIs. Se
 
 .. [#wos5] `<https://clarivate.com/wp-content/uploads/dlm_uploads/2019/08/End-User-Terms.pdf>`_
 
-.. [#wos6] `<https://clarivate.com/wp-content/uploads/dlm_uploads/2023/12/Product-Terms-v3.7-Web-of-Science-APIs.pdf>`_
+.. [#wos6] `<https://clarivate.com/legal-center/terms-of-business/product-service-terms/>`_
