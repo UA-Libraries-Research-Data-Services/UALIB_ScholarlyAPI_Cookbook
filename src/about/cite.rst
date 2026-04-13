@@ -28,7 +28,7 @@ Citation: Scalfani, V. F.; Walker, K. W.; Simpson, L.; Fernandez, A. M.; Patel, 
 
     <div class="rmd-btn-wrapper">
       <a class="rmd-btn"
-         href="../../CITATION.bib"
+         href="../_static/CITATION.bib"
          download>
         Download CITATION.bib
       </a>
