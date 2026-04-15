@@ -1,7 +1,9 @@
 Citing the Cookbook
 %%%%%%%%%%%%%%%%%%%%
 
-If you reuse the code, attribution would be appreciated. Please link to the Cookbook and cite our manuscript:
+If you reuse the code, attribution would be appreciated. Please link to the Cookbook tutorial 
+page and attribute the authors and UA Libraries for the tutorial (see each tutorial page for authors). 
+If you use or are referring to the Cookbook in scholarship, please also consider citing our manuscript:
 
 Link to Cookbook: `<https://ua-libraries-research-data-services.github.io/UALIB_ScholarlyAPI_Cookbook>`_
 
@@ -28,7 +30,7 @@ Citation: Scalfani, V. F.; Walker, K. W.; Simpson, L.; Fernandez, A. M.; Patel, 
 
     <div class="rmd-btn-wrapper">
       <a class="rmd-btn"
-         href="../../CITATION.bib"
+         href="../_static/CITATION.bib"
          download>
         Download CITATION.bib
       </a>

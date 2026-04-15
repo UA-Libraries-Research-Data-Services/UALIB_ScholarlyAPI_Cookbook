@@ -8,5 +8,5 @@ PubChem APIs allow programmatic access to search and retrieve small molecule and
 
 .. rubric:: References
 
-.. [#pubchem1] `<https://pubchemdocs.ncbi.nlm.nih.gov/about>`_
+.. [#pubchem1] `<https://pubchem.ncbi.nlm.nih.gov/docs/about>`_
  

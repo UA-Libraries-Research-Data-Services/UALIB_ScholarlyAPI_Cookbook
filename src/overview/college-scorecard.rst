@@ -10,7 +10,7 @@ See the Department of Education's website for more information on how the data o
 
 .. rubric:: References
 
-.. [#cs1] `<https://collegescorecard.ed.gov/data/api-documentation#api-access-and-authentication>`_
+.. [#cs1] `<https://collegescorecard.ed.gov/data/api-documentation>`_
 
 .. [#cs2] `<https://collegescorecard.ed.gov/data>`_
 

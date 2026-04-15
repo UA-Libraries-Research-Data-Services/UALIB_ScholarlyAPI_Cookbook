@@ -12,7 +12,7 @@ See the OpenAlex API documentation [#oa2]_ for more information on accessing the
 
 .. [#oa1] `<https://ourresearch.org/>`_
 
-.. [#oa2] `<https://docs.openalex.org/>`_
+.. [#oa2] `<https://developers.openalex.org/>`_
 
 .. [#oa3] `<https://creativecommons.org/publicdomain/zero/1.0/>`_
 
