@@ -182,16 +182,10 @@ We now have a list of sub-lists of data corresponding to the CAS RNs.
 imgs <- lapply(list, function(x) {charToRaw(x$image)})
 
 # Use 'image_read()' to read SVGs
-
-# "Ethyl cyclohexanepropionate"
 image_read(imgs[[1]], density = 300)
-# "Ethyl 2-nonynoate"
 image_read(imgs[[2]], density = 300)
-# "Ethyl 1<em>H</em>-pyrazole-1-acetate"
 image_read(imgs[[3]], density = 300)
-# "Ethyl 3-(ethoxycarbonyl)benzenepropanoate"
 image_read(imgs[[4]], density = 300)
-# "Ethyl 1-cyclohexene-1-carboximidate"
 image_read(imgs[[5]], density = 300)
 ```
 

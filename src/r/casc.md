@@ -340,39 +340,34 @@ imgs <- lapply(list, function(x) {charToRaw(x$image)})
 
 # Use 'image_read()' to read SVGs
 
-# "Ethyl cyclohexanepropionate"
 image_read(imgs[[1]], density = 300)
 ```
 
 ![](_figures/casc/molecule-loop-1.png)<!-- -->
 
 ``` r
-# "Ethyl 2-nonynoate"
 image_read(imgs[[2]], density = 300)
 ```
 
-![](_figures/casc/molecule-loop-1.png)<!-- -->
+![](_figures/casc/molecule-loop-2.png)<!-- -->
 
 ``` r
-# "Ethyl 1<em>H</em>-pyrazole-1-acetate"
 image_read(imgs[[3]], density = 300)
 ```
 
-![](_figures/casc/molecule-loop-1.png)<!-- -->
+![](_figures/casc/molecule-loop-3.png)<!-- -->
 
 ``` r
-# "Ethyl 3-(ethoxycarbonyl)benzenepropanoate"
 image_read(imgs[[4]], density = 300)
 ```
 
-![](_figures/casc/molecule-loop-1.png)<!-- -->
+![](_figures/casc/molecule-loop-4.png)<!-- -->
 
 ``` r
-# "Ethyl 1-cyclohexene-1-carboximidate"
 image_read(imgs[[5]], density = 300)
 ```
 
-![](_figures/casc/molecule-loop-1.png)<!-- -->
+![](_figures/casc/molecule-loop-5.png)<!-- -->
 
 ### Select Specific Data    
 
