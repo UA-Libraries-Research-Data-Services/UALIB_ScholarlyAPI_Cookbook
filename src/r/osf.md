@@ -30,7 +30,7 @@ Please see the following resources for more information on API usage:
 
 **_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
-*These recipe examples were texted on July 2, 2026.*
+*These recipe examples were tested on July 2, 2026.*
 
 
 ```{r import-libraries}
