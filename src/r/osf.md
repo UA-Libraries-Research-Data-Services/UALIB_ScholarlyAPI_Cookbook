@@ -1,9 +1,11 @@
 ---
 title: "Open Science Framework (OSF) API in R"
-output: html_document
-keep_md: TRUE
-
+output: 
+  html_document:
+    keep_md: true
 ---
+
+
 
 # Open Science Framework API in R
 
@@ -18,7 +20,6 @@ by Nick Peinitz, Avery Fernandez and Michael T. Moen
   </a>
 </div>
 
-
 The OSF API allows users to fetch metadata and files from the OSF platform. This cookbook will guide you through the setup and usage of the API, including fetching metadata for preprints and downloading PDFs.
 
 Please see the following resources for more information on API usage:
@@ -30,10 +31,23 @@ Please see the following resources for more information on API usage:
 
 **_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
-*These recipe examples were tested on July 2, 2026.*
+*These recipe examples were tested on July 17, 2026.*
 
 
-```{r import-libraries}
+## Setup
+
+### Import Libraries
+
+The following external libraries need to be installed into your environment to run the code examples in this tutorial:
+
+- <a href="https://github.com/r-lib/httr" target="_blank">httr</a>
+- <a href="https://github.com/gaborcsardi/dotenv" target="_blank">dotenv</a>
+- <a href="https://github.com/jeroen/jsonlite" target="_blank">jsonlite</a>
+
+We import the libraries used in this tutorial below:
+
+
+``` r
 library(httr)
 library(dotenv)
 library(jsonlite)
@@ -45,13 +59,12 @@ Authentication is not required to access the OSF API, but will increase your rat
 
 We keep our API key in a `.env` file and use the `dotenv` library to access it. If you would like to use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
 
-```{{text}}
+```text
 OSF_API_TOKEN=add-your-api-token-here
 ```
 
 
-
-```{r}
+``` r
 load_dot_env()
 API_TOKEN <- Sys.getenv("OSF_API_TOKEN")
 if (API_TOKEN == "") {
@@ -59,9 +72,11 @@ if (API_TOKEN == "") {
 }
 ```
 
+
 The OSF API requires the API token to be passed as a header:
 
-``` {r}
+
+``` r
 HEADERS <- add_headers(
   Authorization = paste("Bearer", API_TOKEN)
 )
@@ -71,7 +86,7 @@ HEADERS <- add_headers(
 
 Using the `licenses` endpoint, we can find data relating to various licenses. In this example, we limit our search to CC-BY 4.0 licenses.
 
-``` {r}
+``` r
 url <- "https://api.osf.io/v2/licenses?filter[name]=cc-by&filter[name]=4.0"
 response <- GET(url, HEADERS)
 data <- fromJSON(content(response, "text", encoding = "UTF-8"))
@@ -82,15 +97,36 @@ for(i in seq_len(nrow(licenses))) {
     cat(licenses$url[i], "\n\n")
     }
 ```
+
+```text
+CC-By Attribution 4.0 International
+https://creativecommons.org/licenses/by/4.0/legalcode 
+
+CC-BY Attribution-No Derivatives 4.0 International
+https://creativecommons.org/licenses/by-nd/4.0/legalcode 
+
+CC-BY Attribution-NonCommercial 4.0 International
+https://creativecommons.org/licenses/by-nc/4.0/legalcode 
+
+CC-BY Attribution-NonCommercial-ShareAlike 4.0 International
+https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode 
+```
+
 From the data returned, we can also retrieve the full-text of the licenses.
-```{r}
+
+``` r
 # Output limited to the first 264 characters for demonstration purposes
 print(substr(data$data$attributes$text[1], 1, 264))
 ```
+
+```
+[1] "Creative Commons Attribution 4.0 International Public License\n\nBy exercising the Licensed Rights (defined below), You accept and agree to be bound by the terms and conditions of this Creative Commons Attribution 4.0 International Public License (\"Public License\")."
+```
+
 For the next example, we will create a named list named `ccby4_ids` that maps OSF license IDs to license names.
 
 
-``` {r}
+``` r
 ccby4_ids <- list()
 for (i in seq_along(data$data$id)) {
   ccby4_ids[[data$data$id[i]]] <- data$data$attributes$name[i]
@@ -98,6 +134,21 @@ for (i in seq_along(data$data$id)) {
 
 ccby4_ids
 ```
+
+```text
+$`563c1cf88c5e4a3877f9e96a`
+[1] "CC-By Attribution 4.0 International"
+
+$`60bf983b58510b0009a5a9a4`
+[1] "CC-BY Attribution-No Derivatives 4.0 International"
+
+$`60bf992258510b0009a5a9a6`
+[1] "CC-BY Attribution-NonCommercial 4.0 International"
+
+$`60bf99e058510b0009a5a9a9`
+[1] "CC-BY Attribution-NonCommercial-ShareAlike 4.0 International"
+ ```
+
 
 ## 2. Fetching Preprint Metadata and PDFs
 
@@ -109,7 +160,7 @@ In this use case, we will fetch the metadata for preprints that fall under a spe
 This function retrieves the metadata of CC-BY 4.0 preprints for a given subject, using the `ccby4_ids` obtained in the previous example to determine whether a preprint is CC-BY 4.0. For the sake of demonstration, only the first 100 preprints returned by the API are examined in this example.
 
 
-``` {r}
+``` r
 # Function for fetching the metadata of preprints of a subject,
 # keeping only CC-BY 4.0 preprints
 
@@ -161,7 +212,8 @@ fetch_preprints_metadata <- function(subject, limit = 1) {
 
   return(preprints)
 }
-# Retrieve the metadata for the CC-BY 4.0 preprints in the first 100 results
+
+# Retrieve CC-BY 4.0 preprints from the first page of OSF preprint results (up to 100 records)
 ccby4_metadata <- fetch_preprints_metadata(
   subject = "Education",
   limit = 1
@@ -171,17 +223,21 @@ ccby4_metadata <- fetch_preprints_metadata(
 length(ccby4_metadata)
 ```
 
+```text
+[1] 72
+```
+
 ### Function to Get Contributors
 
 This function will be used by the `process_preprints` function below to find the contributors from the preprint metadata.
 
-``` {r}
+``` r
 get_contributors <- function(contributors_url) {
   if (is.null(contributors_url)) {
     return(list())
   }
 
-  response <- GET(contributors_url, HEADERS) 
+  response <- GET(contributors_url, HEADERS)
 
   data <- fromJSON(
     content(response, "text", encoding = "UTF-8"),
@@ -202,7 +258,7 @@ get_contributors <- function(contributors_url) {
 
 The following function processes the preprints metadata and downloads the PDFs for preprints that have a CC-BY 4.0 license.
 
-``` {r}
+``` r
 process_preprints <- function(preprints, subject) {
   dir.create(paste0(subject, "_pdfs"), showWarnings = FALSE, recursive = TRUE)
 
@@ -260,7 +316,7 @@ process_preprints <- function(preprints, subject) {
 
 Fetch metadata and download PDFs for the preprints of the subject "Education".
 
-```{r}
+``` r
 # Note that this code block might take a few minutes to fully run
 metadata_list <- process_preprints(ccby4_metadata, "Education")
 df <- do.call(rbind, lapply(metadata_list, as.data.frame))
@@ -272,18 +328,50 @@ write.csv(
 head(df)
 ```
 
+```
+##   title                                                        date                   doi
+##   <chr>                                                        <chr>                  <chr>
+## 1 El oficio sin ley: el verdadero estatuto jurídico del corre… 2026-07-17T09:42:34…  10.5281/zenodo.21402788
+## 2 Los herederos del vivo: la expectativa sucesoria y el inte…  2026-07-17T09:48:38…  10.5281/zenodo.21402249
+## 3 Early Warning System for At-Risk Students using SHAP value…  2026-07-15T22:37:05…  NA
+## 4 A Global School Attendance Crisis: Rising Absenteeism and …  2026-07-15T22:37:38…  NA
+## 5 Dimensional Consensus and Operationalisation Gaps in K–12 …  2026-07-15T22:39:33…  NA
+## 6 From Digital Literacy to AI Literacy: New Directions for L…  2026-07-15T22:41:38…  NA
+##
+##   peer_reviewed_doi                      authors                                pdf_url
+##   <chr>                                  <chr>                                  <chr>
+## 1 https://doi.org/10.31235/osf.io/nqzs5_v1 Andrés Gabriel Varas Quijón          https://api.osf.io/v2/files/6a59701c55eafd50b0025e38/
+## 2 https://doi.org/10.31235/osf.io/68fpv_v1 Andrés Gabriel Varas Quijón          https://api.osf.io/v2/files/6a595c1d73227e6090d6db9f/
+## 3 https://doi.org/10.35542/osf.io/ga46q_v1 Lokesh Gundoju                       https://api.osf.io/v2/files/6a57a34b87a7fd78c67afbc4/
+## 4 https://doi.org/10.35542/osf.io/mfxag_v1 Alec I. Kennedy; Rolf Strietholt     https://api.osf.io/v2/files/6a574d6334f0e2b617de6ef1/
+## 5 https://doi.org/10.35542/osf.io/s5re4_v1 Thomas Leitgeb                       https://api.osf.io/v2/files/6a573d7834b5ab154ade6edc/
+## 6 https://doi.org/10.35542/osf.io/d8eg5_v1 Mohamed Ouhejjou                     https://api.osf.io/v2/files/6a56f9149136620b07de6e4e/
+##
+##   license
+##   <chr>
+## 1 CC-By Attribution 4.0 International
+## 2 CC-By Attribution 4.0 International
+## 3 CC-By Attribution 4.0 International
+## 4 CC-By Attribution 4.0 International
+## 5 CC-By Attribution 4.0 International
+## 6 CC-By Attribution 4.0 International
+##
+## 6 rows | 1-6 of 7 columns
+``
+```
+
 ## 3. Batch Processing for Multiple Subjects
 
 This example demonstrates how the functions above can be used to retrieve the data and PDFs for multiple subjects.
 
-``` {r}
+``` r
 subjects <- list(
   "Education",
   "Social and Behavioral Sciences"
 )
 ```
 
-``` {r}
+``` r
 for (subject in subjects) {
   preprints <- fetch_preprints_metadata(subject)
   metadata_list <- process_preprints(preprints, subject)
@@ -301,4 +389,9 @@ for (subject in subjects) {
     "\n"
   )
 }
+```
+
+```text
+Saved 72 preprints for Education
+Saved 86 preprints for Social and Behavioral Sciences
 ```
