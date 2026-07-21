@@ -29,7 +29,7 @@ Please see the following resources for more information on API usage:
 
 **_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
-*These recipe examples were texted on July 2, 2026.*
+*These recipe examples were tested on July 2, 2026.*
 
 
 ```{r import-libraries}
@@ -42,7 +42,7 @@ library(jsonlite)
 
 Authentication is not required to access the OSF API, but will increase your rate limit. You can sign up for one <a href="https://osf.io/settings/tokens/" target="_blank">here</a>.
 
-We keep our API key in a `.env` file and use the `dotenv` library to access it. If you would like to use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
+We keep our API key in a `.env` file and use the `dotenv` library to access it. If you would like to use this method, create a file named `.env` in the same directory as this file and add the following line to it:
 
 ```{{text}}
 OSF_API_TOKEN=add-your-api-token-here

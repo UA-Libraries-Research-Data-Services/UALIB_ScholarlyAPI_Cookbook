@@ -5,45 +5,45 @@ output:
     keep_md: true
 ---
 
-
-
 # Springer Nature API in R
 
 by Nick Peinitz, Avery Fernandez and Vincent F. Scalfani
 
-<div class="rmd-btn-wrapper">
-  <a class="rmd-btn"
-     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/springer.Rmd"
-     target="_blank"
-     rel="noreferrer">
-    View RMarkdown File
-  </a>
-</div>
+<div class="rmd-btn-wrapper"> <a class="rmd-btn" href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/springer.Rmd" target="\_blank" rel="noreferrer"> View RMarkdown File </a> </div>
 
 These recipe examples use the Springer Nature Open Access API to retrieve metadata and full-text content. The Springer Nature Open Access API includes about 1.5 million full-text records.
 
 *There is also a Full-Text API for subscription content. Please check with your institution for their Text and Data Mining or related License Agreement with Springer Nature.*
 
 Please see the following resources for more information on API usage:
+
 - Documentation
-    - <a href="https://dev.springernature.com/" target="_blank">Springer Nature API</a>
-    - <a href="https://dev.springernature.com/docs/api-endpoints/open-access/" target="_blank">Springer Nature API Documentation</a>
-    - <a href="https://dev.springernature.com/docs/quick-start/api-access/" target="_blank">Springer Nature API Access Quick Start</a>
-    - <a href="https://dev.springernature.com/docs/live-documentation/" target="_blank">Springer API Playground</a>
+
+  - <a href="https://dev.springernature.com/" target="\_blank">Springer Nature API</a>
+
+  - <a href="https://dev.springernature.com/docs/api-endpoints/open-access/" target="\_blank">Springer Nature API Documentation</a>
+
+  - <a href="https://dev.springernature.com/docs/quick-start/api-access/" target="\_blank">Springer Nature API Access Quick Start</a>
+
+  - <a href="https://dev.springernature.com/docs/live-documentation/" target="\_blank">Springer API Playground</a>
+
 - Terms
-    - <a href="https://www.springernature.com/gp/legal/general-terms-of-use/15067848" target="_blank">Springer Nature General Terms of Use</a>
-    - <a href="https://dev.springernature.com/terms-conditions" target="_blank">Springer Nature API Terms and Conditions</a>
+
+  - <a href="https://www.springernature.com/gp/legal/general-terms-of-use/15067848" target="\_blank">Springer Nature General Terms of Use</a>
+
+  - <a href="https://dev.springernature.com/terms-conditions" target="\_blank">Springer Nature API Terms and Conditions</a>
+
 - Data Reuse
-    - <a href="https://www.springernature.com/gp/researchers/text-and-data-mining" target="_blank">Springer Nature Text and Data Mining Policies</a>
-    - <a href="https://dev.springernature.com/tdm-reservation-policy/" target="_blank">Springer Nature TDM Reservation Policy</a>
 
+  - <a href="https://www.springernature.com/gp/researchers/text-and-data-mining" target="\_blank">Springer Nature Text and Data Mining Policies</a>
 
-_**NOTE:**_ Check with your institution to determine your <a href="https://dev.springernature.com/docs/rate-limit-details/rate-limits/" target="_blank">API rate limit with Springer Nature</a>.
+  - <a href="https://dev.springernature.com/tdm-reservation-policy/" target="\_blank">Springer Nature TDM Reservation Policy</a>
+
+***NOTE:*** Check with your institution to determine your <a href="https://dev.springernature.com/docs/rate-limit-details/rate-limits/" target="\_blank">API rate limit with Springer Nature</a>.
 
 *If you have copyright or other related text and data mining questions, please contact The University of Alabama Libraries or your respective library/institution.*
 
 *These recipe examples were tested on July 17, 2026.*
-
 
 ## Setup
 
@@ -51,12 +51,13 @@ _**NOTE:**_ Check with your institution to determine your <a href="https://dev.s
 
 The following external libraries need to be installed into your environment to run the code examples in this tutorial:
 
-- <a href="https://github.com/r-lib/httr2" target="_blank">httr2</a>
-- <a href="https://github.com/gaborcsardi/dotenv" target="_blank">dotenv</a>
-- <a href="https://github.com/r-lib/xml2" target="_blank">xml2</a>
+- <a href="https://github.com/r-lib/httr2" target="\_blank">httr2</a>
+
+- <a href="https://github.com/gaborcsardi/dotenv" target="\_blank">dotenv</a>
+
+- <a href="https://github.com/r-lib/xml2" target="\_blank">xml2</a>
 
 We import the libraries used in this tutorial below:
-
 
 ```r
 library(httr2)
@@ -66,14 +67,13 @@ library(xml2)
 
 ### Import API Key
 
-Authentication is required to access the Springer Nature API. You can sign up for one at the <a href="https://dev.springernature.com/" target="_blank">Springer Nature Developer Portal</a>.
+Authentication is required to access the Springer Nature API. You can sign up for one at the <a href="https://dev.springernature.com/" target="\_blank">Springer Nature Developer Portal</a>.
 
-We keep our API key in a separate file, a `.env` file, and use the `dotenv` library to access it. If you use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
+We keep our API key in a separate file, a `.env` file, and use the `dotenv` library to access it. If you use this method, create a file named `.env` in the same directory as this file and add the following line to it:
 
 ```text
 SPRINGER_API_KEY=PUT_YOUR_API_KEY_HERE
 ```
-
 
 ``` r
 load_dot_env()
@@ -83,20 +83,23 @@ if (API_KEY == "") {
 }
 ```
 
-## 1. Retrieve Full-Text JATS XML of an Article
+## 1\. Retrieve Full-Text JATS XML of an Article
 
 In this section, we demonstrate how to retrieve the JATS XML content for a specific article based on its DOI.
 
-The <a href="https://jats.nlm.nih.gov/archiving/" target="_blank">JATS</a> XML format is a standard intended for tagging, archiving, and exchanging journal articles. The Springer Nature Open Access API allows us to retrieve articles in JATS XML format.
+The <a href="https://jats.nlm.nih.gov/archiving/" target="\_blank">JATS</a> XML format is a standard intended for tagging, archiving, and exchanging journal articles. The Springer Nature Open Access API allows us to retrieve articles in JATS XML format.
 
 Key parameters:
-* `base_url`: The base URL for the Springer Nature API (Open Access JATS endpoint).
-* `q=(doi:DOI)`: The query parameter used to search for an article based on its DOI.
-* `api_key`: The query parameter used to pass our valid API key.
 
-More details about the parameters can be found at <a href="https://dev.springernature.com/restfuloperations" target="_blank">Springer Nature Developer Portal</a>.
+- `base_url`: The base URL for the Springer Nature API (Open Access JATS endpoint).
 
-You can also play around with the API using the <a href="https://dev.springernature.com/docs/live-documentation/" target="_blank">Springer API Playground</a>.
+- `q=(doi:DOI)`: The query parameter used to search for an article based on its DOI.
+
+- `api_key`: The query parameter used to pass our valid API key.
+
+More details about the parameters can be found at <a href="https://dev.springernature.com/restfuloperations" target="\_blank">Springer Nature Developer Portal</a>.
+
+You can also play around with the API using the <a href="https://dev.springernature.com/docs/live-documentation/" target="\_blank">Springer API Playground</a>.
 
 ```r
 # Example article from SpringerOpen Brain Informatics
@@ -141,10 +144,9 @@ tryCatch (
 JATS XML successfully retrieved for DOI 10.1186/s40708-025-00250-5. Saved to fulltext.jats
 ```
 
-## 2. Retrieve Full-Text in a Loop
+## 2\. Retrieve Full-Text in a Loop
 
-In many cases, you may have a list of DOIs and want to retrieve the full-text for each of them. Below, we loop over a set of DOIs, retrieve the JATS XML, and store each one in a separate file.
-A short delay (`Sys.sleep(1)`) is used to avoid hitting rate limits.
+In many cases, you may have a list of DOIs and want to retrieve the full-text for each of them. Below, we loop over a set of DOIs, retrieve the JATS XML, and store each one in a separate file. A short delay (`Sys.sleep(1)`) is used to avoid hitting rate limits.
 
 ``` r
 dois <- list(
@@ -240,7 +242,7 @@ JATS XML retrieved for DOI10.1186/s40708-023-00202-x. Saved to 10.1186_s40708-02
 JATS XML retrieved for DOI10.1186/s40708-023-00204-9. Saved to 10.1186_s40708-023-00204-9_jats_text.jats.
 ```
 
-## 3. Acquire and Parse Metadata (JSON)
+## 3\. Acquire and Parse Metadata (JSON)
 
 Alternatively, you can retrieve only the metadata in JSON format by switching the base URL to the `json` endpoint. Then, you can parse relevant fields (e.g., abstract, publication date, etc.).
 
@@ -280,15 +282,11 @@ metadata_response <- tryCatch (
 names(metadata_response)
 ```
 
-
-
 ```text
 [1] "apiMessage" "query"      "result"     "records"    "facets" 
- ```
-
+```
 
 Below is an example of how to retrieve specific fields from the metadata, such as the article's **abstract**, **DOI**, **publication date**, **publication name**, and **title**.
-
 
 ``` r
 # metadata_response usually contains the named elements: c("apiMessage", "query", "records")
@@ -348,7 +346,6 @@ if (length(records) > 0)
 }
 ```
 
-
 ```text
 [1] "API Message:This JSON was provided by Springer Nature"
 [1] "Query:doi:\"10.1186/s40708-025-00250-5\")"
@@ -361,7 +358,7 @@ Abstract: Human brain signal processing and finger’s movement coordination is 
 [1] "Authors:Jangir, Gauttam, Joshi, Nisheeth, Purohit, Gaurav"
 ```
 
-## 4. Parsing XML for Metadata
+## 4\. Parsing XML for Metadata
 
 Sometimes you may want to extract specific pieces of data (e.g., *title*, *abstract*, *authors*, *subjects*) directly from the **JATS XML** instead of the JSON. In this example, we use the R `xml2` package to parse the XML.
 
@@ -407,7 +404,6 @@ tryCatch (
     }
 )
 ```
-
 
 ```text
 JATS XML successfully retrieved for DOI 10.1186/s40708-025-00250-5.
@@ -499,7 +495,6 @@ if (!is.null(root))
 str(article_data)
 ```
 
-
 ```text
 List of 4
  $ title   : chr "Harnessing the synergy of statistics and deep learning for BCI competition 4 dataset 4: a novel approach"
@@ -508,7 +503,7 @@ List of 4
  $ subjects: chr [1:6] "BCI (Brain Computer Interface)" "EEG (electroencephalogram)" "Electrocorticography (ECoG)" "Event Related Potential (ERP)" ...
 ```
 
-## 5. Parsing XML for Figure Captions
+## 5\. Parsing XML for Figure Captions
 
 Figure captions often appear under `<fig>` tags inside the `<body>` element. Each figure may have a `<label>` tag for the figure number and a `<caption>` tag for the figure's description.
 
@@ -552,7 +547,6 @@ tryCatch (
 )
 ```
 
-
 ```text
 JATS XML successfully retrieved for DOI 10.1186/s40708-025-00250-5.
 ```
@@ -580,6 +574,7 @@ if (!is.null(xml_data))
   print("No valid XML data to parse.")
 }
 ```
+
 ```text
 [1] "XML data successfully parsed."
 ```
@@ -643,7 +638,6 @@ if (length(figures_data) > 0)
   print("No figures data found in the XML.")
 }
 ```
-
 
 ```text
 [1] "Figures data:"
@@ -721,7 +715,7 @@ if (length(figures_data) > 0)
 [1] "\n"
 ```
 
-## 6. Extracting Full-Text from the Body
+## 6\. Extracting Full-Text from the Body
 
 Finally, we can extract a rough "plain text" version of the article body by iterating through each element (e.g., `<sec>`, `<p>`), capturing the text, and joining it into a single string. This can help with quick text-based analyses.
 
@@ -851,8 +845,12 @@ if (length(full_text) > 0 && full_text != "")
 
 ```r
 # Output a portion of the full text to the console
-print(substr(full_text, 1, 395))
+# Note: The capitalization of "THe" in the output originates from the
+# publisher-provided XML source and is not introduced by this code.
+cat(substr(full_text, 1, 395))
 ```
+
 ```text
-[1] "Introduction\nTHe brain is the most active organ of the human body that takes input, processes them, and gives output. Fingers play an important role in human life that is why one of the active fields for rehabilitation is the Brain-Computer Interface (BCI) where fingers and EEG signals are studied together for the normal routine return of a physically challenged or locomotive disabled person."
+Introduction
+THe brain is the most active organ of the human body that takes input, processes them, and gives output. Fingers play an important role in human life that is why one of the active fields for rehabilitation is the Brain-Computer Interface (BCI) where fingers and EEG signals are studied together for the normal routine return of a physically challenged or locomotive disabled person.
 ```

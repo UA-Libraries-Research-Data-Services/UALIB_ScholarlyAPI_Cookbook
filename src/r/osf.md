@@ -5,34 +5,27 @@ output:
     keep_md: true
 ---
 
-
-
 # Open Science Framework API in R
 
 by Nick Peinitz, Avery Fernandez and Michael T. Moen
 
-<div class="rmd-btn-wrapper">
-  <a class="rmd-btn"
-     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/osf.Rmd"
-     target="_blank"
-     rel="noreferrer">
-    View RMarkdown File
-  </a>
-</div>
+<div class="rmd-btn-wrapper"> <a class="rmd-btn" href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/osf.Rmd" target="\_blank" rel="noreferrer"> View RMarkdown File </a> </div>
 
 The OSF API allows users to fetch metadata and files from the OSF platform. This cookbook will guide you through the setup and usage of the API, including fetching metadata for preprints and downloading PDFs.
 
 Please see the following resources for more information on API usage:
 
 - Documentation
-    - <a href="https://developer.osf.io/" target="_blank">OSF API Documentation</a>
-- Terms of Use
-    - <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/TERMS_OF_USE.md" target="_blank">OSF API Terms of Use</a>
 
-**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
+  - <a href="https://developer.osf.io/" target="\_blank">OSF API Documentation</a>
+
+- Terms of Use
+
+  - <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/TERMS_OF_USE.md" target="\_blank">OSF API Terms of Use</a>
+
+***NOTE:*** Please see access details and rate limit requests for this API in the official documentation.
 
 *These recipe examples were tested on July 17, 2026.*
-
 
 ## Setup
 
@@ -40,12 +33,13 @@ Please see the following resources for more information on API usage:
 
 The following external libraries need to be installed into your environment to run the code examples in this tutorial:
 
-- <a href="https://github.com/r-lib/httr" target="_blank">httr</a>
-- <a href="https://github.com/gaborcsardi/dotenv" target="_blank">dotenv</a>
-- <a href="https://github.com/jeroen/jsonlite" target="_blank">jsonlite</a>
+- <a href="https://github.com/r-lib/httr" target="\_blank">httr</a>
+
+- <a href="https://github.com/gaborcsardi/dotenv" target="\_blank">dotenv</a>
+
+- <a href="https://github.com/jeroen/jsonlite" target="\_blank">jsonlite</a>
 
 We import the libraries used in this tutorial below:
-
 
 ``` r
 library(httr)
@@ -55,14 +49,13 @@ library(jsonlite)
 
 ### Import Access Token
 
-Authentication is not required to access the OSF API, but will increase your rate limit. You can sign up for one <a href="https://osf.io/settings/tokens/" target="_blank">here</a>.
+Authentication is not required to access the OSF API, but will increase your rate limit. You can sign up for one <a href="https://osf.io/settings/tokens/" target="\_blank">here</a>.
 
-We keep our API key in a `.env` file and use the `dotenv` library to access it. If you would like to use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
+We keep our API key in a `.env` file and use the `dotenv` library to access it. If you would like to use this method, create a file named `.env` in the same directory as this file and add the following line to it:
 
 ```text
 OSF_API_TOKEN=add-your-api-token-here
 ```
-
 
 ``` r
 load_dot_env()
@@ -72,9 +65,7 @@ if (API_TOKEN == "") {
 }
 ```
 
-
 The OSF API requires the API token to be passed as a header:
-
 
 ``` r
 HEADERS <- add_headers(
@@ -82,7 +73,7 @@ HEADERS <- add_headers(
 )
 ```
 
-## 1. Fetching CC-BY 4.0 License Info
+## 1\. Fetching CC-BY 4.0 License Info
 
 Using the `licenses` endpoint, we can find data relating to various licenses. In this example, we limit our search to CC-BY 4.0 licenses.
 
@@ -125,7 +116,6 @@ print(substr(data$data$attributes$text[1], 1, 264))
 
 For the next example, we will create a named list named `ccby4_ids` that maps OSF license IDs to license names.
 
-
 ``` r
 ccby4_ids <- list()
 for (i in seq_along(data$data$id)) {
@@ -147,18 +137,15 @@ $`60bf992258510b0009a5a9a6`
 
 $`60bf99e058510b0009a5a9a9`
 [1] "CC-BY Attribution-NonCommercial-ShareAlike 4.0 International"
- ```
+```
 
-
-## 2. Fetching Preprint Metadata and PDFs
+## 2\. Fetching Preprint Metadata and PDFs
 
 In this use case, we will fetch the metadata for preprints that fall under a specified subject and are licensed under CC-BY 4.0 using the `preprints` endpoint. The metadata includes titles, publication dates, DOIs, authors, and PDF URLs.
-
 
 ### Function to Fetch Preprints Metadata
 
 This function retrieves the metadata of CC-BY 4.0 preprints for a given subject, using the `ccby4_ids` obtained in the previous example to determine whether a preprint is CC-BY 4.0. For the sake of demonstration, only the first 100 preprints returned by the API are examined in this example.
-
 
 ``` r
 # Function for fetching the metadata of preprints of a subject,
@@ -360,7 +347,7 @@ head(df)
 ``
 ```
 
-## 3. Batch Processing for Multiple Subjects
+## 3\. Batch Processing for Multiple Subjects
 
 This example demonstrates how the functions above can be used to retrieve the data and PDFs for multiple subjects.
 

@@ -59,7 +59,7 @@ library(xml2)
 
 Authentication is required to access the Springer Nature API. You can sign up for one at the <a href="https://dev.springernature.com/" target="_blank">Springer Nature Developer Portal</a>.
 
-We keep our API key in a separate file, a `.env` file, and use the `dotenv` library to access it. If you use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
+We keep our API key in a separate file, a `.env` file, and use the `dotenv` library to access it. If you use this method, create a file named `.env` in the same directory as this file and add the following line to it:
 
 ```text
 SPRINGER_API_KEY=PUT_YOUR_API_KEY_HERE
@@ -314,7 +314,7 @@ if (length(records) > 0)
 
 ## 4. Parsing XML for Metadata
 
-Sometimes you may want to extract specific pieces of data (e.g., *title*, *abstract*, *authors*, *subjects*) directly from the **JATS XML** instead of the JSON. In this example, we use the R `xml2` package to parse the XML.
+Sometimes you may want to extract specific pieces of data (e.g., *title*, *abstract*, *authors*, *subjects*) directly from the **JATS XML** instead of the JSON. In this example, we use the R xml2 package to parse the XML.
 
 The XML structure has a `<records>` tag containing one or more `<article>` tags. Each `<article>` has a `<front>` section for metadata, a `<body>` for main text, and possibly `<back>` for references, etc.
 
@@ -692,5 +692,7 @@ if (length(full_text) > 0 && full_text != "")
 
 ```{r}
 # Output a portion of the full text to the console
-print(substr(full_text, 1, 395))
+# Note: The capitalization of "THe" in the output originates from the
+# publisher-provided XML source and is not introduced by this code.
+cat(substr(full_text, 1, 395))
 ```
