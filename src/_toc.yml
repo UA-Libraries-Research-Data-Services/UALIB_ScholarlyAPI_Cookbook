@@ -11,6 +11,7 @@ parts:
       sections:
       - file: python/osf
         title: "...in Python"
+      - file: r/osf
         title: "...in R"
 
     # Sage
@@ -34,6 +35,7 @@ parts:
       sections:
       - file: python/springer
         title: "...in Python"
+      - file: r/springer
         title: "...in R"
 
     # Wiley TDM
