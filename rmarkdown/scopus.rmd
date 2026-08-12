@@ -1,0 +1,581 @@
+---
+
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# Scopus API in Python
+
+By Nick Peinitz, Vincent F. Scalfani, and Avery Fernandez
+
+The Scopus API, provided by Elsevier, offers programmatic access to a comprehensive database of abstracts and citations from peer-reviewed literature. It supports advanced search capabilities, author and affiliation retrieval, and citation analysis, facilitating a wide range of academic and research applications.
+
+*This tutorial content is intended to help facilitate academic research.*
+
+Please see the following resources for more information on API usage: - Documentation - <a href="http://www.scopus.com" target="_blank">Scopus</a> - <a href="https://dev.elsevier.com/scopus.html" target="_blank">Scopus API</a> - <a href="https://dev.elsevier.com/api_docs.html" target="_blank">Elsevier API Documentation</a> - <a href="https://dev.elsevier.com/use_cases.html" target="_blank">Elsevier API Use Cases</a> - Terms - <a href="https://dev.elsevier.com/api_service_agreement.html" target="_blank">Elsevier API Service Agreement</a> - <a href="https://dev.elsevier.com/policy.html" target="_blank">Elsevier API Policy</a> - Data Reuse - <a href="https://www.elsevier.com/about/policies-and-standards/research-data" target="_blank">Elsevier Research Data Policy</a> - Scopus Platform
+
+***NOTE:*** Please see access details and rate limit requests for this API in the official documentation.
+
+*These recipe examples were tested on August 4, 2026.*
+
+## Setup
+
+### Import Libraries
+
+The following external libraries need to be installed into your environment to run the code examples in this tutorial:
+
+- <a href="https://github.com/r-lib/httr2" target="_blank">httr2</a>
+- <a href="https://github.com/gaborcsardi/dotenv" target="_blank">dotenv</a>
+- <a href="https://github.com/r-lib/xml2" target="_blank">xml2</a>
+- <a href="https://github.com/tidyverse/dplyr" target="_blank">dplyr</a>
+- <a href="https://github.com/tidyverse/purrr" target="_blank">purrr</a>
+- <a href="https://github.com/tidyverse/tibble" target="_blank">tibble</a>
+
+We import the libraries used in this tutorial below:
+
+```{r}
+library(httr2)
+library(dotenv)
+library(xml2)
+library(dplyr)
+library(purrr)
+library(tibble)
+```
+
+### Import API Key
+
+An API key is required to access the Scopus API. You can sign up for one at the <a href="https://dev.elsevier.com/apikey/manage" target="_blank">Scopus Developer Portal</a>.
+
+We keep our API key in a separate file, a `.env` file, and use the `dotenv` library to access it. If you use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
+
+``` text
+SCOPUS_API_KEY=PUT_YOUR_API_KEY_HERE
+```
+
+```{r}
+load_dot_env()
+API_KEY <- Sys.getenv("SCOPUS_API_KEY")
+if (API_KEY == "") {
+    message("API key not found. Please set 'SCOPUS_API_KEY' in your .env file.")
+} else {
+  print("Environment and API key successfully loaded.")
+}
+```
+
+
+## 1. Get Author Data
+
+### Number of Records for Author
+
+```{r}
+BASE_URL <- "https://api.elsevier.com/content/search/scopus"
+query <- "AU-ID(55764087400)"
+httpAccept <- "application/json"
+data <- tryCatch({
+          response <- request(BASE_URL) |>
+                            req_headers(
+                              "X-ELS-APIKey" = API_KEY,
+                              "Accept" = httpAccept
+                              ) |>
+                            req_url_query(
+                                query = query
+                            ) |>
+                            req_perform()
+  
+
+          resp_body_json(response)
+
+}, error = function(e) {
+  message("An error ocurred: ", e$message)
+  NULL
+})
+```
+
+We can take a closer look at the data given back:
+
+```{r}
+str(data, max.level = 1)
+```
+
+It seems the data is wrapped in a list with the key `search-results`.
+
+```{r}
+str(data[["search-results"]], max.level = 1)
+```
+
+Inside the `search-results` dictionary, there are six keys: \* `entry` - the actual data we want \* `link` - a link to the API endpoint \* `opensearch:Query` - the query we used to get the data \* `opensearch:itemsPerPage` - the number of items per page \* `opensearch:startIndex` - the starting index of the items \* `opensearch:totalResults` - the total number of results
+
+```{r}
+str(data[["search-results"]]$entry, max.level = 1)
+```
+
+The `entry` key contains a list of data points, we can see that the first item in the list like so:
+
+```{r}
+str(data[["search-results"]]$entry[[1]], max.level = 1)
+```
+
+The list inside the `entry` list has information for the individual articles. We can load this into a dataframe to make it easier to work with.
+
+```{r}
+entries <- data[["search-results"]][["entry"]]
+df <- purrr::map_dfr(entries, function(x) {
+  
+  x[sapply(x, is.null)] <- NA
+  
+  x[sapply(x, is.list)] <- lapply(
+    x[sapply(x, is.list)],
+    function(z) as.character(jsonlite::toJSON(z, auto_unbox = TRUE))
+  )
+  
+  as_tibble_row(x)
+})
+
+head(df)
+```
+
+```{r}
+# See the columns of the DataFrame
+colnames(df)
+```
+
+```{r}
+# Number of rows
+nrow(df)
+```
+
+```{r}
+# We can index data from our new dataframe, df.
+# For example, create a vector of just the DOIs
+dois <- df[["prism:doi"]]
+dois
+```
+
+```{r}
+# Get a vector of article titles
+titles = df[["dc:title"]]
+titles
+```
+
+```{r}
+ # Now a vector of the cited by count
+cited_by = df[["citedby-count"]]
+cited_by
+```
+
+```{r}
+# Get sum of cited_by
+sum(as.numeric(cited_by))
+```
+
+
+## 2. Get Author Data in a Loop
+
+### Number of Records for Author
+
+```{r}
+# Create text file to store author names and their Scopus AUIDs
+writeLines(
+  c(
+    "Emy Decker\t36660678600",
+    "Lindsey Lowry\t57210944451",
+    "Karen Chapman\t35783926100",
+    "Kevin Walker\t56133961300",
+    "Sara Whitver\t57194760730"
+  ),
+"author.txt"
+)
+```
+
+```{r}
+# Load a list of author names and Scopus AUIDs
+author_df <- read.delim(
+  "author.txt",
+  header = FALSE,
+  sep = "\t"
+)
+
+author_list <- split(author_df, seq_len(nrow(author_df)))
+str(author_list)
+```
+
+```{r}
+# Get number of Scopus records for each author
+num_records <- list()
+
+for (i in seq_along(author_list))
+{
+  author <- author_list[[i]][1, 1]
+  authorID <- author_list[[i]][1, 2]
+
+  query <- paste0("AU-ID(", authorID, ")")
+  httpAccept <- "application/json"
+  tryCatch({
+          response <- request(BASE_URL) |>
+                            req_headers(
+                              "X-ELS-APIKey" = API_KEY,
+                              "Accept" = httpAccept
+                              ) |>
+                            req_url_query(
+                                query = query
+                            ) |>
+                            req_perform()
+          Sys.sleep(1)
+          
+          data <- resp_body_json(response)
+
+          number_of_records <- data[["search-results"]][["opensearch:totalResults"]]
+          num_records[[length(num_records) + 1]] <- list(
+              author = author,
+              authorID = authorID,
+              number_of_records = number_of_records)
+  }, error = function(e) {
+  message("An error ocurred: ", e$message)
+  num_records[[length(num_records) + 1]] <<- list(
+      author = author,
+      authorID = authorID,
+      number_of_records = NA)
+})
+}
+```
+
+```{r}
+num_records
+```
+
+
+### Download Record Data
+
+```{r}
+# Let's say we want the DOIs and cited by counts in a list
+cites <- list()
+
+for (i in seq_along(author_list))
+{
+  author <- author_list[[i]][1, 1]
+  authorID <- author_list[[i]][1, 2]
+  
+  query <- paste0("AU-ID(", authorID, ")")
+  httpAccept <- "application/json"
+
+  tryCatch({
+          response <- request(BASE_URL) |>
+                            req_headers(
+                              "X-ELS-APIKey" = API_KEY,
+                              "Accept" = httpAccept
+                              ) |>
+                            req_url_query(
+                                query = query
+                            ) |>
+                            req_perform()
+          Sys.sleep(1)
+
+          data <- resp_body_json(response)
+          
+          entries <- data[["search-results"]][["entry"]]
+          author_df <- purrr::map_dfr(entries, function(x) {
+            
+            x[sapply(x, is.null)] <- NA
+            
+            x[sapply(x, is.list)] <- lapply(
+              x[sapply(x, is.list)],
+              function(z) as.character(jsonlite::toJSON(z, auto_unbox = TRUE))
+            )
+            
+            as_tibble_row(x)
+          })
+          
+          # Get the DOIs and cited by counts
+          dois <- author_df[["prism:doi"]]
+          cited_by <- author_df[["citedby-count"]]
+          
+          # Create a list of lists with author, authorID, DOI, and cited by count
+          for (i in seq_along(dois))
+          {
+            doi <- dois[i]
+            cited <- cited_by[i]
+
+            cites[[length(cites) + 1]] <- list(
+              author = author,
+              authorID = authorID,
+              doi = doi,
+              cited = cited
+            )
+          }
+  }, error = function(e) {
+  message("An error ocurred: ", e$message)
+  num_records[[length(num_records) + 1]] <<- list(
+      author = author,
+      authorID = authorID,
+      number_of_records = NA)
+  })
+}
+```
+
+```{r}
+# The cites variable is a list of list with the data
+# View data for first 5 records
+cites[1:5]
+```
+
+```{r}
+# Add to data frame
+cites_df <- bind_rows(cites)
+cites_df
+```
+
+
+### Save Record Data to a File
+
+Here is one method if you want to loop over author queries and save all Scopus document data to a file
+
+```{r}
+# Load a list of author names and Scopus AUIDs
+author_df <- read.delim(
+  "author.txt",
+  colClasses = "character",
+  header = FALSE,
+  sep = "\t"
+)
+
+author_list <- split(author_df, seq_len(nrow(author_df)))
+str(author_list)
+```
+
+```{r}
+for (i in seq_along(author_list))
+{
+  authorName <- author_list[[i]][1, 1]
+  authorID <- author_list[[i]][1, 2]
+
+  query <- paste0("AU-ID(", authorID, ")")
+  httpAccept <- "application/json"
+
+  tryCatch({
+          response <- request(BASE_URL) |>
+                            req_headers(
+                              "X-ELS-APIKey" = API_KEY,
+                              "Accept" = httpAccept
+                              ) |>
+                            req_url_query(
+                                query = query
+                            ) |>
+                            req_perform()
+          Sys.sleep(2)
+      
+          data <- resp_body_json(response)
+      
+          # Extract the 'entry' data and convert it to a data frame
+          if ("entry" %in% names(data[["search-results"]]))
+            df <- bind_rows(data[["search-results"]][["entry"]])
+              df[] <- lapply(df, function(col) {
+                if (is.list(col)) {
+                  sapply(col, jsonlite::toJSON, auto_unbox = TRUE)
+                } else {
+                    col
+                }
+              })
+      
+          # Save to file
+          filename <- paste0(
+            gsub(" ", "_", authorName),
+            "_",
+            authorID,
+            "_ScopusData.tsv"
+          )
+          
+          write.table(
+            df,
+            file = filename,
+            sep = "\t",
+            row.names = FALSE,
+            quote = FALSE
+          )
+          print(paste0("Data for ", authorName, " saved to ", filename))
+  }, error = function(e) {
+      message("An error ocurred for ", authorName, ": ", e$message)
+  })
+}
+```
+
+```{r}
+df_author <- read.delim(
+  "Karen_Chapman_35783926100_ScopusData.tsv",
+  sep = "\t"
+)
+
+head(df_author)
+```
+
+```{r}
+# Get info about citedby_count
+summary(as.numeric(df_author[["citedby.count"]]))
+```
+
+```{r}
+# Get info about publication titles
+x <- df_author[["prism.publicationName"]]
+
+c(
+  count <- sum(!is.na(x)),
+  unique_vals <- length(unique(x[!is.na(x)])),
+  top = names(sort(table(x), decreasing = TRUE))[1],
+  freq = max(table(x))
+)
+```
+
+
+## 3. Get References via a Title Search
+
+### Number of Title Match Records
+
+```{r}
+query <- "TITLE(ChemSpider)"
+httpAccept <- "application/json"
+tryCatch({
+          response <- request(BASE_URL) |>
+                            req_headers(
+                              "X-ELS-APIKey" = API_KEY,
+                              "Accept" = httpAccept
+                              ) |>
+                            req_url_query(
+                                query = query
+                            ) |>
+                            req_perform()
+        
+          data <- resp_body_json(response)
+          print(data[["search-results"]][["opensearch:totalResults"]])
+
+}, error = function(e) {
+  message("An error ocurred: ", e$message)
+  data <- NULL
+})
+```
+
+```{r}
+titleWord_list <- list(
+  "ChemSpider", "PubChem", "ChEMBL", "Reaxys", "SciFinder"
+)
+
+# Get number of Scopus records for each title search
+num_records_title <- list()
+
+for (titleWord in titleWord_list)
+{
+  query <- paste0("TITLE(", titleWord, ")")
+  httpAccept <- "application/json"
+  tryCatch({
+          response <- request(BASE_URL) |>
+                            req_headers(
+                              "X-ELS-APIKey" = API_KEY,
+                              "Accept" = httpAccept
+                              ) |>
+                            req_url_query(
+                                query = query
+                            ) |>
+                            req_perform()
+      
+          data <- resp_body_json(response)
+          # Extract the total number of results
+          numt = data[["search-results"]][["opensearch:totalResults"]]
+      
+          # Compile saved Scopus data into a list of lists
+          num_records_title[[length(num_records_title) + 1]] <- list(
+            titleWord,
+            numt
+          )
+      
+          # Delay 1 second between API calls to be nice to Elsevier servers
+          Sys.sleep(1)
+  }, error = function(e) {
+    message("An error ocurred: ", e$message)
+    num_records_title[[length(num_records_title) + 1]] <- list(
+      titleWord,
+      numt = NA
+    )
+  })
+}
+```
+
+```{r}
+num_records_title
+```
+
+
+### Download Title Match Record Data
+
+```{r}
+titleWord_list <- list(
+  "ChemSpider", "PubChem", "ChEMBL", "Reaxys", "SciFinder"
+)
+
+# Get number of Scopus records for each title search
+scopus_title_data <- list()
+
+for (titleWord in titleWord_list)
+{
+  query <- paste0("TITLE(", titleWord, ")")
+  httpAccept <- "application/json"
+  tryCatch({
+          response <- request(BASE_URL) |>
+                            req_headers(
+                              "X-ELS-APIKey" = API_KEY,
+                              "Accept" = httpAccept
+                              ) |>
+                            req_url_query(
+                                query = query
+                            ) |>
+                            req_perform()
+
+          # Delay 1 second between API calls to be nice to Elsevier servers
+          Sys.sleep(1)
+      
+          data <- resp_body_json(response)
+      
+          # Extract the 'entry' data and convert it to a DataFrame
+          entries <- data[["search-results"]][["entry"]]
+          if (!is.null(entries))
+          {
+            for (entry in entries)
+            {
+              doi <- if ("prism:doi" %in% names(entry)) entry[["prism:doi"]] else NA
+              title <- if ("dc:title" %in% names(entry)) entry[["dc:title"]] else NA
+              coverDate <- if ("prism:coverDate" %in% names(entry)) entry[["prism:coverDate"]] else NA
+      
+          # Append to the list
+              scopus_title_data[[length(scopus_title_data) + 1]] <- list(
+                titleWord,
+                doi,
+                title,
+                coverDate
+              )
+            }
+          }
+
+  }, error = function(e) {
+    message("An error ocurred for ", titleWord, ": ", e$message)
+    num_records_title[[length(num_records_title) + 1]] <- list(
+      titleWord,
+      doi = NA,
+      title = NA,
+      coverDate = NA
+    )
+  })
+}
+```
+
+```{r}
+scopus_title_data_df <- bind_rows(
+  lapply(scopus_title_data, function(x) {
+    tibble(
+      titleWord = x[[1]],
+      doi = x[[2]],
+      title = x[[3]],
+      coverDate = x[[4]],
+    )
+  })
+)
+
+scopus_title_data_df
+```
