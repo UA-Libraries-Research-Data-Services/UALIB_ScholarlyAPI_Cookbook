@@ -1,41 +1,38 @@
 ---
 title: "arXiv API in R"
+lang: en
 output: 
   html_document:
     keep_md: true
 ---
 
-
-
-# arXiv API in R 
+# arXiv API in R
 
 by Adam M. Nguyen and Michael T. Moen
 
-<div class="rmd-btn-wrapper">
-  <a class="rmd-btn"
+::: rmd-btn-wrapper
+<a class="rmd-btn"
      href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/arxiv.Rmd"
      target="_blank"
-     rel="noreferrer">
-    View RMarkdown File
-  </a>
-</div>
+     rel="noreferrer"> View RMarkdown File </a>
+:::
 
 Hosted and maintained by Cornell University, arXiv is an open-access and free distribution service containing nearly 2.5 million scholarly articles in fields including physics, mathematics, computer science, quantitative biology, quantitative finance, statistics, electrical engineering and systems science and economics at the time of writing. In this tutorial we will introduce how to use the API with some examples, but for larger bulk downloads of data from arXiv, we recommend <a href="https://www.kaggle.com/datasets/Cornell-University/arxiv/data" target="_blank">Kaggle's arXiv Dataset</a>, which is updated monthly with the full arXiv data set and metadata.
 
 Please see the following resources for more information on API usage:
 
--   Documentation
-    -   <a href="https://arxiv.org/" target="_blank">arXiv</a>
-    -   <a href="https://info.arxiv.org/help/api/index.html" target="_blank">arXiv API Access</a>
-    -   <a href="https://cran.r-project.org/web/packages/aRxiv/index.html" target="_blank">aRxiv: Interface to the arXiv API</a>
--   Terms
-    -   <a href="https://info.arxiv.org/help/api/tou.html" target="_blank">arXiv Terms of Use</a>
--   Data Reuse
-    -   <a href="https://info.arxiv.org/help/license/reuse.html" target="_blank">arXiv Permissions and Reuse</a>
+- Documentation
+  - <a href="https://arxiv.org/" target="_blank">arXiv</a>
+  - <a href="https://info.arxiv.org/help/api/index.html" target="_blank">arXiv API Access</a>
+  - <a href="https://cran.r-project.org/web/packages/aRxiv/index.html" target="_blank">aRxiv: Interface to the arXiv API</a>
+- Terms
+  - <a href="https://info.arxiv.org/help/api/tou.html" target="_blank">arXiv Terms of Use</a>
+- Data Reuse
+  - <a href="https://info.arxiv.org/help/license/reuse.html" target="_blank">arXiv Permissions and Reuse</a>
 
-**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
+***NOTE:*** Please see access details and rate limit requests for this API in the official documentation.
 
-*These recipe examples were tested on March 23, 2026.*
+*These recipe examples were tested on October 16, 2026.*
 
 *Acknowledgment: Thank you to arXiv for use of its open access interoperability.*
 
@@ -48,7 +45,6 @@ The following packages need to be installed into your environment to run the cod
 
 We load the libraries used in this tutorial below:
 
-
 ``` r
 library(aRxiv)
 library(ggplot2)
@@ -58,13 +54,12 @@ library(ggplot2)
 
 Before we get started, a useful function provided by the `aRxiv` package is `arxiv_cats`. This returns arXiv subject classification's abbreviation and corresponding description. Categories are especially important in forming queries to the API so we mention them here first.
 
-
 ``` r
 # Here are the first 10 categories to showcase the function
 head(arxiv_cats[c("category", "field", "short_description")], n = 10)
 ```
 
-```
+```         
 ##    category            field                               short_description
 ## 1     cs.AI Computer Science                         Artificial Intelligence
 ## 2     cs.AR Computer Science                           Hardware Architecture
@@ -82,90 +77,89 @@ head(arxiv_cats[c("category", "field", "short_description")], n = 10)
 
 Possibly the function of most utility in the package is `arxiv_search()`. The search allows for the programmatic searching of the arXiv repository returning 15 columns of information including `id`, `title`, `summary`, and more. We will showcase the use of this function by searching for papers with the term "Hydrodynamics" in the title and then extract authors and see who is has the most publications.
 
-
 ``` r
 # Search for Hydrodynamics papers
 hydrodynamic_search <- arxiv_search('ti:Hydrodynamics', batchsize = 410,
                                     limit = 10000, force = TRUE)
 ```
 
-```
+```         
 ## retrieved batch 1
 ```
 
-```
+```         
 ## retrieved batch 2
 ```
 
-```
+```         
 ## retrieved batch 3
 ```
 
-```
+```         
 ## retrieved batch 4
 ```
 
-```
+```         
 ## retrieved batch 5
 ```
 
-```
+```         
 ## retrieved batch 6
 ```
 
-```
+```         
 ## retrieved batch 7
 ```
 
-```
+```         
 ## retrieved batch 8
 ```
 
-```
+```         
 ## retrieved batch 9
 ```
 
-```
+```         
 ## retrieved batch 10
 ```
 
-```
+```         
 ## retrieved batch 11
 ```
 
-```
+```         
 ## retrieved batch 12
 ```
 
-```
+```         
 ## retrieved batch 13
 ```
 
-```
+```         
 ## retrieved batch 14
 ```
 
-```
+```         
 ## retrieved batch 15
 ```
 
-```
+```         
 ## retrieved batch 16
 ```
 
-```
+```         
 ## retrieved batch 17
 ```
 
-```
+```         
 ## retrieved batch 18
 ```
 
-```
+```         
 ## retrieved batch 19
 ```
 
-```
+```         
 ## retrieved batch 20
 ```
 
@@ -177,7 +171,7 @@ authors <- hydrodynamic_search[, c('title', 'authors')]
 head(authors)
 ```
 
-```
+```         
 ##                                                                                              title
 ## 1                                            A finite model of two-dimensional ideal hydrodynamics
 ## 2              Hydrodynamic Stability Analysis of Burning Bubbles in Electroweak Theory and in QCD
@@ -208,20 +202,19 @@ ordered_cofreq <- as.data.frame(co_freq[order(co_freq, decreasing = TRUE)])
 head(ordered_cofreq)
 ```
 
-```
+```         
 ##                  Var1 Freq
-## 1  Radoslaw Ryblewski   55
+## 1  Radoslaw Ryblewski   56
 ## 2 Wojciech Florkowski   55
 ## 3  Michael Strickland   48
 ## 4       Jorge Noronha   43
 ## 5      Benjamin Doyon   41
-## 6    Tetsufumi Hirano   40
+## 6    Tetsufumi Hirano   41
 ```
 
 ### Visualization
 
 Additionally, we can create a visualization using the `ggplot2` library. See the following code to see how to do so and what is produced.
-
 
 ``` r
 # Visualize the top 20 highest publishers
@@ -234,36 +227,33 @@ ggplot(head(ordered_cofreq, n = 20), aes(x = Var1, y = Freq)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 ```
 
-![](_figures/arxiv/top20-published-authors-1.png)<!-- -->
+![Bar chart showing the 20 most published authors in the Hydrodynamics category on arXiv](_figures/arxiv/top20-published-authors-1.png)
 
 ## 2. Retrieving Number of Query Results
 
 Using the `aRxiv` package you can also retrieve counts of papers given some query. For example, we can see how many papers our previous "Hydrodynamics" query returns.
-
 
 ``` r
 # How many papers titles contain hydrodynamics?
 arxiv_count('ti:"hydrodynamics"')
 ```
 
-```
-## [1] 7490
+```         
+## [1] 7813
 ```
 
 We can also see how many HEP-th papers there are.
-
 
 ``` r
 # How many papers fall under the HEP-th category?
 arxiv_count("cat: HEP-th")
 ```
 
-```
-## [1] 180800
+```         
+## [1] 186698
 ```
 
 And finally we can see how many HEP-th papers have been published throughout the years.
-
 
 ``` r
 # Create a vector of years we are interested in
@@ -286,12 +276,11 @@ plot(counts_df,
      ylab = 'Number of Papers')
 ```
 
-![](_figures/arxiv/hep-papers-1.png)<!-- -->
+![Scatter Plot showing the number of theoretical high energy physics paper published per year from 1995 to 2020](_figures/arxiv/hep-papers-1.png)<!-- -->
 
 ## 3. Proportion of Preprints in Hydrodynamics Papers
 
 arXiv's repository contains both electronic preprints and and links to post print (e.g. version of record DOI). We will explore the proportion of preprints in the previous "Hydrodynamics" query. This is possible as the `doi` column returned in the query is empty for those articles that do not have doi, i.e. preprints.
-
 
 ``` r
 # Count the number of preprints by looking for empty 'doi' columns
@@ -303,6 +292,6 @@ percentage_preprints <- (hydrodynamic_preprint_count / nrow(hydrodynamic_search)
 paste0('The percentage of preprints is ', round(percentage_preprints, digits = 2), '%.')
 ```
 
-```
-## [1] "The percentage of preprints is 31.86%."
+```         
+## [1] "The percentage of preprints is 33.09%."
 ```

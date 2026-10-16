@@ -1225,7 +1225,7 @@ ggplot(df, aes(x = Year, y = Value)) +
         plot.title = element_text(hjust = 0.5)
     )
 ```
-![Faceted scatter plot showing total wages and salaries for selected industries from 1998 to 2022. Each panel represents a different industry, with year on the x-axis and wages on the salaries in the billions of U.S. dollars on the y-axis.](./_figures/bea/BEA_Scatter_Plot_Total_Wages_and_Salaries_by_Industry_1998-2024.png)
+![alt text](./_figures/bea/BEA_Scatter_Plot_Total_Wages_and_Salaries_by_Industry_1998-2024.png)
 
 
 Note that the graphs below are not scaled together. Please check the y-axis labels to see the individual scales for each graph.
