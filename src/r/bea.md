@@ -1,0 +1,1231 @@
+---
+title: "U.S. Bureau of Economic Analysis (BEA) API in R"
+output: 
+  html_document:
+    keep_md: true
+---
+
+
+
+# U.S. Bureau of Economic Analysis (BEA) API in R
+
+by Nick Peinitz, Dakeya Chambers
+
+
+<div class="rmd-btn-wrapper">
+  <a class="rmd-btn"
+     href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/bea.Rmd"
+     target="_blank"
+     rel="noreferrer">
+    View RMarkdown File
+  </a>
+</div>
+
+The U.S. Bureau of Economic Analysis (BEA) API provides programmatic access to economic data published by the BEA.
+
+*This product uses the Bureau of Economic Analysis (BEA) Data API but is not endorsed or certified by BEA.*
+
+Please see the following resources for more information on API usage:
+
+- Documentation
+    - <a href="https://apps.bea.gov/API/" target="_blank">BEA API Documentation</a>
+    - <a href="https://apps.bea.gov/api/_pdf/bea_web_service_api_user_guide.pdf" target="_blank">BEA API User Guide</a>
+    - <a href="https://www.bea.gov/itable/" target="_blank">BEA Interactive Data Application</a>
+- Terms of Use
+    - <a href="https://apps.bea.gov/API/_pdf/bea_api_tos.pdf" target="_blank">BEA API Terms of Use</a>
+
+**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
+
+*These recipe examples were tested on September 23, 2026.*
+
+
+## Setup
+
+### Import Libraries
+
+The following external libraries need to be installed into your environment to run the code examples in this tutorial:
+
+- <a href="https://github.com/r-lib/httr2" target="_blank">httr2</a>
+- <a href="https://github.com/gaborcsardi/dotenv" target="_blank">dotenv</a>
+- <a href="https://github.com/tidyverse/ggplot2" target="_blank">ggplot2</a>
+
+We import the libraries used in this tutorial below:
+
+```r
+library(httr2)
+library(dotenv)
+library(ggplot2)
+```
+
+### Import UserID
+
+An UserID is required to access the BEA API. You can sign up for one <a href="https://apps.bea.gov/api/signup/" target="_blank">here</a>.
+
+We keep our API key in a `.env` file and use the `dotenv` library to access it. If you would like to use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
+
+```shell
+BEA_API_USERID="add-userid-here"
+```
+
+```r
+load_dot_env()
+API_KEY <- Sys.getenv("BEA_API_USERID")
+if (API_KEY == "") {
+    message("API key not found. Please set 'BEA_API_USERID' in your .env file.")
+}
+```
+
+
+## 1. Finding Value Added by Industry
+
+*Note: This section uses the GDP by Industry dataset, which can be explored <a href="https://apps.bea.gov/iTable/?reqid=150&step=2&isuri=1&categories=gdpxind&_gl=1*" target="_blank">here</a>.*
+
+To get started, let's use the `GetDatasetList` method to get a list of all tables in the BEA database. In this example, we are interested in the `GDPbyIndustry` table.
+
+Note that the `ResultFormat` is set to `JSON` in this URL, indicating that the API response will be in JSON. By default, the BEA API will return data in JSON, but it can also be set to XML if that is the format you would like to receive the response in. Later examples in this tutorial will not specify a `ResultFormat`. Additionally, the `UserID` parameter is set to the value specified in the Setup part of this tutorial.
+
+```r
+BASE_URL = 'https://apps.bea.gov/api/data'
+
+data <- request(BASE_URL) |>
+            req_url_query(
+                method = "GetDatasetList",
+                ResultFormat = "JSON",
+                UserID = API_KEY
+            ) |>
+            req_perform() |>
+            resp_body_json()
+
+# Print tables with descriptions
+for (dataset in data$BEAAPI$Results$Dataset)
+{
+  cat(sprintf("%-25s: %s\n",
+              dataset$DatasetName,
+              dataset$DatasetDescription))
+}
+```
+
+```text
+NIPA                     : Standard NIPA tables
+NIUnderlyingDetail       : Standard NI underlying detail tables
+MNE                      : Multinational Enterprises
+FixedAssets              : Standard Fixed Assets tables
+ITA                      : International Transactions Accounts
+IIP                      : International Investment Position
+InputOutput              : Input-Output Data
+IntlServTrade            : International Services Trade
+IntlServSTA              : International Services Supplied Through Affiliates
+GDPbyIndustry            : GDP by Industry
+Regional                 : Regional data sets
+UnderlyingGDPbyIndustry  : Underlying GDP by Industry
+APIDatasetMetaData       : Metadata about other API datasets
+```
+
+### Get Parameter Values
+
+In order to query the data of the database, we must first determine the parameters necessary to make a request. To do this, we must use the `GetParameterList` method, which provides parameter names, descriptions, and information about the values accepted for the parameter, including whether it is required for a request.
+
+```r
+data <- request(BASE_URL) |>
+            req_url_query(
+                method = "GetParameterList",
+                datasetname = "GDPbyIndustry",
+                UserID = API_KEY
+            ) |>
+            req_perform() |>
+            resp_body_json()
+
+# Display response
+data$BEAAPI$Results$Parameter
+```
+
+```text
+[[1]]
+[[1]]$ParameterName
+[1] "Frequency"
+
+[[1]]$ParameterDataType
+[1] "string"
+
+[[1]]$ParameterDescription
+[1] "A - Annual, Q-Quarterly"
+
+[[1]]$ParameterIsRequiredFlag
+[1] "1"
+
+[[1]]$ParameterDefaultValue
+[1] ""
+
+[[1]]$MultipleAcceptedFlag
+[1] "1"
+
+[[1]]$AllValue
+[1] "ALL"
+
+
+[[2]]
+[[2]]$ParameterName
+[1] "Industry"
+
+[[2]]$ParameterDataType
+[1] "string"
+
+[[2]]$ParameterDescription
+[1] "List of industries to retrieve (ALL for All)"
+
+[[2]]$ParameterIsRequiredFlag
+[1] "1"
+
+[[2]]$ParameterDefaultValue
+[1] ""
+
+[[2]]$MultipleAcceptedFlag
+[1] "1"
+
+[[2]]$AllValue
+[1] "ALL"
+
+
+[[3]]
+[[3]]$ParameterName
+[1] "TableID"
+
+[[3]]$ParameterDataType
+[1] "integer"
+
+[[3]]$ParameterDescription
+[1] "The unique GDP by Industry table identifier (ALL for All)"
+
+[[3]]$ParameterIsRequiredFlag
+[1] "1"
+
+[[3]]$ParameterDefaultValue
+[1] ""
+
+[[3]]$MultipleAcceptedFlag
+[1] "1"
+
+[[3]]$AllValue
+[1] "ALL"
+
+
+[[4]]
+[[4]]$ParameterName
+[1] "Year"
+
+[[4]]$ParameterDataType
+[1] "integer"
+
+[[4]]$ParameterDescription
+[1] "List of year(s) of data to retrieve (ALL for All)"
+
+[[4]]$ParameterIsRequiredFlag
+[1] "1"
+
+[[4]]$ParameterDefaultValue
+[1] ""
+
+[[4]]$MultipleAcceptedFlag
+[1] "1"
+
+[[4]]$AllValue
+[1] "ALL"
+```
+
+The result above indicates that there are 4 parameters required to query the `GDPbyIndustry` dataset: `Frequency`, `Industry`, `TableID`, and `Year`.
+
+To find what values these parameters can take, we must use the `GetParameterValues` method. Using this method, the `Frequency` parameter returns a list of keys for each industry as well as the frequency at with which each is available (A for annually and Q for quarterly).
+
+```r
+data <- request(BASE_URL) |>
+            req_url_query(
+                method = "GetParameterValues",
+                datasetname = "GDPbyIndustry",
+                ParameterName = "Industry",
+                UserID = API_KEY
+            ) |>
+            req_perform() |>
+            resp_body_json()
+
+# Print industry keys and descriptions
+for (parameter in data$BEAAPI$Results$ParamValue)
+{
+  cat(sprintf("%-6s: %s\n",
+              parameter$Key,
+              parameter$Desc))
+}
+```
+
+```text
+11    : Agriculture, forestry, fishing, and hunting (A,Q)
+111CA : Farms (A,Q)
+113FF : Forestry, fishing, and related activities (A,Q)
+21    : Mining (A,Q)
+211   : Oil and gas extraction (A,Q)
+212   : Mining, except oil and gas (A,Q)
+213   : Support activities for mining (A,Q)
+22    : Utilities (A,Q)
+23    : Construction (A,Q)
+311FT : Food and beverage and tobacco products (A,Q)
+313TT : Textile mills and textile product mills (A,Q)
+315AL : Apparel and leather and allied products (A,Q)
+31G   : Manufacturing (A,Q)
+31ND  : Nondurable goods (A,Q)
+321   : Wood products (A,Q)
+322   : Paper products (A,Q)
+323   : Printing and related support activities (A,Q)
+324   : Petroleum and coal products (A,Q)
+325   : Chemical products (A,Q)
+326   : Plastics and rubber products (A,Q)
+327   : Nonmetallic mineral products (A,Q)
+331   : Primary metals (A,Q)
+332   : Fabricated metal products (A,Q)
+333   : Machinery (A,Q)
+334   : Computer and electronic products (A,Q)
+335   : Electrical equipment, appliances, and components (A,Q)
+3361MV: Motor vehicles, bodies and trailers, and parts (A,Q)
+3364OT: Other transportation equipment (A,Q)
+337   : Furniture and related products (A,Q)
+339   : Miscellaneous manufacturing (A,Q)
+33DG  : Durable goods (A,Q)
+42    : Wholesale trade (A,Q)
+441   : Motor vehicle and parts dealers (A,Q)
+445   : Food and beverage stores (A,Q)
+44RT  : Retail trade (A,Q)
+452   : General merchandise stores (A,Q)
+481   : Air transportation (A,Q)
+482   : Rail transportation (A,Q)
+483   : Water transportation (A,Q)
+484   : Truck transportation (A,Q)
+485   : Transit and ground passenger transportation (A,Q)
+486   : Pipeline transportation (A,Q)
+487OS : Other transportation and support activities (A,Q)
+48TW  : Transportation and warehousing (A,Q)
+493   : Warehousing and storage (A,Q)
+4A0   : Other retail (A,Q)
+51    : Information (A,Q)
+511   : Publishing industries, except internet (includes software) (A,Q)
+512   : Motion picture and sound recording industries (A,Q)
+513   : Broadcasting and telecommunications (A,Q)
+514   : Data processing, internet publishing, and other information services (A,Q)
+52    : Finance and insurance (A,Q)
+521CI : Federal Reserve banks, credit intermediation, and related activities (A,Q)
+523   : Securities, commodity contracts, and investments (A,Q)
+524   : Insurance carriers and related activities (A,Q)
+525   : Funds, trusts, and other financial vehicles (A,Q)
+53    : Real estate and rental and leasing (A,Q)
+531   : Real estate (A,Q)
+532RL : Rental and leasing services and lessors of intangible assets (A,Q)
+54    : Professional, scientific, and technical services (A,Q)
+5411  : Legal services (A,Q)
+5412OP: Miscellaneous professional, scientific, and technical services (A,Q)
+5415  : Computer systems design and related services (A,Q)
+55    : Management of companies and enterprises (A,Q)
+56    : Administrative and waste management services (A,Q)
+561   : Administrative and support services (A,Q)
+562   : Waste management and remediation services (A,Q)
+6     : Educational services, health care, and social assistance (A,Q)
+61    : Educational services (A,Q)
+62    : Health care and social assistance (A,Q)
+621   : Ambulatory health care services (A,Q)
+622   : Hospitals (A,Q)
+622HO : Hospitals and nursing and residential care facilities (A,Q)
+623   : Nursing and residential care facilities (A,Q)
+624   : Social assistance (A,Q)
+7     : Arts, entertainment, recreation, accommodation, and food services (A,Q)
+71    : Arts, entertainment, and recreation (A,Q)
+711AS : Performing arts, spectator sports, museums, and related activities (A,Q)
+713   : Amusements, gambling, and recreation industries (A,Q)
+72    : Accommodation and food services (A,Q)
+721   : Accommodation (A,Q)
+722   : Food services and drinking places (A,Q)
+81    : Other services, except government (A,Q)
+FIRE  : Finance, insurance, real estate, rental, and leasing (A,Q)
+G     : Government (A,Q)
+GDP   : Gross domestic product (A,Q)
+GF    : Federal (A,Q)
+GFE   : Government enterprises (A,Q)
+GFG   : General government (A,Q)
+GFGD  : National defense (A,Q)
+GFGN  : Nondefense (A,Q)
+GSL   : State and local (A,Q)
+GSLE  : Government enterprises (A,Q)
+GSLG  : General government (A,Q)
+HS    : Housing (A,Q)
+ICT   : Information-communications-technology-producing industries (A)
+ICT   : Information-communications-technology-producing industries<sup> 4</sup> (A)
+II    : All industries (A,Q)
+NABI  : Not allocated by industry (A,Q)
+ORE   : Other real estate (A,Q)
+PGOOD : Private goods-producing industries (A,Q)
+PROF  : Professional and business services (A,Q)
+PSERV : Private services-producing industries (A,Q)
+PVT   : Private industries (A,Q)
+```
+Next, we use the same method to get the table IDs of the dataset:
+
+```r
+data <- request(BASE_URL) |>
+            req_url_query(
+                method = "GetParameterValues",
+                datasetname = "GDPbyIndustry",
+                ParameterName = "tableid",
+                UserID = API_KEY
+            ) |>
+            req_perform() |>
+            resp_body_json()
+
+# Print TableIDs and descriptions
+for (parameter in data$BEAAPI$Results$ParamValue)
+{
+  cat(sprintf("%-6s: %s\n",
+              parameter$Key,
+              parameter$Desc))
+}
+```
+
+```text
+1     : Value Added by Industry (A) (Q)
+5     : Value added by Industry as a Percentage of Gross Domestic Product (A) (Q)
+6     : Components of Value Added by Industry (A)
+7     : Components of Value Added by Industry as a Percentage of Value Added (A)
+8     : Chain-Type Quantity Indexes for Value Added by Industry (A) (Q)
+9     : Percent Changes in Chain-Type Quantity Indexes for Value Added by Industry (A) (Q)
+10    : Real Value Added by Industry (A) (Q)
+11    : Chain-Type Price Indexes for Value Added by Industry (A) (Q)
+12    : Percent Changes in Chain-Type Price Indexes for Value Added by Industry (A) (Q)
+13    : Contributions to Percent Change in Real Gross Domestic Product by Industry (A) (Q)
+14    : Contributions to Percent Change in the Chain-Type Price Index for Gross Domestic Product by Industry (A) (Q)
+15    : Gross Output by Industry (A) (Q)
+16    : Chain-Type Quantity Indexes for Gross Output by Industry (A) (Q)
+17    : Percent Changes in Chain-Type Quantity Indexes for Gross Output by Industry (A) (Q)
+18    : Chain-Type Price Indexes for Gross Output by Industry (A) (Q)
+19    : Percent Changes in Chain-Type Price Indexes for Gross Output by Industry (A) (Q)
+20    : Intermediate Inputs by Industry (A) (Q)
+21    : Chain-Type Quantity Indexes for Intermediate Inputs by Industry (A) (Q)
+22    : Percent Changes in Chain-Type Quantity Indexes for Intermediate Inputs by Industry (A) (Q)
+23    : Chain-Type Price Indexes for Intermediate Inputs by Industry (A) (Q)
+24    : Percent Changes in Chain-Type Price Indexes for Intermediate Inputs by Industry (A) (Q)
+25    : Composition of Gross Output by Industry (A)
+26    : Shares of Gross Output by Industry (A)
+29    : Contributions to Percent Changes in Chain-Type Quantity Indexes for Gross Output by Industry Group (A)
+30    : Contributions to Percent Changes in Chain-Type Price Indexes for Gross Output by Industry Group (A)
+31    : Chain-Type Quantity Indexes for Energy Inputs by Industry (A)
+32    : Contributions to Percent Change by Industry in the Chain-Type Quantity Index for All Industries Energy Inputs (A)
+33    : Chain-Type Price Indexes for Energy Inputs by Industry (A)
+34    : Contributions to Percent Change by Industry in the Chain-Type Price Index for All Industries Energy Inputs (A)
+35    : Chain-Type Quantity Indexes for Materials Inputs by Industry (A)
+36    : Contributions to Percent Change by Industry in the Chain-Type Quantity Index for All Industries Materials Inputs (A)
+37    : Chain-Type Price Indexes for Materials Inputs by Industry (A)
+38    : Contributions to Percent Change by Industry in the Chain-Type Price Index for All Industries Materials Inputs (A)
+39    : Chain-Type Quantity Indexes for Purchased Service Inputs by Industry (A)
+40    : Contributions to Percent Change by Industry in the Chain-Type Quantity Index for All Industries Purchased Service Inputs (A)
+41    : Chain-Type Price Indexes for Purchased Service Inputs by Industry (A)
+42    : Contributions to Percent Change by Industry in the Chain-Type Price Index for All Industries Purchased Service Inputs (A)
+208   : Real Gross Output by Industry (A) (Q)
+209   : Real Intermediate Inputs by Industry (A) (Q)
+```
+Finally, we look at the years available in the dataset:
+
+```r
+data <- request(BASE_URL) |>
+            req_url_query(
+                method = "GetParameterValues",
+                datasetname = "GDPbyIndustry",
+                ParameterName = "year",
+                UserID = API_KEY
+            ) |>
+            req_perform() |>
+            resp_body_json()
+
+# Print years
+for (parameter in data$BEAAPI$Results$ParamValue)
+{
+  cat(parameter$Key, ", ")
+}
+```
+
+```text
+1997 , 1998 , 1999 , 2000 , 2001 , 2002 , 2003 , 2004 , 2005 , 2006 , 2007 , 2008 , 2009 , 2010 , 2011 , 2012 , 2013 , 2014 , 2015 , 2016 , 2017 , 2018 , 2019 , 2020 , 2021 , 2022 , 2023 , 2024 , 2025 ,
+```
+
+### Get Data
+
+Now that we have determined the parameters needed to retrieve the data we are looking for, we can use the `GetData` method to retrieve this data.
+
+In this example, we use the `all` value for the industry parameter to obtain the data for all industries. Note that usage of this value should be limited in order to adhere to the API's rate limits.
+
+```r
+data <- request(BASE_URL) |>
+            req_url_query(
+                method = "GetData",
+                datasetname = "GDPbyIndustry",
+                Industry = "all",   # Data for all industries
+                Frequency = "A",    # Annual Data
+                tableid = 1,        # Value Added by Industry
+                year = 2022,        # Data for 2022
+                UserID = API_KEY
+            ) |>
+            req_perform() |>
+            resp_body_json()
+
+# Display number of results
+length(data$BEAAPI$Results[[1]]$Data)
+```
+
+```text
+[1] 100
+```
+
+```r
+# Print results in a table
+cat(sprintf("%-75s: %s\n",
+              "Industry",
+              " Value Added (in million USD)"))
+
+for (industry in data$BEAAPI$Results[[1]]$Data)
+{
+  cat(sprintf("%-75s: %s\n",
+              industry$IndustrYDescription,
+              industry$DataValue))
+}
+```
+
+```text
+Industry                                                                   :  Value Added (in million USD)
+Agriculture, forestry, fishing, and hunting                                : 294.0
+Farms                                                                      : 247.1
+Forestry, fishing, and related activities                                  : 47.0
+Mining                                                                     : 466.9
+Oil and gas extraction                                                     : 329.1
+Mining, except oil and gas                                                 : 75.4
+Support activities for mining                                              : 62.5
+Utilities                                                                  : 440.8
+Construction                                                               : 1112.4
+Food and beverage and tobacco products                                     : 299.9
+Textile mills and textile product mills                                    : 16.7
+Apparel and leather and allied products                                    : 11.7
+Manufacturing                                                              : 2668.2
+Nondurable goods                                                           : 1274.9
+Wood products                                                              : 64.6
+Paper products                                                             : 70.1
+Printing and related support activities                                    : 40.8
+Petroleum and coal products                                                : 231.0
+Chemical products                                                          : 509.5
+Plastics and rubber products                                               : 95.2
+Nonmetallic mineral products                                               : 71.6
+Primary metals                                                             : 85.2
+Fabricated metal products                                                  : 175.3
+Machinery                                                                  : 175.3
+Computer and electronic products                                           : 290.1
+Electrical equipment, appliances, and components                           : 69.6
+Motor vehicles, bodies and trailers, and parts                             : 166.6
+Other transportation equipment                                             : 160.7
+Furniture and related products                                             : 33.7
+Miscellaneous manufacturing                                                : 100.7
+Durable goods                                                              : 1393.3
+Wholesale trade                                                            : 1594.4
+Motor vehicle and parts dealers                                            : 341.8
+Food and beverage stores                                                   : 210.3
+Retail trade                                                               : 1647.8
+General merchandise stores                                                 : 199.2
+Air transportation                                                         : 147.4
+Rail transportation                                                        : 50.3
+Water transportation                                                       : 21.3
+Truck transportation                                                       : 259.5
+Transit and ground passenger transportation                                : 58.0
+Pipeline transportation                                                    : 43.4
+Other transportation and support activities                                : 216.7
+Transportation and warehousing                                             : 912.1
+Warehousing and storage                                                    : 115.5
+Other retail                                                               : 896.6
+Information                                                                : 1383.5
+Publishing industries, except internet (includes software)                 : 365.1
+Motion picture and sound recording industries                              : 114.6
+Broadcasting and telecommunications                                        : 487.1
+Data processing, internet publishing, and other information services       : 416.8
+Finance and insurance                                                      : 1982.6
+Federal Reserve banks, credit intermediation, and related activities       : 907.8
+Securities, commodity contracts, and investments                           : 349.2
+Insurance carriers and related activities                                  : 708.6
+Funds, trusts, and other financial vehicles                                : 17.1
+Real estate and rental and leasing                                         : 3472.5
+Real estate                                                                : 3157.4
+Rental and leasing services and lessors of intangible assets               : 315.1
+Professional, scientific, and technical services                           : 2057.5
+Legal services                                                             : 348.2
+Miscellaneous professional, scientific, and technical services             : 1248.8
+Computer systems design and related services                               : 460.6
+Management of companies and enterprises                                    : 479.8
+Administrative and waste management services                               : 837.0
+Administrative and support services                                        : 762.6
+Waste management and remediation services                                  : 74.4
+Educational services, health care, and social assistance                   : 2159.1
+Educational services                                                       : 296.1
+Health care and social assistance                                          : 1863.0
+Ambulatory health care services                                            : 907.2
+Hospitals                                                                  : 596.2
+Nursing and residential care facilities                                    : 180.4
+Social assistance                                                          : 179.2
+Arts, entertainment, recreation, accommodation, and food services          : 1070.3
+Arts, entertainment, and recreation                                        : 264.0
+Performing arts, spectator sports, museums, and related activities         : 150.2
+Amusements, gambling, and recreation industries                            : 113.8
+Accommodation and food services                                            : 806.3
+Accommodation                                                              : 217.7
+Food services and drinking places                                          : 588.6
+Other services, except government                                          : 549.8
+Finance, insurance, real estate, rental, and leasing                       : 5455.1
+Government                                                                 : 2925.7
+Gross domestic product                                                     : 26054.6
+Federal                                                                    : 945.5
+Government enterprises                                                     : 73.1
+General government                                                         : 872.4
+National defense                                                           : 495.6
+Nondefense                                                                 : 376.8
+State and local                                                            : 1980.2
+Government enterprises                                                     : 143.6
+General government                                                         : 1836.6
+Housing                                                                    : 2406.6
+Information-communications-technology-producing industries<sup>3</sup>     : 1816.4
+Other real estate                                                          : 750.9
+Private goods-producing industries<sup>1</sup>                             : 4541.6
+Professional and business services                                         : 3374.3
+Private services-producing industries<sup>2</sup>                          : 18587.3
+Private industries                                                         : 23128.9
+```
+
+
+## 2. Finding Wages by Year through NIPA Tables
+
+*Note: This section uses the National Income and Product Accounts (NIPA) dataset, which can be explored <a href="https://apps.bea.gov/iTable/?reqid=19&step=2&isuri=1&categories=survey" target="_blank">here</a>.*
+
+In this section, we query the `NIPA` dataset. In order to find what parameters are necessary to query this dataset, we must first use the `GetParameterList`:
+
+```r
+data <- request(BASE_URL) |>
+            req_url_query(
+                method = "GetParameterList",
+                datasetname = "NIPA",
+                UserID = API_KEY
+            ) |>
+            req_perform() |>
+            resp_body_json()
+
+# Display response
+data$BEAAPI$Results$Parameter
+```
+
+```text
+[[1]]
+[[1]]$ParameterName
+[1] "Frequency"
+
+[[1]]$ParameterDataType
+[1] "string"
+
+[[1]]$ParameterDescription
+[1] "A - Annual, Q-Quarterly, M-Monthly"
+
+[[1]]$ParameterIsRequiredFlag
+[1] "1"
+
+[[1]]$ParameterDefaultValue
+[1] ""
+
+[[1]]$MultipleAcceptedFlag
+[1] "1"
+
+[[1]]$AllValue
+[1] ""
+
+
+[[2]]
+[[2]]$ParameterName
+[1] "ShowMillions"
+
+[[2]]$ParameterDataType
+[1] "string"
+
+[[2]]$ParameterDescription
+[1] "A flag indicating that million-dollar data should be returned."
+
+[[2]]$ParameterIsRequiredFlag
+[1] "0"
+
+[[2]]$ParameterDefaultValue
+[1] "N"
+
+[[2]]$MultipleAcceptedFlag
+[1] "0"
+
+[[2]]$AllValue
+[1] ""
+
+
+[[3]]
+[[3]]$ParameterName
+[1] "TableID"
+
+[[3]]$ParameterDataType
+[1] "integer"
+
+[[3]]$ParameterDescription
+[1] "The standard NIPA table identifier"
+
+[[3]]$ParameterIsRequiredFlag
+[1] "0"
+
+[[3]]$MultipleAcceptedFlag
+[1] "0"
+
+[[3]]$AllValue
+[1] ""
+
+
+[[4]]
+[[4]]$ParameterName
+[1] "TableName"
+
+[[4]]$ParameterDataType
+[1] "string"
+
+[[4]]$ParameterDescription
+[1] "The new NIPA table identifier"
+
+[[4]]$ParameterIsRequiredFlag
+[1] "0"
+
+[[4]]$MultipleAcceptedFlag
+[1] "0"
+
+[[4]]$AllValue
+[1] ""
+
+
+[[5]]
+[[5]]$ParameterName
+[1] "Year"
+
+[[5]]$ParameterDataType
+[1] "integer"
+
+[[5]]$ParameterDescription
+[1] "List of year(s) of data to retrieve (X for All)"
+
+[[5]]$ParameterIsRequiredFlag
+[1] "1"
+
+[[5]]$ParameterDefaultValue
+[1] ""
+
+[[5]]$MultipleAcceptedFlag
+[1] "1"
+
+[[5]]$AllValue
+[1] "X"
+```
+
+Now, we use the `GetParameterValues` function to find what parameter values we can use in our API request. The example below finds the values for the `year` and `TableID` parameters:
+
+```r
+method <- "GetParameterValues"
+dataset <- "NIPA"
+
+# Find years available for each table
+year_data <- request(BASE_URL) |>
+            req_url_query(
+                method = method,
+                datasetname = dataset,
+                ParameterName = "year",
+                UserID = API_KEY
+            ) |>
+            req_perform() |>
+            resp_body_json()
+
+a_years = list()    # Years that have annual data available
+q_years = list()    # Years that have quarterly data available
+
+for (table in year_data$BEAAPI$Results$ParamValue)
+{
+  a_years[[table$TableName]] = c(table$FirstAnnualYear, table$LastAnnualYear)
+  q_years[[table$TableName]] = c(table$FirstQuarterlyYear, table$LastQuarterlyYear)
+}
+
+# Find table IDs
+table_id_data <- request(BASE_URL) |>
+            req_url_query(
+                method = method,
+                datasetname = dataset,
+                ParameterName = "TableID",
+                UserID = API_KEY
+            ) |>
+            req_perform() |>
+            resp_body_json()
+
+# Display table names, descriptions, and years available
+cat(sprintf("%-8s %-13s %-13s %s\n",
+              "Table",
+              "Annually",
+              "Quarterly",
+              "Description"))
+
+for (id in table_id_data$BEAAPI$Results$ParamValue)
+{
+  name <- id$TableName
+  annual <- a_years[[name]]
+  quarterly <- q_years[[name]]
+  cat(sprintf("%-8s | %4s-%4s | %4s-%4s | %s\n",
+              name,
+              annual[1],
+              annual[2],
+              quarterly[1],
+              quarterly[2],
+              id$Description))
+}
+```
+
+```text
+Table    Annually      Quarterly     Description
+T10101   | 1930-2025 | 1947-2026 | Table 1.1.1. Percent Change From Preceding Period in Real Gross Domestic Product (A) (Q)
+T10102   | 1930-2025 | 1947-2026 | Table 1.1.2. Contributions to Percent Change in Real Gross Domestic Product (A) (Q)
+T10103   | 1929-2025 | 1947-2026 | Table 1.1.3. Real Gross Domestic Product, Quantity Indexes (A) (Q)
+T10104   | 1929-2025 | 1947-2026 | Table 1.1.4. Price Indexes for Gross Domestic Product (A) (Q)
+T10105   | 1929-2025 | 1947-2026 | Table 1.1.5. Gross Domestic Product (A) (Q)
+T10106   | 1929-2025 | 1947-2026 | Table 1.1.6. Real Gross Domestic Product, Chained Dollars (A) (Q)
+T10107   | 1930-2025 | 1947-2026 | Table 1.1.7. Percent Change From Preceding Period in Prices for Gross Domestic Product (A) (Q)
+T10108   | 1930-2025 | 1947-2026 | Table 1.1.8. Contributions to Percent Change in the Gross Domestic Product Price Index (A) (Q)
+T10109   | 1929-2025 | 1947-2026 | Table 1.1.9. Implicit Price Deflators for Gross Domestic Product (A) (Q)
+T10110   | 1929-2025 | 1947-2026 | Table 1.1.10. Percentage Shares of Gross Domestic Product (A) (Q)
+T10111   |    0-   0 | 1948-2026 | Table 1.1.11. Real Gross Domestic Product: Percent Change From Quarter One Year Ago (Q)
+T10201   | 1930-2025 | 1947-2026 | Table 1.2.1. Percent Change From Preceding Period in Real Gross Domestic Product by Major Type of Product (A) (Q)
+T10202   | 1930-2025 | 1947-2026 | Table 1.2.2. Contributions to Percent Change in Real Gross Domestic Product by Major Type of Product (A) (Q)
+T10203   | 1929-2025 | 1947-2026 | Table 1.2.3. Real Gross Domestic Product by Major Type of Product, Quantity Indexes (A) (Q)
+T10204   | 1929-2025 | 1947-2026 | Table 1.2.4. Price Indexes for Gross Domestic Product by Major Type of Product (A) (Q)
+T10205   | 1929-2025 | 1947-2026 | Table 1.2.5. Gross Domestic Product by Major Type of Product (A) (Q)
+T10206   | 1929-2025 | 1947-2026 | Table 1.2.6. Real Gross Domestic Product by Major Type of Product, Chained Dollars (A) (Q)
+T10301   | 1930-2025 | 1947-2026 | Table 1.3.1. Percent Change From Preceding Period in Real Gross Value Added by Sector (A) (Q)
+T10303   | 1929-2025 | 1947-2026 | Table 1.3.3. Real Gross Value Added by Sector, Quantity Indexes (A) (Q)
+T10304   | 1929-2025 | 1947-2026 | Table 1.3.4. Price Indexes for Gross Value Added by Sector (A) (Q)
+T10305   | 1929-2025 | 1947-2026 | Table 1.3.5. Gross Value Added by Sector (A) (Q)
+T10306   | 1929-2025 | 1947-2026 | Table 1.3.6. Real Gross Value Added by Sector, Chained Dollars (A) (Q)
+T10401   | 1930-2025 | 1947-2026 | Table 1.4.1. Percent Change From Preceding Period in Real Gross Domestic Product, Real Gross Domestic Purchases, and Real Final Sales to Domestic Purchasers (A) (Q)
+T10403   | 1929-2025 | 1947-2026 | Table 1.4.3. Real Gross Domestic Product, Real Gross Domestic Purchases, and Real Final Sales to Domestic Purchasers, Quantity Indexes (A) (Q)
+T10404   | 1929-2025 | 1947-2026 | Table 1.4.4. Price Indexes for Gross Domestic Product, Gross Domestic Purchases, and Final Sales to Domestic Purchasers (A) (Q)
+T10405   | 1929-2025 | 1947-2026 | Table 1.4.5. Relation of Gross Domestic Product, Gross Domestic Purchases, and Final Sales to Domestic Purchasers (A) (Q)
+T10406   | 1929-2025 | 1947-2026 | Table 1.4.6. Relation of Real Gross Domestic Product, Real Gross Domestic Purchases, and Real Final Sales to Domestic Purchasers, Chained Dollars (A) (Q)
+T10501   | 1930-2025 | 1947-2026 | Table 1.5.1. Percent Change From Preceding Period in Real Gross Domestic Product, Expanded Detail (A) (Q)
+T10502   | 1930-2025 | 1947-2026 | Table 1.5.2. Contributions to Percent Change in Real Gross Domestic Product, Expanded Detail (A) (Q)
+T10503   | 1929-2025 | 1947-2026 | Table 1.5.3. Real Gross Domestic Product, Expanded Detail, Quantity Indexes (A) (Q)
+T10504   | 1929-2025 | 1947-2026 | Table 1.5.4. Price Indexes for Gross Domestic Product, Expanded Detail (A) (Q)
+T10505   | 1929-2025 | 1947-2026 | Table 1.5.5. Gross Domestic Product, Expanded Detail (A) (Q)
+T10506   | 2007-2025 | 2007-2026 | Table 1.5.6. Real Gross Domestic Product, Expanded Detail, Chained Dollars (A) (Q)
+T10604   | 1929-2025 | 1947-2026 | Table 1.6.4. Price Indexes for Gross Domestic Purchases (A) (Q)
+T10607   | 1930-2025 | 1947-2026 | Table 1.6.7. Percent Change From Preceding Period in Prices for Gross Domestic Purchases (A) (Q)
+T10608   | 1930-2025 | 1947-2026 | Table 1.6.8. Contributions to Percent Change in the Gross Domestic Purchases Price Index (A) (Q)
+T10701   | 1930-2025 | 1947-2026 | Table 1.7.1. Percent Change From Preceding Period in Real Gross Domestic Product, Real Gross National Product, and Real Net National Product (A) (Q)
+T10703   | 1929-2025 | 1947-2026 | Table 1.7.3. Real Gross Domestic Product, Real Gross National Product, and Real Net National Product, Quantity Indexes (A) (Q)
+T10704   | 1929-2025 | 1947-2026 | Table 1.7.4. Price Indexes for Gross Domestic Product, Gross National Product, and Net National Product (A) (Q)
+T10705   | 1929-2025 | 1947-2026 | Table 1.7.5. Relation of Gross Domestic Product, Gross National Product, Net National Product, National Income, and Personal Income (A) (Q)
+T10706   | 1929-2025 | 1947-2026 | Table 1.7.6. Relation of Real Gross Domestic Product, Real Gross National Product, and Real Net National Product, Chained Dollars (A) (Q)
+T10803   | 1929-2025 | 1947-2026 | Table 1.8.3. Command-Basis Real Gross Domestic Product and Gross National Product, Quantity Indexes (A) (Q)
+T10806   | 1929-2025 | 1947-2026 | Table 1.8.6. Command-Basis Real Gross Domestic Product and Gross National Product, Chained Dollars (A) (Q)
+T10903   | 1929-2024 |    0-   0 | Table 1.9.3. Real Net Value Added by Sector, Quantity Indexes (A)
+T10904   | 1929-2024 |    0-   0 | Table 1.9.4. Price Indexes for Net Value Added by Sector (A)
+T10905   | 1929-2024 |    0-   0 | Table 1.9.5. Net Value Added by Sector (A)
+T10906   | 2007-2024 |    0-   0 | Table 1.9.6. Real Net Value Added by Sector, Chained Dollars (A)
+T11000   | 1929-2025 | 1947-2026 | Table 1.10. Gross Domestic Income by Type of Income (A) (Q)
+T11100   | 1929-2024 |    0-   0 | Table 1.11. Percentage Shares of Gross Domestic Income (A)
+T11200   | 1929-2025 | 1947-2026 | Table 1.12. National Income by Type of Income (A) (Q)
+T11300   | 1948-2024 |    0-   0 | Table 1.13. National Income by Sector, Legal Form of Organization, and Type of Income (A)
+T11400   | 1929-2025 | 1947-2026 | Table 1.14. Gross Value Added of Domestic Corporate Business in Current Dollars and Gross Value Added of Nonfinancial Domestic Corporate Business in Current and Chained Dollars (A) (Q)
+T11500   | 1929-2025 | 1947-2026 | Table 1.15. Price, Costs, and Profit Per Unit of Real Gross Value Added of Nonfinancial Domestic Corporate Business (A) (Q)
+T11600   | 1948-2024 |    0-   0 | Table 1.16. Sources and Uses of Private Enterprise Income (A)
+T11701   | 1930-2025 | 1947-2026 | Table 1.17.1. Percent Change From Preceding Period in Real Gross Domestic Product, Real Gross Domestic Income, and Other Major NIPA Aggregates (A) (Q)
+T11705   | 1929-2025 | 1947-2026 | Table 1.17.5. Gross Domestic Product, Gross Domestic Income, and Other Major NIPA Aggregates (A) (Q)
+T11706   | 1929-2025 | 1947-2026 | Table 1.17.6. Real Gross Domestic Product, Real Gross Domestic Income, and Other Major NIPA Aggregates, Chained Dollars (A) (Q)
+T20100   | 1929-2025 | 1947-2026 | Table 2.1. Personal Income and Its Disposition (A) (Q)
+T20200B  | 1998-2025 | 2001-2026 | Table 2.2B. Wages and Salaries by Industry (A) (Q)
+T20301   | 1930-2025 | 1947-2026 | Table 2.3.1. Percent Change From Preceding Period in Real Personal Consumption Expenditures by Major Type of Product (A) (Q)
+T20302   | 1930-2025 | 1947-2026 | Table 2.3.2. Contributions to Percent Change in Real Personal Consumption Expenditures by Major Type of Product (A) (Q)
+T20303   | 1929-2025 | 1947-2026 | Table 2.3.3. Real Personal Consumption Expenditures by Major Type of Product, Quantity Indexes (A) (Q)
+T20304   | 1929-2025 | 1947-2026 | Table 2.3.4. Price Indexes for Personal Consumption Expenditures by Major Type of Product (A) (Q)
+T20305   | 1929-2025 | 1947-2026 | Table 2.3.5. Personal Consumption Expenditures by Major Type of Product (A) (Q)
+T20306   | 2007-2025 | 2007-2026 | Table 2.3.6. Real Personal Consumption Expenditures by Major Type of Product, Chained Dollars (A) (Q)
+T20307   | 1930-2025 | 1947-2026 | Table 2.3.7. Percent Change From Preceding Period in Prices for Personal Consumption Expenditures by Major Type of Product (A) (Q)
+T20308   | 1930-2025 | 1947-2026 | Table 2.3.8. Contributions to Percent Change in Prices for Personal Consumption Expenditures by Major Type of Product (A) (Q)
+T20311   |    0-   0 | 1948-2026 | Table 2.3.11. Real Personal Consumption Expenditures by Major Type of Product: Percent Change from Quarter One Year Ago (Q)
+T20401   | 1930-2025 | 1947-2026 | Table 2.4.1. Percent Change From Preceding Period in Real Personal Consumption Expenditures by Type of Product (A) (Q)
+T20402   | 1930-2025 | 1947-2026 | Table 2.4.2. Contributions to Percent Change in Real Personal Consumption Expenditures by Type of Product (A) (Q)
+T20403   | 1929-2025 | 1947-2026 | Table 2.4.3. Real Personal Consumption Expenditures by Type of Product, Quantity Indexes (A) (Q)
+T20404   | 1929-2025 | 1947-2026 | Table 2.4.4. Price Indexes for Personal Consumption Expenditures by Type of Product (A) (Q)
+T20405   | 1929-2025 | 1947-2026 | Table 2.4.5. Personal Consumption Expenditures by Type of Product (A) (Q)
+T20406   | 2007-2025 | 2007-2026 | Table 2.4.6. Real Personal Consumption Expenditures by Type of Product, Chained Dollars (A) (Q)
+T20407   | 1930-2025 | 1947-2026 | Table 2.4.7. Percent Change From Preceding Period in Prices for Personal Consumption Expenditures by Type of Product (A) (Q)
+T20408   | 1930-2025 | 1947-2026 | Table 2.4.8. Contributions to Percent Change in Prices for Personal Consumption Expenditures by Type of Product (A) (Q)
+T20503   | 1929-2024 |    0-   0 | Table 2.5.3. Real Personal Consumption Expenditures by Function, Quantity Indexes (A)
+T20504   | 1929-2024 |    0-   0 | Table 2.5.4. Price Indexes for Personal Consumption Expenditures by Function (A)
+T20505   | 1929-2024 |    0-   0 | Table 2.5.5. Personal Consumption Expenditures by Function (A)
+T20506   | 2007-2024 |    0-   0 | Table 2.5.6. Real Personal Consumption Expenditures by Function, Chained Dollars (A)
+T20600   |    0-   0 |    0-   0 | Table 2.6. Personal Income and Its Disposition, Monthly (M)
+T20700B  |    0-   0 |    0-   0 | Table 2.7B. Wages and Salaries by Industry, Monthly (M)
+T20801   |    0-   0 |    0-   0 | Table 2.8.1. Percent Change From Preceding Period in Real Personal Consumption Expenditures by Major Type of Product, Monthly (M)
+T20802   |    0-   0 |    0-   0 | Table 2.8.2. Contributions to Percent Change in Real Personal Consumption Expenditures by Major Type of Product, Monthly (M)
+T20803   |    0-   0 |    0-   0 | Table 2.8.3. Real Personal Consumption Expenditures by Major Type of Product, Monthly, Quantity Indexes (M)
+T20804   |    0-   0 |    0-   0 | Table 2.8.4. Price Indexes for Personal Consumption Expenditures by Major Type of Product, Monthly (M)
+T20805   |    0-   0 |    0-   0 | Table 2.8.5. Personal Consumption Expenditures by Major Type of Product, Monthly (M)
+T20806   |    0-   0 |    0-   0 | Table 2.8.6. Real Personal Consumption Expenditures by Major Type of Product, Monthly, Chained Dollars (M)
+T20807   |    0-   0 |    0-   0 | Table 2.8.7. Percent Change From Preceding Period in Prices for Personal Consumption Expenditures by Major Type of Product, Monthly (M)
+T20808   |    0-   0 |    0-   0 | Table 2.8.8. Contributions to Percent Change in Prices for Personal Consumption Expenditures by Major Type of Product, Monthly (M)
+T20811   |    0-   0 |    0-   0 | Table 2.8.11. Real Personal Consumption Expenditures by Major Type of Product: Percent Change from Month One Year Ago (M)
+T20900   | 1992-2024 |    0-   0 | Table 2.9. Personal Income and Its Disposition by Households and by Nonprofit Institutions Serving Households (A)
+T21000   | 2000-2024 |    0-   0 | Table 2.10. Distributions of Personal and Disposable Income for Households (A)
+T30100   | 1929-2025 | 1947-2026 | Table 3.1. Government Current Receipts and Expenditures (A) (Q)
+T30200   | 1929-2025 | 1947-2026 | Table 3.2. Federal Government Current Receipts and Expenditures (A) (Q)
+T30300   | 1929-2025 | 1947-2026 | Table 3.3. State and Local Government Current Receipts and Expenditures (A) (Q)
+T30400   | 1929-2024 |    0-   0 | Table 3.4. Personal Current Tax Receipts (A)
+T30500   | 1929-2024 |    0-   0 | Table 3.5. Taxes on Production and Imports (A)
+T30600   | 1929-2024 |    0-   0 | Table 3.6. Contributions for Government Social Insurance (A)
+T30700   | 1929-2024 |    0-   0 | Table 3.7. Government Current Transfer Receipts (A)
+T30800   | 1960-2024 |    0-   0 | Table 3.8. Current Surplus of Government Enterprises (A)
+T30901   | 1930-2025 | 1947-2026 | Table 3.9.1. Percent Change From Preceding Period in Real Government Consumption Expenditures and Gross Investment (A) (Q)
+T30902   | 1930-2025 | 1947-2026 | Table 3.9.2. Contributions to Percent Change in Real Government Consumption Expenditures and Gross Investment (A) (Q)
+T30903   | 1929-2025 | 1947-2026 | Table 3.9.3. Real Government Consumption Expenditures and Gross Investment, Quantity Indexes (A) (Q)
+T30904   | 1929-2025 | 1947-2026 | Table 3.9.4. Price Indexes for Government Consumption Expenditures and Gross Investment (A) (Q)
+T30905   | 1929-2025 | 1947-2026 | Table 3.9.5. Government Consumption Expenditures and Gross Investment (A) (Q)
+T30906   | 2007-2025 | 2007-2026 | Table 3.9.6. Real Government Consumption Expenditures and Gross Investment, Chained Dollars (A) (Q)
+T31001   | 1930-2025 | 1947-2026 | Table 3.10.1. Percent Change From Preceding Period in Real Government Consumption Expenditures and General Government Gross Output (A) (Q)
+T31003   | 1929-2025 | 1947-2026 | Table 3.10.3. Real Government Consumption Expenditures and General Government Gross Output, Quantity Indexes (A) (Q)
+T31004   | 1929-2025 | 1947-2026 | Table 3.10.4. Price Indexes for Government Consumption Expenditures and General Government Gross Output (A) (Q)
+T31005   | 1929-2025 | 1947-2026 | Table 3.10.5. Government Consumption Expenditures and General Government Gross Output (A) (Q)
+T31006   | 2007-2025 | 2007-2026 | Table 3.10.6. Real Government Consumption Expenditures and General Government Gross Output, Chained Dollars (A) (Q)
+T31101   | 1973-2025 | 1972-2026 | Table 3.11.1. Percent Change From Preceding Period in Real National Defense Consumption Expenditures and Gross Investment by Type (A) (Q)
+T31102   | 1973-2025 | 1972-2026 | Table 3.11.2. Contributions to Percent Change in National Defense Consumption Expenditures and Gross Investment by Type (A) (Q)
+T31103   | 1972-2025 | 1972-2026 | Table 3.11.3. Real National Defense Consumption Expenditures and Gross Investment by Type, Quantity Indexes (A) (Q)
+T31104   | 1972-2025 | 1972-2026 | Table 3.11.4. Price Indexes for National Defense Consumption Expenditures and Gross Investment by Type (A) (Q)
+T31105   | 1972-2025 | 1972-2026 | Table 3.11.5. National Defense Consumption Expenditures and Gross Investment by Type (A) (Q)
+T31106   | 2007-2025 | 2007-2026 | Table 3.11.6. Real National Defense Consumption Expenditures and Gross Investment by Type, Chained Dollars (A) (Q)
+T31200   | 1929-2024 |    0-   0 | Table 3.12. Government Social Benefits (A)
+T31300   | 1960-2024 |    0-   0 | Table 3.13. Subsidies (A)
+T31501   | 1960-2024 |    0-   0 | Table 3.15.1. Percent Change From Preceding Period in Real Government Consumption Expenditures and Gross Investment by Function (A)
+T31502   | 1960-2024 |    0-   0 | Table 3.15.2. Contributions to Percent Change in Real Government Consumption Expenditures and Gross Investment by Function (A)
+T31503   | 1959-2024 |    0-   0 | Table 3.15.3. Real Government Consumption Expenditures and Gross Investment by Function, Quantity Indexes (A)
+T31504   | 1959-2024 |    0-   0 | Table 3.15.4. Price Indexes for Government Consumption Expenditures and Gross Investment by Function (A)
+T31505   | 1959-2024 |    0-   0 | Table 3.15.5. Government Consumption Expenditures and Gross Investment by Function (A)
+T31506   | 2007-2024 |    0-   0 | Table 3.15.6. Real Government Consumption Expenditures and Gross Investment by Function, Chained Dollars (A)
+T31600   | 1959-2024 |    0-   0 | Table 3.16. Government Current Expenditures by Function (A)
+T31700   | 1959-2024 |    0-   0 | Table 3.17. Selected Government Current and Capital Expenditures by Function (A)
+T31800A  | 1952-1967 | 1959-1967 | Table 3.18A. Relation of Federal Government Current Receipts and Expenditures in the National Income and Product Accounts to the Consolidated Cash Statement, Fiscal Years and Quarters (A) (Q)
+T31800B  | 1968-2024 | 1968-2024 | Table 3.18B. Relation of Federal Government Current Receipts and Expenditures in the National Income and Product Accounts to the Budget, Fiscal Years and Quarters (A) (Q)
+T31900   | 1959-2023 |    0-   0 | Table 3.19. Relation of State and Local Government Current Receipts and Expenditures in the National Income and Product Accounts to Census Bureau 'Government Finances' Data, Fiscal Years (A)
+T32000   | 1959-2024 |    0-   0 | Table 3.20. State Government Current Receipts and Expenditures (A)
+T32100   | 1959-2024 |    0-   0 | Table 3.21. Local Government Current Receipts and Expenditures (A)
+T40100   | 1929-2025 | 1947-2026 | Table 4.1. Foreign Transactions in the National Income and Product Accounts (A) (Q)
+T40201   | 1968-2025 | 1967-2026 | Table 4.2.1. Percent Change From Preceding Period in Real Exports and in Real Imports of Goods and Services by Type of Product (A) (Q)
+T40202   | 1968-2025 | 1967-2026 | Table 4.2.2. Contributions to Percent Change in Real Exports and Real Imports of Goods and Services by Type of Product (A) (Q)
+T40203A  | 1967-1998 | 1967-1998 | Table 4.2.3A. Real Exports and Imports of Goods and Services by Type of Product, Quantity Indexes (A) (Q)
+T40203B  | 1999-2025 | 1999-2026 | Table 4.2.3B. Real Exports and Imports of Goods and Services by Type of Product, Quantity Indexes (A) (Q)
+T40204A  | 1967-1998 | 1967-1998 | Table 4.2.4A. Price Indexes for Exports and Imports of Goods and Services by Type of Product (A) (Q)
+T40204B  | 1999-2025 | 1999-2026 | Table 4.2.4B. Price Indexes for Exports and Imports of Goods and Services by Type of Product (A) (Q)
+T40205A  | 1967-1998 | 1967-1998 | Table 4.2.5A. Exports and Imports of Goods and Services by Type of Product (A) (Q)
+T40205B  | 1999-2025 | 1999-2026 | Table 4.2.5B. Exports and Imports of Goods and Services by Type of Product (A) (Q)
+T40206B  | 2007-2025 | 2007-2026 | Table 4.2.6B. Real Exports and Imports of Goods and Services by Type of Product, Chained Dollars (A) (Q)
+T4030A   | 1946-1985 |    0-   0 | Table 4.3A. Relation of Foreign Transactions in the National Income and Product Accounts to the Corresponding Items in the International Transactions Accounts (A)
+T4030B   | 1986-1998 |    0-   0 | Table 4.3B. Relation of Foreign Transactions in the National Income and Product Accounts to the Corresponding Items in the International Transactions Accounts (A)
+T4030C   | 1999-2025 | 1999-2026 | Table 4.3C. Relation of Foreign Transactions in the National Income and Product Accounts to the Corresponding Items in the International Transactions Accounts (A) (Q)
+T50100   | 1929-2025 | 1947-2026 | Table 5.1. Saving and Investment by Sector (A) (Q)
+T50203   | 1929-2024 |    0-   0 | Table 5.2.3. Real Gross and Net Domestic Investment by Major Type, Quantity Indexes (A)
+T50205   | 1929-2024 |    0-   0 | Table 5.2.5. Gross and Net Domestic Investment by Major Type (A)
+T50206   | 1967-2024 |    0-   0 | Table 5.2.6. Real Gross and Net Domestic Investment by Major Type, Chained dollars (A)
+T50301   | 1948-2025 | 1947-2026 | Table 5.3.1. Percent Change From Preceding Period in Real Private Fixed Investment by Type (A) (Q)
+T50302   | 1948-2025 | 1947-2026 | Table 5.3.2. Contributions to Percent Change in Real Private Fixed Investment by Type (A) (Q)
+T50303   | 1947-2025 | 1947-2026 | Table 5.3.3. Real Private Fixed Investment by Type, Quantity Indexes (A) (Q)
+T50304   | 1947-2025 | 1947-2026 | Table 5.3.4. Price Indexes for Private Fixed Investment by Type (A) (Q)
+T50305   | 1947-2025 | 1947-2026 | Table 5.3.5. Private Fixed Investment by Type (A) (Q)
+T50306   | 2007-2025 | 2007-2026 | Table 5.3.6. Real Private Fixed Investment by Type, Chained Dollars (A) (Q)
+T50401   | 1930-2024 |    0-   0 | Table 5.4.1. Percent Change From Preceding Period in Real Private Fixed Investment in Structures by Type (A)
+T50402   | 1930-2024 |    0-   0 | Table 5.4.2. Contributions to Percent Change in Real Private Fixed Investment in Structures by Type (A)
+T50403   | 1929-2024 |    0-   0 | Table 5.4.3. Real Private Fixed Investment in Structures by Type, Quantity Indexes (A)
+T50404   | 1929-2024 |    0-   0 | Table 5.4.4. Price Indexes for Private Fixed Investment in Structures by Type (A)
+T50405   | 1929-2024 |    0-   0 | Table 5.4.5. Private Fixed Investment in Structures by Type (A)
+T50406   | 2007-2024 |    0-   0 | Table 5.4.6. Real Private Fixed Investment in Structures by Type, Chained Dollars (A)
+T50501   | 1930-2024 |    0-   0 | Table 5.5.1. Percent Change From Preceding Period in Real Private Fixed Investment in Equipment by Type (A)
+T50502   | 1930-2024 |    0-   0 | Table 5.5.2. Contributions to Percent Change in Real Private Fixed Investment in Equipment by Type (A)
+T50503   | 1929-2024 |    0-   0 | Table 5.5.3. Real Private Fixed Investment in Equipment by Type, Quantity Indexes (A)
+T50504   | 1929-2024 |    0-   0 | Table 5.5.4. Price Indexes for Private Fixed Investment in Equipment by Type (A)
+T50505   | 1929-2024 |    0-   0 | Table 5.5.5. Private Fixed Investment in Equipment by Type (A)
+T50506   | 2007-2024 |    0-   0 | Table 5.5.6. Real Private Fixed Investment in Equipment by Type, Chained Dollars (A)
+T50601   | 1930-2024 |    0-   0 | Table 5.6.1. Percent Change From Preceding Period in Real Private Fixed Investment in Intellectual Property Products by Type (A)
+T50602   | 1930-2024 |    0-   0 | Table 5.6.2. Contributions to Percent Change in Private Fixed Investment in Intellectual Property Products by Type (A)
+T50603   | 1929-2024 |    0-   0 | Table 5.6.3. Real Private Fixed Investment in Intellectual Property Products by Type, Quantity Indexes (A)
+T50604   | 1929-2024 |    0-   0 | Table 5.6.4. Price Indexes for Private Fixed Investment in Intellectual Property Products by Type (A)
+T50605   | 1929-2024 |    0-   0 | Table 5.6.5. Private Fixed Investment in Intellectual Property Products by Type (A)
+T50606   | 2007-2024 |    0-   0 | Table 5.6.6. Real Private Fixed Investment in Intellectual Property Products by Type, Chained Dollars (A)
+T50705A  | 1929-1997 | 1947-1997 | Table 5.7.5A. Change in Private Inventories by Industry (A) (Q)
+T50705B  | 1997-2025 | 1997-2026 | Table 5.7.5B. Change in Private Inventories by Industry (A) (Q)
+T50706A  | 1929-1997 | 1947-1997 | Table 5.7.6A. Change in Real Private Inventories by Industry, Chained Dollars (A) (Q)
+T50706B  | 1997-2025 | 1997-2026 | Table 5.7.6B. Change in Real Private Inventories by Industry, Chained Dollars (A) (Q)
+T50805A  |    0-   0 | 1947-1997 | Table 5.8.5A. Private Inventories and Domestic Final Sales of Business by Industry (Q)
+T50805B  |    0-   0 | 1996-2026 | Table 5.8.5B. Private Inventories and Domestic Final Sales by Industry (Q)
+T50806A  |    0-   0 | 1947-1997 | Table 5.8.6A. Real Private Inventories and Real Domestic Final Sales of Business by Industry, Chained Dollars (Q)
+T50806B  |    0-   0 | 1996-2026 | Table 5.8.6B. Real Private Inventories and Real Domestic Final Sales by Industry, Chained Dollars (Q)
+T50809A  |    0-   0 | 1947-1997 | Table 5.8.9A. Implicit Price Deflators for Private Inventories by Industry (Q)
+T50809B  |    0-   0 | 1996-2026 | Table 5.8.9B. Implicit Price Deflators for Private Inventories by Industry (Q)
+T50903   | 1929-2024 |    0-   0 | Table 5.9.3. Real Gross Government Fixed Investment by Type, Quantity Indexes (A)
+T50904   | 1929-2024 |    0-   0 | Table 5.9.4. Price Indexes for Gross Government Fixed Investment by Type (A)
+T50905   | 1929-2024 |    0-   0 | Table 5.9.5. Gross Government Fixed Investment by Type (A)
+T50906   | 2007-2024 |    0-   0 | Table 5.9.6. Real Gross Government Fixed Investment by Type, Chained Dollars (A)
+T51000   | 1951-2024 |    0-   0 | Table 5.10. Changes in Net Stock of Produced Assets (Fixed Assets and Inventories) (A)
+T51100   | 1929-2024 |    0-   0 | Table 5.11. Capital Transfers Paid and Received, by Sector and by Type (A)
+T60100D  | 1998-2025 | 2001-2026 | Table 6.1D. National Income Without Capital Consumption Adjustment by Industry (A) (Q)
+T60200D  | 1998-2024 |    0-   0 | Table 6.2D. Compensation of Employees by Industry (A)
+T60300D  | 1998-2024 |    0-   0 | Table 6.3D. Wages and Salaries by Industry (A)
+T60400D  | 1998-2024 |    0-   0 | Table 6.4D. Full-Time and Part-Time Employees by Industry (A)
+T60500D  | 1998-2024 |    0-   0 | Table 6.5D. Full-Time Equivalent Employees by Industry (A)
+T60600D  | 1998-2024 |    0-   0 | Table 6.6D. Wages and Salaries Per Full-Time Equivalent Employee by Industry (A)
+T61000D  | 1998-2024 |    0-   0 | Table 6.10D. Employer Contributions for Government Social Insurance by Industry (A)
+T61100D  | 1998-2024 |    0-   0 | Table 6.11D. Employer Contributions for Employee Pension and Insurance Funds by Industry and by Type (A)
+T61200D  | 1998-2024 |    0-   0 | Table 6.12D. Nonfarm Proprietors' Income by Industry (A)
+T61300D  | 1998-2024 |    0-   0 | Table 6.13D. Noncorporate Capital Consumption Allowances by Industry (A)
+T61400D  | 1998-2024 |    0-   0 | Table 6.14D. Inventory Valuation Adjustment to Nonfarm Incomes by Legal Form of Organization and by Industry (A)
+T61500D  | 1998-2024 |    0-   0 | Table 6.15D. Net Interest by Industry (A)
+T61600D  | 1998-2025 | 2001-2026 | Table 6.16D. Corporate Profits by Industry (A) (Q)
+T61700D  | 1998-2024 |    0-   0 | Table 6.17D. Corporate Profits Before Tax by Industry (A)
+T61800D  | 1998-2024 |    0-   0 | Table 6.18D. Taxes on Corporate Income by Industry (A)
+T61900D  | 1998-2024 |    0-   0 | Table 6.19D. Corporate Profits After Tax by Industry (A)
+T62000D  | 1998-2024 |    0-   0 | Table 6.20D. Net Corporate Dividend Payments by Industry (A)
+T62100D  | 1998-2024 |    0-   0 | Table 6.21D. Undistributed Corporate Profits by Industry (A)
+T62200D  | 1998-2024 |    0-   0 | Table 6.22D. Corporate Capital Consumption Allowances by Industry (A)
+T70100   | 1929-2025 | 1947-2026 | Table 7.1. Selected Per Capita Product and Income Series in Current and Chained Dollars (A) (Q)
+T70201A  | 1948-1966 | 1947-1966 | Table 7.2.1A. Percent Change From Preceding Period in Real Auto Output (A) (Q)
+T70201B  | 1968-2025 | 1967-2026 | Table 7.2.1B. Percent Change From Preceding Period in Real Motor Vehicle Output (A) (Q)
+T70203A  | 1947-1966 | 1947-1966 | Table 7.2.3A. Real Auto Output, Quantity Indexes (A) (Q)
+T70203B  | 1967-2025 | 1967-2026 | Table 7.2.3B. Real Motor Vehicle Output, Quantity Indexes (A) (Q)
+T70204A  | 1947-1966 | 1947-1966 | Table 7.2.4A. Price Indexes for Auto Output (A) (Q)
+T70204B  | 1967-2025 | 1967-2026 | Table 7.2.4B. Price Indexes for Motor Vehicle Output (A) (Q)
+T70205A  | 1947-1966 | 1947-1966 | Table 7.2.5A. Auto Output (A) (Q)
+T70205B  | 1967-2025 | 1967-2026 | Table 7.2.5B. Motor Vehicle Output (A) (Q)
+T70206B  | 2007-2025 | 2007-2026 | Table 7.2.6B. Real Motor Vehicle Output, Chained Dollars (A) (Q)
+T70303   | 1929-2024 |    0-   0 | Table 7.3.3. Real Farm Sector Output, Real Gross Value Added, and Real Net Value Added, Quantity Indexes (A)
+T70304   | 1929-2024 |    0-   0 | Table 7.3.4. Price Indexes for Farm Sector Output, Gross Value Added, and Net Value Added (A)
+T70305   | 1929-2024 |    0-   0 | Table 7.3.5. Farm Sector Output, Gross Value Added, and Net Value Added (A)
+T70306   | 2007-2024 |    0-   0 | Table 7.3.6. Real Farm Sector Output, Real Gross Value Added, and Real Net Value Added, Chained Dollars (A)
+T70403   | 1929-2024 |    0-   0 | Table 7.4.3. Real Housing Sector Output, Real Gross Value Added, and Real Net Value Added, Quantity Indexes (A)
+T70404   | 1929-2024 |    0-   0 | Table 7.4.4. Price Indexes for Housing Sector Output, Gross Value Added, and Net Value Added (A)
+T70405   | 1929-2024 |    0-   0 | Table 7.4.5. Housing Sector Output, Gross Value Added, and Net Value Added (A)
+T70406   | 2007-2024 |    0-   0 | Table 7.4.6. Real Housing Sector Output, Real Gross Value Added, and Real Net Value Added, Chained Dollars (A)
+T70500   | 1929-2025 | 1947-2026 | Table 7.5. Consumption of Fixed Capital by Legal Form of Organization and Type of Income (A) (Q)
+T70600   | 1929-2024 |    0-   0 | Table 7.6. Capital Consumption Adjustment by Legal Form of Organization and Type of Adjustment (A)
+T70700   | 1929-2024 |    0-   0 | Table 7.7. Business Current Transfer Payments by Type (A)
+T70800   | 1948-2024 |    0-   0 | Table 7.8. Supplements to Wages and Salaries by Type (A)
+T70900   | 1946-2024 |    0-   0 | Table 7.9. Rental Income of Persons by Legal Form of Organization and by Type of Income (A)
+T71000   | 1946-2024 |    0-   0 | Table 7.10. Dividends Paid and Received by Sector (A)
+T71100   | 1946-2024 |    0-   0 | Table 7.11. Interest Paid and Received by Sector and Legal Form of Organization (A)
+T71300   | 1929-2024 |    0-   0 | Table 7.13. Relation of Consumption of Fixed Capital in the National Income and Product Accounts to Depreciation and Amortization as Published by the Internal Revenue Service (A)
+T71400   | 1959-2024 |    0-   0 | Table 7.14. Relation of Nonfarm Proprietors' Income in the National Income and Product Accounts to Corresponding Measures as Published by the Internal Revenue Service (A)
+T71500   | 1967-2024 |    0-   0 | Table 7.15. Relation of Net Farm Income in the National Income and Product Accounts to Net Farm Income as Published by the U.S. Department of Agriculture (A)
+T71600   | 1929-2024 |    0-   0 | Table 7.16. Relation of Corporate Profits, Taxes, and Dividends in the National Income and Product Accounts to Corresponding Measures as Published by the Internal Revenue Service (A)
+T71700   | 1946-2024 |    0-   0 | Table 7.17. Relation of Monetary Interest Paid and Received in the National Income and Product Accounts to Corresponding Measures as Published by the Internal Revenue Service (A)
+T71800   | 1982-2024 |    0-   0 | Table 7.18. Relation of Wages and Salaries in the National Income and Product Accounts to Wages and Salaries as Published by the Bureau of Labor Statistics (A)
+T72000   | 1984-2024 |    0-   0 | Table 7.20. Transactions of Defined Benefit and Defined Contribution Pension Plans (A)
+T72100   | 1984-2024 |    0-   0 | Table 7.21. Transactions of Defined Benefit Pension Plans (A)
+T72200   | 1984-2024 |    0-   0 | Table 7.22. Transactions of Private Defined Benefit Pension Plans (A)
+T72300   | 1929-2024 |    0-   0 | Table 7.23. Transactions of Federal Government Defined Benefit Pension Plans (A)
+T72400   | 1929-2024 |    0-   0 | Table 7.24. Transactions of State and Local Government Defined Benefit Pension Plans (A)
+T72500   | 1984-2024 |    0-   0 | Table 7.25. Transactions of Defined Contribution Pension Plans (A)
+T80103   |    0-   0 | 2002-2026 | Table 8.1.3. Real Gross Domestic Product, Quantity Indexes, Not Seasonally Adjusted (Q)
+T80104   |    0-   0 | 2002-2026 | Table 8.1.4. Price Indexes for Gross Domestic Product, Not Seasonally Adjusted (Q)
+T80105   |    0-   0 | 1947-2026 | Table 8.1.5. Gross Domestic Product, Not Seasonally Adjusted (Q)
+T80106   |    0-   0 | 2002-2026 | Table 8.1.6. Real Gross Domestic Product, Chained Dollars, Not Seasonally Adjusted (Q)
+T80111   |    0-   0 | 2003-2026 | Table 8.1.11. Real Gross Domestic Product: Percent Change From Quarter One Year Ago, Not Seasonally Adjusted (Q)
+T80300   |    0-   0 | 1947-2026 | Table 8.3. Federal Government Current Receipts and Expenditures, Not Seasonally Adjusted (Q)
+T80400   |    0-   0 | 1947-2026 | Table 8.4. State and Local Government Current Receipts and Expenditures, Not Seasonally Adjusted (Q)
+ ```
+
+From the table printed above, we see that table `T60300D` has annual data from 1998 to 2024 for "Wages and Salaries by Industry." Below, we use the `GetData` method to retrieve the annual data from this table for every available year:
+
+```r
+data <- request(BASE_URL) |>
+            req_url_query(
+                method = "GetData",
+                datasetname = "NIPA",
+                Frequency = "A",          # Annual data
+                TableName = "T60300D",    # Wages and Salaries by Industry
+                year = "X",               # Data for 1998-2024
+                UserID = API_KEY
+            ) |>
+            req_perform() |>
+            resp_body_json()
+
+# Display size of data [number of industries (99) x number of years (26)]
+length(data$BEAAPI$Results$Data)
+```
+
+```text
+[1] 2673
+```
+
+```r
+data$BEAAPI$Results$Data[1:3]
+```
+
+```text
+[[1]]
+[[1]]$TableName
+[1] "T60300D"
+
+[[1]]$SeriesCode
+[1] "A034RC"
+
+[[1]]$LineNumber
+[1] "1"
+
+[[1]]$LineDescription
+[1] "Wages and salaries"
+
+[[1]]$TimePeriod
+[1] "1998"
+
+[[1]]$METRIC_NAME
+[1] "Current Dollars"
+
+[[1]]$CL_UNIT
+[1] "Level"
+
+[[1]]$UNIT_MULT
+[1] "6"
+
+[[1]]$DataValue
+[1] "4,181,616"
+
+[[1]]$NoteRef
+[1] "T60300D"
+
+
+[[2]]
+[[2]]$TableName
+[1] "T60300D"
+
+[[2]]$SeriesCode
+[1] "A034RC"
+
+[[2]]$LineNumber
+[1] "1"
+
+[[2]]$LineDescription
+[1] "Wages and salaries"
+
+[[2]]$TimePeriod
+[1] "1999"
+
+[[2]]$METRIC_NAME
+[1] "Current Dollars"
+
+[[2]]$CL_UNIT
+[1] "Level"
+
+[[2]]$UNIT_MULT
+[1] "6"
+
+[[2]]$DataValue
+[1] "4,457,926"
+
+[[2]]$NoteRef
+[1] "T60300D"
+
+
+[[3]]
+[[3]]$TableName
+[1] "T60300D"
+
+[[3]]$SeriesCode
+[1] "A034RC"
+
+[[3]]$LineNumber
+[1] "1"
+
+[[3]]$LineDescription
+[1] "Wages and salaries"
+
+[[3]]$TimePeriod
+[1] "2000"
+
+[[3]]$METRIC_NAME
+[1] "Current Dollars"
+
+[[3]]$CL_UNIT
+[1] "Level"
+
+[[3]]$UNIT_MULT
+[1] "6"
+
+[[3]]$DataValue
+[1] "4,824,946"
+
+[[3]]$NoteRef
+[1] "T60300D"
+```
+
+```r
+industries <- c('Agriculture, forestry, fishing, and hunting', 'Mining', 'Utilities', 'Construction',
+    'Manufacturing', 'Wholesale trade', 'Retail trade', 'Transportation and warehousing',
+    'Information', 'Finance and insurance', 'Real estate and rental and leasing',
+    'Professional, scientific, and technical services',
+    'Management of companies and enterprises', 'Administrative and waste management services',
+    'Educational services', 'Health care and social assistance',
+    'Arts, entertainment, and recreation', 'Accommodation and food services',
+    'Other services, except government', 'Government')
+
+data_by_industry <- list()
+
+for (industry in industries)
+{
+  years_values <- list()
+  for (item in data$BEAAPI$Results$Data)
+  {
+    if (item$LineDescription == industry)
+    {
+      year <- as.integer(item$TimePeriod)
+      value <- as.integer(gsub(",", "", item$DataValue))
+      value <- value / 1000    # Convert value to billions
+      years_values[[length(years_values) + 1]] <- c(year, value)
+    }
+  }
+  data_by_industry[[length(data_by_industry) + 1]] <- c(industry, years_values)
+}
+
+# Display length of results (number of years)
+length(data_by_industry)
+```
+
+```text
+[1] 20
+```
+
+```r
+df <- data.frame(
+  Industry = sapply(data$BEAAPI$Results$Data, "[[", "LineDescription"),
+  Year = as.integer(sapply(data$BEAAPI$Results$Data, "[[", "TimePeriod")),
+  Value = as.numeric(gsub(
+    ",", "", sapply(data$BEAAPI$Results$Data, "[[", "DataValue")
+  )) / 1000
+)
+
+df <- subset(df, Industry %in% industries)
+
+ggplot(df, aes(x = Year, y = Value)) +
+    geom_point(size = 0.8, color = "darkgreen") +
+    facet_wrap(~ Industry, nrow = 5, ncol = 4, scales = "free_y") +
+    labs(
+        title = "Total Wages and Salaries (in Billion USD) by Industry 1998-2024"
+    ) +
+    theme_bw()
+    theme(
+        panel.grid = element_line(color = "lightgray", linewidth = 0.3),
+        plot.title = element_text(hjust = 0.5)
+    )
+```
+![Faceted scatter plot showing total wages and salaries for selected industries from 1998 to 2022. Each panel represents a different industry, with year on the x-axis and wages on the salaries in the billions of U.S. dollars on the y-axis.](./_figures/bea/BEA_Scatter_Plot_Total_Wages_and_Salaries_by_Industry_1998-2024.png)
+
+
+Note that the graphs below are not scaled together. Please check the y-axis labels to see the individual scales for each graph.

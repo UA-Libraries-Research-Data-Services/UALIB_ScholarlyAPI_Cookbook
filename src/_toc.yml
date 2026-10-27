@@ -69,25 +69,32 @@ parts:
       sections:
       - file: python/openalex
         title: "...in Python"
+      - file: r/openalex
+        title: "...in R"
 
     # Research Organization Registry
     - file: overview/ror
       sections:
       - file: python/ror
         title: "...in Python"
+      - file: r/ror
+        title: "...in R"
 
     # Scopus
     - file: overview/scopus
       sections:
       - file: python/scopus
         title: "...in Python"
+      - file: r/scopus
+        title: "...in R"
 
     # Web of Science
     - file: overview/wos
       sections:
       - file: python/wos
         title: "...in Python"
-
+      - file: r/wos
+        title: "...in R"
 
   - caption: BUSINESS
     chapters:
