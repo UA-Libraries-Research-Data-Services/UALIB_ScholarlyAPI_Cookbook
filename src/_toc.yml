@@ -19,16 +19,14 @@ parts:
       sections:
       - file: python/sage
         title: "...in Python"
-      - file: r/sage
-        title: "...in R"
+
 
     # ScienceDirect
     - file: overview/sdirect
       sections:
       - file: python/sdirect
         title: "...in Python"
-      - file: r/sdirect
-        title: "...in R"
+
 
     # Springer
     - file: overview/springer
@@ -43,8 +41,7 @@ parts:
       sections:
       - file: python/wiley-tdm
         title: "...in Python"
-      - file: r/wiley-tdm
-        title: "...in R"
+
 
 
   - caption: BIBLIOGRAPHIC
@@ -61,8 +58,6 @@ parts:
       sections:
       - file: python/crossref
         title: "...in Python"
-      - file: r/crossref
-        title: "...in R"
 
     # OpenAlex
     - file: overview/openalex
@@ -116,8 +111,7 @@ parts:
       sections:
       - file: python/sec-edgar
         title: "...in Python"
-      - file: r/sec-edgar
-        title: "...in R"
+
 
     # U.S. Treasury
     - file: overview/us-treasury
@@ -210,8 +204,7 @@ parts:
       sections:
       - file: python/casc
         title: "...in Python"
-      - file: r/casc
-        title: "...in R"
+
 
     # FoodData Central
     - file: overview/fdc
@@ -262,8 +255,7 @@ parts:
       sections:
       - file: python/college-scorecard
         title: "...in Python"
-      - file: r/college-scorecard
-        title: "...in R"
+
 
     # Congress.gov
     - file: overview/congress
@@ -276,8 +268,7 @@ parts:
       sections:
       - file: python/us-census
         title: "...in Python"
-      - file: r/us-census
-        title: "...in R"
+
 
     # USAspending
     - file: overview/usa-spending
