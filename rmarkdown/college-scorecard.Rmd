@@ -58,7 +58,7 @@ library(jsonlite)
 
 An API key is required for to access the College Scorecard API. You can sign up for one at <a href="https://collegescorecard.ed.gov/data/api-documentation#api-access-and-authentication" target="_blank">College Scorecard Website</a>.
 
-We keep our token in a `.Renviron` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.Renviron` should have an entry like the one below.
+We keep our API key in a separate file, a `.env` file, and use the `dotenv` library to access it. If you use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
 
 ```text
 COLLEGE_SCORECARD_API_KEY="PUT_YOUR_API_KEY_HERE"
@@ -67,6 +67,7 @@ COLLEGE_SCORECARD_API_KEY="PUT_YOUR_API_KEY_HERE"
 Below, we can test to whether the key was successfully imported.
 
 ```{r import-api-key}
+load_dot_env()
 if (nzchar(Sys.getenv("COLLEGE_SCORECARD_API_KEY"))) {
   print("API key successfully loaded.")
 } else {

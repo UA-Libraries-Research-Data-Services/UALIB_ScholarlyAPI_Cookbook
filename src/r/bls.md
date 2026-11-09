@@ -82,6 +82,9 @@ library(httr)
 library(jsonlite)
 library(ggplot2)
 library(dplyr)
+library(tidyr)
+library(dotenv)
+
 ```
 
 ```
@@ -116,9 +119,7 @@ the
 <a href="https://data.bls.gov/registrationEngine/" target="_blank">BLS
 website</a>.
 
-We keep our token in a `.Renviron` file that is stored in the working
-directory and use `Sys.getenv()` to access it. The `.Renviron` should
-have an entry like the one below.
+We keep our API key in a `.env` file and use the `dotenv` library to access it. If you would like to use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
 
 ``` text
 BLS_API_KEY=PUT_YOUR_API_KEY_HERE
@@ -128,6 +129,7 @@ Below, we can test to whether the key was successfully imported.
 
 
 ``` r
+load_dot_env()
 API_KEY <- Sys.getenv("BLS_API_KEY")
 if (nzchar(API_KEY)) {
   message("API key successfully loaded.")

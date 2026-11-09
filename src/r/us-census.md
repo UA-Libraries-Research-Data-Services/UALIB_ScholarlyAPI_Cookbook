@@ -52,13 +52,14 @@ We load the libraries used in this tutorial below:
 ``` r
 library(httr)
 library(jsonlite)
+library(dotenv)
 ```
 
 ### Import API Key
 
 An API key is required to access the U.S. Census Data API. You can sign up for one at the <a href="https://api.census.gov/data/key_signup.html" target="_blank">Key Signup page</a>.
 
-We keep our token in a `.Renviron` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.Renviron` should have an entry like the one below.
+We keep our API key in a separate file, a `.env` file, and use the `dotenv` library to access it. If you use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
 
 ```text
 CENSUS_API_KEY="PUT_YOUR_API_KEY_HERE"
@@ -68,6 +69,7 @@ Below, we can test to whether the key was successfully imported.
 
 
 ``` r
+load_dot_env()
 if (nzchar(Sys.getenv("CENSUS_API_KEY"))) {
   print("API key successfully loaded.")
 } else {
@@ -136,7 +138,7 @@ head(states)
 ## 7   Colorado         08
 ```
 
-
+Now we get the 2019 population estimate for every U.S. county and put it in a data frame with each county's FIPS code, county name, state name, and population.
 ``` r
 params <- list(
   get = "NAME,POP",
@@ -174,13 +176,13 @@ head(df)
 ```
 
 ```
-##    fips            county    state pop_2019
-## 1 17051    Fayette County Illinois    21336
-## 2 17107      Logan County Illinois    28618
-## 3 17165     Saline County Illinois    23491
-## 4 17127     Massac County Illinois    13772
-## 5 18069 Huntington County  Indiana    36520
-## 6 18075        Jay County  Indiana    20436
+##    fips         county    state pop_2019
+## 1 17051 Fayette County Illinois    21336
+## 2 17107   Logan County Illinois    28618
+## 3 17165  Saline County Illinois    23491
+## 4 17097    Lake County Illinois   696535
+## 5 17127  Massac County Illinois    13772
+## 6 17017    Cass County Illinois    12147
 ```
 
 
@@ -190,13 +192,13 @@ head(df[df$state == "Missouri", ])
 ```
 
 ```
-##      fips                county    state pop_2019
-## 219 29041       Chariton County Missouri     7426
-## 220 29201          Scott County Missouri    38280
-## 221 29073      Gasconade County Missouri    14706
-## 222 29186 Ste. Genevieve County Missouri    17894
-## 223 29067        Douglas County Missouri    13185
-## 224 29083          Henry County Missouri    21824
+##      fips          county    state pop_2019
+## 239 29123  Madison County Missouri    12088
+## 240 29217   Vernon County Missouri    20563
+## 241 29147  Nodaway County Missouri    22092
+## 242 29041 Chariton County Missouri     7426
+## 243 29223    Wayne County Missouri    12873
+## 244 29201    Scott County Missouri    38280
 ```
 
 
@@ -207,11 +209,11 @@ df[df$pop_2019 > 3000000, ]
 
 ```
 ##       fips             county      state pop_2019
-## 204  06073   San Diego County California  3338330
-## 347  06059      Orange County California  3175692
-## 703  17031        Cook County   Illinois  5150233
+## 205  06073   San Diego County California  3338330
+## 355  06059      Orange County California  3175692
+## 709  17031        Cook County   Illinois  5150233
 ## 1198 04013    Maricopa County    Arizona  4485414
-## 1876 06037 Los Angeles County California 10039107
+## 1881 06037 Los Angeles County California 10039107
 ## 2771 48201      Harris County      Texas  4713325
 ```
 
@@ -358,4 +360,4 @@ axis(
 )
 ```
 
-![](_figures/us-census/population-plot-1.png)<!-- -->
+![Scatter plot representing the percentage of population change of each US state including the District of Columbia and Puerto Rico](_figures/us-census/population-plot-1.png)<!-- -->

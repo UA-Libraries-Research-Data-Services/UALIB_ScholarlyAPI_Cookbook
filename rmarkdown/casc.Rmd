@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 # CAS Common Chemistry API in R
 
-by Adam M. Nguyen and Michael T. Moen
+by Adam M. Nguyen, Michael T. Moen, and Sameeksha Sharma
 
 <div class="rmd-btn-wrapper">
   <a class="rmd-btn"
@@ -39,7 +39,7 @@ Please see the following resources for more information on API usage:
 
 **_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
-*These recipe examples were tested on March 24, 2026.*
+*These recipe examples were tested on October 16, 2026.*
 
 ## Setup
 
@@ -50,6 +50,7 @@ The following packages need to be installed into your environment to run the cod
 - <a href="https://cran.r-project.org/web/packages/httr/index.html" target="_blank">httr: Tools for Working with URLs and HTTP</a>
 - <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" target="_blank">jsonlite: A Simple and Robust JSON Parser and Generator for R</a>
 - <a href="https://cran.r-project.org/web/packages/magick/index.html" target="_blank">magick: Advanced Graphics and Image-Processing in R</a>
+- <a href="https://cran.r-project.org/web/packages/dotenv/index.html" target="_blank">dotenv: Load Environment Variables from a .env File</a>
 
 We load the libraries used in this tutorial below:
 
@@ -57,13 +58,14 @@ We load the libraries used in this tutorial below:
 library(httr)
 library(jsonlite)
 library(magick)
+library(dotenv)
 ```
 
 ### Import API Key
 
 An API key is required to access the CAS Common Chemistry API. You can sign up for one at the <a href="https://www.cas.org/services/commonchemistry-api" target="_blank">Request API Access for CAS Common Chemistry</a> page.
 
-We keep our token in a `.Renviron` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.Renviron` should have an entry like the one below.
+We keep our token in a `.env` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.env` should have an entry like the one below.
 
 ```text
 CAS_API_KEY="PUT_YOUR_API_KEY_HERE"
@@ -72,6 +74,7 @@ CAS_API_KEY="PUT_YOUR_API_KEY_HERE"
 Below, we can test to whether the key was successfully imported.
 
 ```{r}
+load_dot_env()
 if (nzchar(Sys.getenv("CAS_API_KEY"))) {
   print("API key successfully loaded.")
 } else {
@@ -88,7 +91,7 @@ Common Chemistry is an extremely useful open community resource for accessing ch
 First, let's setup the API parameters for Common Chemistry. Below we are going to provide a variable `detail_base_url` to query Common Chemistry for details and more specifically. In this example, using a registry number, or as we abbreviate it an `rn`.
 
 ```{r, warning=FALSE, message = FALSE}
-DETAIL_BASE_URL <- "https://commonchemistry.cas.org/api/detail?"
+DETAIL_BASE_URL <- "https://commonchemistry.cas.org/direct-api/detail?"
 casrn1 <- "10094-36-7" # ethyl cyclohexanepropionate
 ```
 
@@ -100,8 +103,15 @@ Using the `httr` and `jsonlite` libraries, we query the API and convert the data
 url <- paste0(DETAIL_BASE_URL, "cas_rn=", casrn1)
 
 # Use httr's 'GET()' function to retrieve raw data from a URL
-casrn1_response <-GET(url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+casrn1_response <- GET(
+  url,
+  add_headers(
+    "X-API-KEY" = Sys.getenv("CAS_API_KEY"),
+    "x-origin" = "https://commonchemistry.cas.org/direct-api?"
+  )
+)
 casrn1_response
+
 ```
 
 The `GET()` function returns `Response`, `Date`, `Status: 200` indicating a successful request, `Size`, and `Content-Type`. In most cases when accessing APIs, the `Content-Type` returns JSON, so we need the `jsonlite` to parse it.
@@ -163,7 +173,13 @@ casrns <- c(
 # Iterate through list of CAS RN and append to list
 list <- lapply(casrns, function(casrn) {
   url <- paste0(DETAIL_BASE_URL, "cas_rn=", casrn)
-  response <- GET(url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+  response <- GET(
+  url,
+  add_headers(
+    "X-API-KEY" = Sys.getenv("CAS_API_KEY"),
+    "x-origin" = "https://commonchemistry.cas.org/direct-api?"
+  )
+)
   casrn_data <- fromJSON(rawToChar(response$content))
   Sys.sleep(1)
   return(casrn_data)
@@ -171,6 +187,19 @@ list <- lapply(casrns, function(casrn) {
 
 # Show first result in the list
 head(list, n = 1)
+list[[1]]$name
+# "Ethyl cyclohexanepropionate"
+
+list[[2]]$name
+# "..."
+
+list[[3]]$name
+
+list[[4]]$name
+# "..."
+
+list[[5]]$name
+# "..."
 ```
 
 We now have a list of sub-lists of data corresponding to the CAS RNs.
@@ -217,20 +246,32 @@ flatsyns
 Let's create a data frame from `list` with the variables `uri`, `rn`, `name`, `inchiKey`, `canonicalSmile`, and `molecularMass`.
 
 ```{r list2df, warning=FALSE, message=FALSE}
-df <- data.frame(do.call
-        # Iterate through list of chemicals with function(i) and append to df
-        (rbind, lapply(list, function(item)
-          cbind(
-            item["uri"],
-            item["rn"],
-            item["name"],
-            item["inchiKey"],
-            item["canonicalSmile"],
-            item["molecularMass"]
-          ))),
-        row.names = NULL)
+df <- data.frame(
+  # Iterate through list of chemicals with function(i) and append to df
+  do.call(
+    rbind,
+    lapply(list, function(item)
+      cbind(
+        item[["uri"]],
+        item[["rn"]],
+        item[["name"]],
+        item[["inchiKey"]],
+        item[["canonicalSmile"]],
+        item[["molecularMass"]]
+      )
+    )
+  ),
+  row.names = NULL
+)
 
-names(df) <- c("uri", "rn", "name", "inchiKey", "canonicalSmile", "molecularMass")
+names(df) <- c(
+  "uri",
+  "rn",
+  "name",
+  "inchiKey",
+  "canonicalSmile",
+  "molecularMass"
+)
 
 # Display df
 df
@@ -243,12 +284,19 @@ In addition to the `/detail` endpoint, the CAS Common Chemistry API has a `/sear
 ### Request data form CAS Common Chemistry Search API
 
 ```{r search, warning=FALSE, message = FALSE}
-SEARCH_BASE_URL <- "https://commonchemistry.cas.org/api/search?q="
+SEARCH_BASE_URL <- "https://commonchemistry.cas.org/direct-api/search?q="
 
 # InChIKey for Quinine
 IK <- "InChIKey=LOUPRKONTZGTKE-WZBLMQSHSA-N"
 url <- paste0(SEARCH_BASE_URL, IK)
-search_response <- GET(url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+search_response <- GET(
+  url,
+  add_headers(
+    "X-API-KEY" = Sys.getenv("CAS_API_KEY"),
+    "x-origin" = "https://commonchemistry.cas.org/direct-api?"
+  )
+)
+
 search_response
 ```
 
@@ -266,7 +314,13 @@ Now we have the quinine's CAS RN, so we can query quinine based on this, similar
 ```{r warning=FALSE, message=FALSE}
 # Get detailed record for quinine
 url <- paste0(DETAIL_BASE_URL, "cas_rn=", quinine_rn$results$rn)
-detail_response <- GET(url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+detail_response <- GET(
+  url,
+  add_headers(
+    "X-API-KEY" = Sys.getenv("CAS_API_KEY"),
+    "x-origin" = "https://commonchemistry.cas.org/direct-api?"
+  )
+)
 detail_response
 ```
 
@@ -275,36 +329,6 @@ detail_response
 quinine_data <- fromJSON(rawToChar(detail_response$content))
 
 quinine_data
-```
-
-### Handle Multiple Results
-
-```{r multiple_results, warning=FALSE, message=FALSE}
-# SMILES for butadiene
-smi_bd <- "C=CC=C"
-
-# Request data from CAS Common Chemistry Search API
-url <- paste0(SEARCH_BASE_URL, smi_bd)
-search_response <- GET(url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
-
-smi_search_data <- fromJSON(rawToChar(search_response$content))
-
-# Get results count
-smi_search_data$count
-
-# Display CAS RNs
-smi_search_data$results$rn
-
-names <- lapply(smi_search_data$results$rn, function(casrn) {
-  
-  smi_url <- paste0(DETAIL_BASE_URL, "cas_rn=", casrn)
-  smi_data <- GET(smi_url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
-  smi_data <- fromJSON(rawToChar(smi_data$content))
-  
-  Sys.sleep(1)
-  return(smi_data$name)
-})
-unlist(names) # Display names
 ```
 
 ### Handle Multiple Page Results   
@@ -332,7 +356,12 @@ for (page_idx in seq_len(num_pages)) {
   search_url <- paste0(SEARCH_BASE_URL, n, "&offset=", offset)
   
   # Make the API request and append the response to the list of results
-  response <- GET(search_url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+  response <- GET(
+  search_url,
+  add_headers(
+    "X-API-KEY" = Sys.getenv("CAS_API_KEY"),
+    "x-origin" = "https://commonchemistry.cas.org/direct-api?")
+  )
   n_search_data[[page_idx]] <- fromJSON(rawToChar(response$content))
   
   # Pause for 1 second
@@ -369,14 +398,29 @@ We can now iterate through the list of CAS RNs to store data about the chemicals
 ```{r, warning=FALSE, message=FALSE}
 # Now we can loop through each CAS RN and use the detail API to obtain the entire record
 # This will query CAS Common Chem 191 times and take ~ 5 min.
-DETAIL_BASE_URL <- "https://commonchemistry.cas.org/api/detail?"
+DETAIL_BASE_URL <- "https://commonchemistry.cas.org/direct-api/detail?"
 n_detail_data <- list()
 for (casrn in n_casrn_list) {
-  casrn_url <- paste0(DETAIL_BASE_URL, "cas_rn=", casrn)
-  response <- GET(casrn_url, add_headers("X-API-KEY" = Sys.getenv("CAS_API_KEY")))
+
+  casrn_url <- paste0(
+    DETAIL_BASE_URL,
+    "cas_rn=",
+    casrn
+  )
+
+  response <- GET(
+    casrn_url,
+    add_headers(
+      "X-API-KEY" = Sys.getenv("CAS_API_KEY"),
+      "x-origin" = "https://commonchemistry.cas.org/direct-api?"
+    )
+  )
   n_detail_data[[casrn]] <- content(response)
-  Sys.sleep(1) # Add a 1 second delay between API calls
+  
+
+  Sys.sleep(1)
 }
+
 ```
 
 ```{r moleMassCont., warning=FALSE, message=FALSE}
