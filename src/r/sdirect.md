@@ -39,7 +39,7 @@ _**NOTE:**_ See your institution's rate limit with <a href="https://dev.elsevier
 
 *If you have copyright or other related text and data mining questions, please contact The University of Alabama Libraries or your respective library/institution.*
 
-*These recipe examples were tested on April 7, 2026.*
+*These recipe examples were tested on November 9, 2026.*
 
 ## Setup
 
@@ -54,13 +54,14 @@ We load the libraries used in this tutorial below:
 
 ``` r
 library(httr)
+library(dotenv)
 ```
 
 ### Import API Key
 
 An API key is required for to access the ScienceDirect API. You can sign up for one at <a href="https://dev.elsevier.com/" target="_blank">Elsevier developer portal</a>.
 
-We keep our token in a `.Renviron` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.Renviron` should have an entry like the one below.
+We keep our API key in a separate file, a `.env` file, and use the `dotenv` library to access it. If you use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
 
 ```text
 SCIENCE_DIRECT_API_KEY="PUT_YOUR_API_KEY_HERE"
@@ -70,6 +71,7 @@ Below, we can test to whether the key was successfully imported.
 
 
 ``` r
+load_dot_env()
 if (nzchar(Sys.getenv("SCIENCE_DIRECT_API_KEY"))) {
   print("API key successfully loaded.")
 } else {

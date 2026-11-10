@@ -50,13 +50,14 @@ We load the libraries used in this tutorial below:
 
 ``` r
 library(httr)
+library(dotenv)
 ```
 
 ### Text and Data Mining Token
 
 A token is required for text and data mining with Wiley. You can sign up for one on the <a href="https://onlinelibrary.wiley.com/library-info/resources/text-and-datamining#accordionHeader-2" target="_blank">Wiley Text and Data Mining page</a>.
 
-We keep our token in a `.Renviron` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.Renviron` should have an entry like the one below.
+We store our token in a separate file, a `.env` file, and use the `dotenv` library to access it. If you use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
 
 ```text
 WILEY_TDM_TOKEN="PUT_YOUR_TOKEN_HERE"
@@ -66,10 +67,11 @@ Below, we can test to whether the key was successfully imported.
 
 
 ``` r
+load_dot_env()
 if (nzchar(Sys.getenv("WILEY_TDM_TOKEN"))) {
-  print("API key successfully loaded.")
+  print("Token successfully loaded.")
 } else {
-  warning("API key not found or is empty.")
+  warning("Token not found. Please set 'WILEY_TDM_TOKEN' in your .env file.")
 }
 ```
 
@@ -143,7 +145,7 @@ for (doi in dois) {
 ```
 
 ```
-## 10.1111_j.1467-8624.2010.01564.x.pdf downloaded successfully
+## 10.1111_j.1467-8624.2010.01564.x.pdf downloaded successfully  
 ## 10.1111_1467-8624.00164.pdf downloaded successfully
 ## 10.1111_cdev.12864.pdf downloaded successfully
 ## 10.1111_j.1467-8624.2007.00995.x.pdf downloaded successfully

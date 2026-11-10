@@ -35,7 +35,7 @@ Please see the following resources for more information on API usage:
 
 **_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
-*These recipe examples were tested on March 23, 2026.*
+*These recipe examples were tested on November 9, 2026.*
 
 ## Setup
 
@@ -52,13 +52,14 @@ We load the libraries used in this tutorial below:
 ``` r
 library(httr)
 library(jsonlite)
+library(dotenv)
 ```
 
 ### Import User Agent
 
 A user agent is required to access the SEC EDGAR API.
 
-We keep our user agent in a `.Renviron` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.Renviron` should have an entry like the one below.
+We keep our API key in a separate file, a `.env` file, and use the `dotenv` library to access it. If you use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
 
 ```text
 SEC_EDGAR_USER_AGENT="Institution, email@domain.com"
@@ -68,6 +69,7 @@ Below, we can test to whether the user agent was successfully imported.
 
 
 ``` r
+load_dot_env()
 if (nzchar(Sys.getenv("SEC_EDGAR_USER_AGENT"))) {
   print("User agent successfully loaded.")
 } else {
@@ -126,7 +128,7 @@ company_name
 ```
 
 ```
-## [1] "AMAZON COM INC"
+## [1] "AMAZON.COM, INC."
 ```
 
 For an example, let's look at the yearly marketing expenses of Amazon, which is defined as "Expenditures for planning and executing the conception, pricing, promotion, and distribution of ideas, goods, and services. Costs of public relations and corporate promotions are typically considered to be marketing costs."
@@ -307,7 +309,6 @@ cbind(tsla_so$fy, tsla_so$val)
 ## [12,] 2023 3164000000
 ## [13,] 2024 3185000000
 ## [14,] 2025 3216000000
-## [15,] 2025 3751000000
 ```
 
 ## 3. Comparing Total Assets of All Filing Companies
@@ -331,7 +332,7 @@ nrow(asset_df)
 ```
 
 ```
-## [1] 5840
+## [1] 5849
 ```
 
 
@@ -345,26 +346,26 @@ head(asset_df[, c("entityName", "val")], n = 20)
 
 ```
 ##                                            entityName          val
-## 492  FEDERAL NATIONAL MORTGAGE ASSOCIATION FANNIE MAE 4.323819e+12
+## 493  FEDERAL NATIONAL MORTGAGE ASSOCIATION FANNIE MAE 4.323819e+12
 ## 83                                JPMorgan Chase & Co 4.090727e+12
-## 1579           Federal Home Loan Mortgage Corporation 3.287373e+12
-## 287                       Bank of America Corporation 3.273803e+12
-## 964                                     Citigroup Inc 2.432510e+12
-## 301                          WELLS FARGO & COMPANY/MN 1.959153e+12
-## 1174                    The Goldman Sachs Group, Inc. 1.698440e+12
-## 1222                                   MORGAN STANLEY 1.228503e+12
-## 1758                           BERKSHIRE HATHAWAY INC 1.070035e+12
-## 2017                       Prudential Financial, Inc. 7.258230e+11
+## 1582           Federal Home Loan Mortgage Corporation 3.287373e+12
+## 288                       Bank of America Corporation 3.273803e+12
+## 966                                     Citigroup Inc 2.432510e+12
+## 302                          WELLS FARGO & COMPANY/MN 1.959153e+12
+## 1176                    The Goldman Sachs Group, Inc. 1.698440e+12
+## 1224                                   MORGAN STANLEY 1.228503e+12
+## 1761                           BERKSHIRE HATHAWAY INC 1.070035e+12
+## 2021                       Prudential Financial, Inc. 7.258230e+11
 ## 152                                 US BANCORP \\DE\\ 6.836060e+11
-## 1885                                    MetLife, Inc. 6.775760e+11
-## 602                PNC Financial Services Group, Inc. 5.661620e+11
+## 1888                                    MetLife, Inc. 6.775760e+11
+## 603                PNC Financial Services Group, Inc. 5.661620e+11
 ## 21                 American International Group, Inc. 5.441210e+11
-## 375                      TRUIST FINANCIAL CORPORATION 5.349590e+11
-## 1543                                 AMAZON.COM, INC. 5.309690e+11
-## 2043                                HDFC BANK LIMITED 5.293806e+11
-## 818                             MICROSOFT CORPORATION 4.842750e+11
-## 1381                       CAPITAL ONE FINANCIAL CORP 4.817200e+11
-## 513                               SCHWAB CHARLES CORP 4.687840e+11
+## 376                      TRUIST FINANCIAL CORPORATION 5.349590e+11
+## 1546                                 AMAZON.COM, INC. 5.309690e+11
+## 2047                                HDFC BANK LIMITED 5.293806e+11
+## 819                             MICROSOFT CORPORATION 4.842750e+11
+## 1383                       CAPITAL ONE FINANCIAL CORP 4.817200e+11
+## 514                               SCHWAB CHARLES CORP 4.687840e+11
 ```
 
 ### Graphing the Total Assets of All Companies
@@ -418,7 +419,7 @@ nrow(revenue_df)
 ```
 
 ```
-## [1] 2790
+## [1] 2793
 ```
 
 
@@ -458,20 +459,20 @@ head(revenue_df[, c("entityName", "val")], n = 20)
 ## 74           Exxon Mobil Corporation 4.13680e+11
 ## 335  UnitedHealth Group Incorporated 3.24162e+11
 ## 133           CVS HEALTH CORPORATION 3.22467e+11
-## 830           BERKSHIRE HATHAWAY INC 3.02020e+11
+## 832           BERKSHIRE HATHAWAY INC 3.02020e+11
 ## 195                     Chevron Corp 2.46252e+11
-## 971                    CENCORA, INC. 2.38587e+11
-## 603       COSTCO WHOLESALE CORP /NEW 2.26954e+11
+## 974                    CENCORA, INC. 2.38587e+11
+## 605       COSTCO WHOLESALE CORP /NEW 2.26954e+11
 ## 308            Cardinal Health, Inc. 1.81326e+11
-## 2147                 The Cigna Group 1.80518e+11
+## 2150                 The Cigna Group 1.80518e+11
 ## 81                     Ford Motor Co 1.58057e+11
-## 1470          GENERAL MOTORS COMPANY 1.56735e+11
-## 982            ELEVANCE HEALTH, INC. 1.56595e+11
-## 840              Centene Corporation 1.44547e+11
+## 1473          GENERAL MOTORS COMPANY 1.56735e+11
+## 985            ELEVANCE HEALTH, INC. 1.56595e+11
+## 842              Centene Corporation 1.44547e+11
 ## 337      Verizon Communications Inc. 1.36835e+11
 ## 42               JPMorgan Chase & Co 1.28695e+11
-## 1704   Alibaba Group Holding Limited 1.26491e+11
-## 999              COMCAST CORPORATION 1.21427e+11
+## 1707   Alibaba Group Holding Limited 1.26491e+11
+## 1002             COMCAST CORPORATION 1.21427e+11
 ## 338                        AT&T INC. 1.20741e+11
-## 1687          Dell Technologies Inc. 1.02301e+11
+## 1690          Dell Technologies Inc. 1.02301e+11
 ```

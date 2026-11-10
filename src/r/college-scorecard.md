@@ -1,38 +1,35 @@
 ---
 title: "College Scorecard API in R"
+lang: en
 output: 
   html_document:
     keep_md: true
 ---
 
-
-
 # College Scorecard API in R
 
 by Michael T. Moen
 
-<div class="rmd-btn-wrapper">
-  <a class="rmd-btn"
+::: rmd-btn-wrapper
+<a class="rmd-btn"
      href="https://github.com/UA-Libraries-Research-Data-Services/UALIB_ScholarlyAPI_Cookbook/blob/main/rmarkdown/college-scorecard.Rmd"
      target="_blank"
-     rel="noreferrer">
-    View RMarkdown File
-  </a>
-</div>
+     rel="noreferrer"> View RMarkdown File </a>
+:::
 
 The College Scorecard API is an online tool hosted by the U.S. Department of Education that contains data concerning higher education institutions.
 
 Please see the following resources for more information on API usage:
 
 - Documentation
-    - <a href="https://collegescorecard.ed.gov/data/api-documentation/" target="_blank">College Scorecard API Documentation</a>
+  - <a href="https://collegescorecard.ed.gov/data/api-documentation/" target="_blank">College Scorecard API Documentation</a>
 - Data Reuse
-    - <a href="https://www.ed.gov/about/ed-overview/required-notices/website-policies/copyright-status-notice-us-department-of-education" target="_blank">College Scorecard Copyright Status</a>
-    - <a href="https://data.gov/privacy-policy/" target="_blank">Data\.gov Privacy Policy</a>
+  - <a href="https://www.ed.gov/about/ed-overview/required-notices/website-policies/copyright-status-notice-us-department-of-education" target="_blank">College Scorecard Copyright Status</a>
+  - <a href="https://data.gov/privacy-policy/" target="_blank">Data.gov Privacy Policy</a>
 
-**_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
+***NOTE:*** Please see access details and rate limit requests for this API in the official documentation.
 
-*These recipe examples were tested on March 23, 2026.*
+*These recipe examples were tested on October 23, 2026.*
 
 ## Setup
 
@@ -45,7 +42,6 @@ The following packages need to be installed into your environment to run the cod
 
 We load the libraries used in this tutorial below:
 
-
 ``` r
 library(httr)
 library(jsonlite)
@@ -55,16 +51,16 @@ library(jsonlite)
 
 An API key is required for to access the College Scorecard API. You can sign up for one at <a href="https://collegescorecard.ed.gov/data/api-documentation#api-access-and-authentication" target="_blank">College Scorecard Website</a>.
 
-We keep our token in a `.Renviron` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.Renviron` should have an entry like the one below.
+We keep our API key in a separate file, a `.env` file, and use the `dotenv` library to access it. If you use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
 
-```text
+``` text
 COLLEGE_SCORECARD_API_KEY="PUT_YOUR_API_KEY_HERE"
 ```
 
 Below, we can test to whether the key was successfully imported.
 
-
 ``` r
+load_dot_env()
 if (nzchar(Sys.getenv("COLLEGE_SCORECARD_API_KEY"))) {
   print("API key successfully loaded.")
 } else {
@@ -72,7 +68,7 @@ if (nzchar(Sys.getenv("COLLEGE_SCORECARD_API_KEY"))) {
 }
 ```
 
-```
+```         
 ## [1] "API key successfully loaded."
 ```
 
@@ -82,10 +78,7 @@ To start, we'll use a basic query to find the names of all educational instituti
 
 All of the data for the API can be found using the `v1/schools` endpoint.
 
-Fields in the College Scorecard API are accessed with a `<time>.<category>.<name>` sequence:
-- `<time>` indicates the year of the data to be accessed. To access the most recent data, use `latest`.
-- `<category>` and `<name>` can be found in the Data Dictionary file that can be downloaded from the API's documentation. The `<category>` of a field is given by the `dev-category` column in the `Institution_Data_Dictionary` section, and the `<name>` is given by the `developer-friendly name` column.
-
+Fields in the College Scorecard API are accessed with a `<time>.<category>.<name>` sequence: - `<time>` indicates the year of the data to be accessed. To access the most recent data, use `latest`. - `<category>` and `<name>` can be found in the Data Dictionary file that can be downloaded from the API's documentation. The `<category>` of a field is given by the `dev-category` column in the `Institution_Data_Dictionary` section, and the `<name>` is given by the `developer-friendly name` column.
 
 ``` r
 # Define base URL
@@ -104,22 +97,21 @@ response <- GET(BASE_URL, query = params)
 response$status_code
 ```
 
-```
+```         
 ## [1] 200
 ```
-
 
 ``` r
 names_data <- fromJSON(rawToChar(response$content))
 names_data$metadata
 ```
 
-```
+```         
 ## $page
 ## [1] 0
 ## 
 ## $total
-## [1] 6322
+## [1] 6278
 ## 
 ## $per_page
 ## [1] 20
@@ -128,7 +120,6 @@ names_data$metadata
 The `total` value indicates the total number results returned in this query. These results are paginated, so each query will return only the number indicated by `page_size`, which has a default value of 20 and a maximum value of 100. The page number is indicated by `page`, which by default is set to 0.
 
 We can use a loop to create an API request for each page:
-
 
 ``` r
 field <- "school.name"
@@ -156,17 +147,16 @@ for (page_number in 0:(total_pages - 1)) {
 length(institution_names)
 ```
 
+```         
+## [1] 6278
 ```
-## [1] 6322
-```
-
 
 ``` r
 # Print first 10 institution names
 institution_names[1:10]
 ```
 
-```
+```         
 ##  [1] "A Better U Beauty Barber Academy"                 
 ##  [2] "A T Still University of Health Sciences"          
 ##  [3] "Aaniiih Nakoda College"                           
@@ -184,7 +174,6 @@ institution_names[1:10]
 College Scorecard API requests can also take conditions to only select certain institutions.
 
 In this example, we limit the results to only include institutions that award graduate degrees. In order to do this, we set the `degrees_awarded.highest` parameter to `4` to indicate that the highest degree awarded by an institution is a graduate degree. This information is within the `Institution_Data_Dictionary` section of the College Scorecard data dictionary.
-
 
 ``` r
 page_size <- 100
@@ -221,17 +210,16 @@ for (page_number in 0:(total_pages - 1)) {
 length(university_names)
 ```
 
+```         
+## [1] 1983
 ```
-## [1] 1987
-```
-
 
 ``` r
 # Print first 10 university names
 university_names[1:10]
 ```
 
-```
+```         
 ##  [1] "A T Still University of Health Sciences"              
 ##  [2] "Abilene Christian University"                         
 ##  [3] "Abraham Lincoln University"                           
@@ -247,7 +235,6 @@ university_names[1:10]
 ## 3. Find Number of Universities by State
 
 The `school.state_fips` data element contains a number that corresponds to each state. This mapping is given below:
-
 
 ``` r
 states <- list(
@@ -269,7 +256,6 @@ states <- list(
 ```
 
 Using this mapping, we can find the number of universities in each state:
-
 
 ``` r
 field <- "latest.school.state_fips"
@@ -309,27 +295,25 @@ for (page_number in 0:(total_pages - 1)) {
 
 Now, we can sort and display the results:
 
-
 ``` r
 # Print the top 20 states/territories with the most universities
 head(sort(unlist(state_freq), decreasing = TRUE), 20)
 ```
 
-```
+```         
 ##     California       New York   Pennsylvania          Texas       Illinois 
-##            203            149            112            105             79 
+##            198            148            108            106             81 
 ##        Florida  Massachusetts           Ohio North Carolina       Missouri 
-##             72             72             70             57             56 
+##             71             71             68             57             55 
 ##       Virginia        Georgia        Indiana    Puerto Rico      Tennessee 
-##             53             51             50             48             47 
+##             57             52             50             47             48 
 ##       Michigan      Minnesota      Wisconsin     New Jersey South Carolina 
-##             45             40             38             37             35
+##             45             40             38             37             34
 ```
 
 ## 4. Retrieve Multiple Data Points in a Single Query
 
 The following example uses multiple conditions and multiple fields. The conditions in the query are separated by `&` while the fields are separated by `,`.
-
 
 ``` r
 # Join fields into a comma-delimited string
@@ -392,30 +376,30 @@ df <- do.call(rbind.data.frame, rows)
 head(df, 10)
 ```
 
-```
+```         
 ##                            Name Admission_Rate Size Tuition_Out_State
-## 1  Abilene Christian University         0.6603 3195             44200
-## 2     Academy of Art University             NA 3587             30736
-## 3        Adams State University             NA 1250             21944
-## 4            Adelphi University         0.6591 5276             49110
-## 5                Adrian College         0.7253 1604             41684
-## 6       AdventHealth University             NA 1361             21420
-## 7      Alabama A & M University         0.5795 6124             18634
-## 8      Alabama State University         0.9755 3477             19576
-## 9       Albany State University             NA 5956             17008
-## 10             Albright College         0.7633 1217             29082
+## 1  Abilene Christian University         0.6603 3195            45800
+## 2     Academy of Art University             NA 3587            32224
+## 3        Adams State University             NA 1250            22400 
+## 4            Adelphi University         0.6591 5276            52050 
+## 5                Adrian College         0.7253 1604            42764 
+## 6       AdventHealth University             NA 1361            21780 
+## 7      Alabama A & M University         0.5795 6124            19318 
+## 8      Alabama State University         0.9755 3477            19576 
+## 9       Albany State University             NA 5956            17330 
+## 10             Albright College         0.7633 1217            31025
 ##    Tuition_In_State Median_HH_Income Endowment
-## 1             44200            67136 666216238
-## 2             30736            74015        NA
-## 3              9824            50726     62673
-## 4             49110            80864 223962671
-## 5             41684            66915  50551776
-## 6             21420            60028  11241909
-## 7             10024            49720        NA
-## 8             11248            46065 118616285
-## 9              5656            52181   4519285
-## 10            29082            69057  53600000
-```
+## 1  45800           67136             666216238   
+## 2  32224           74015             NA     
+## 3  9968            50726             62673 
+## 4  52050           80864             223962671  
+## 5  42764           66915             50551776  
+## 6  21780           60028             11241909    
+## 7  10558           49720             NA 
+## 8  11248           46065             118616285   
+## 9  5666            52181             4519285 
+## 10 31025           69057             53600000
+`
 
 We can query the resulting data frame to find the data for specific universities:
 
@@ -425,15 +409,14 @@ ua_df <- df[df$Name == "The University of Alabama", ]
 print(ua_df)
 ```
 
-```
+```         
 ##                          Name Admission_Rate  Size Tuition_Out_State
-## 832 The University of Alabama         0.7665 33227             34172
+## 832 The University of Alabama         0.7665 33227             35342
 ##     Tuition_In_State Median_HH_Income  Endowment
-## 832            12180            57928 1369440098
+## 832            12484            57928 1369440098
 ```
 
 We can also query the data frame to find the data for universities that satisfy certain conditions:
-
 
 ``` r
 filtered_df <- df[df$Admission_Rate < 0.1, ]
@@ -442,55 +425,55 @@ filtered_df <- filtered_df[order(filtered_df$Admission_Rate), ]
 filtered_df
 ```
 
-```
+```         
 ##                                             Name Admission_Rate  Size
-## 765                          Stanford University         0.0361  7554
-## 347                           Harvard University         0.0365  7601
-## 1151                             Yale University         0.0387  6758
-## 186  Columbia University in the City of New York         0.0399  8973
-## 903                        University of Chicago         0.0448  7569
-## 473        Massachusetts Institute of Technology         0.0455  4535
-## 635                         Princeton University         0.0462  5709
-## 571                      Northeastern University         0.0522 17326
+## 768                          Stanford University         0.0361  7554
+## 349                           Harvard University         0.0365  7601
+## 1157                             Yale University         0.0387  6758
+## 185  Columbia University in the City of New York         0.0399  8973
+## 908                        University of Chicago         0.0448  7569
+## 474        Massachusetts Institute of Technology         0.0455  4535
+## 637                         Princeton University         0.0462  5709
+## 572                      Northeastern University         0.0522 17326
 ## 98                              Brown University         0.0539  7226
-## 219                            Dartmouth College         0.0540  4541
-## 1005                  University of Pennsylvania         0.0540 10650
+## 217                            Dartmouth College         0.0540  4541
+## 1009                  University of Pennsylvania         0.0540 10650
 ## 238                              Duke University         0.0571  6442
-## 1075                       Vanderbilt University         0.0586  7208
-## 396                     Johns Hopkins University         0.0644  5693
-## 583                      Northwestern University         0.0769  9201
-## 657                              Rice University         0.0800  4776
-## 1138                            Williams College         0.0825  2076
-## 200                           Cornell University         0.0876 15995
-## 892         University of California-Los Angeles         0.0897 33475
+## 1081                       Vanderbilt University         0.0586  7208
+## 398                     Johns Hopkins University         0.0644  5693
+## 584                      Northwestern University         0.0769  9201
+## 660                              Rice University         0.0800  4776
+## 1144                            Williams College         0.0825  2076
+## 198                           Cornell University         0.0876 15995
+## 897         University of California-Los Angeles         0.0897 33475
 ## 555                          New York University         0.0923 28663
 ## 160                    Claremont McKenna College         0.0959  1388
-## 1030           University of Southern California         0.0981 20443
+## 1035           University of Southern California         0.0981 20443
+##
 ##      Tuition_Out_State Tuition_In_State Median_HH_Income   Endowment
-## 765              65910            65910            80275 36494893000
-## 347              61676            61676            76879 50748594000
-## 1151             67250            67250            75345 40746867000
-## 186              71845            71845            76971 13642667000
-## 903              70662            70662            74573  8552674498
-## 473              62396            62396            77426 23453446000
-## 635              62688            62688            81428 33380863000
-## 571              66162            66162            80190  1553646774
-## 98               71412            71412            79027  6201434000
-## 219              68268            68268            79834  7930125009
-## 1005             68686            68686            78252 20962941000
-## 238              68758            68758            78468 11602230000
-## 1075             67498            67498            76279  9684196096
-## 396              65230            65230            81539 10538865000
-## 583              68322            68322            81811 10553989000
-## 657              64144            64144            77707  7700629000
-## 1138             68560            68560            77966  3368671196
-## 200              69314            69314            80346  9553279351
-## 892              49403            15203            72896  3161632000
-## 555              62796            62796            82106  5825489947
-## 160              67980            67980            82855  1206468000
-## 1030             72097            72097            76787  7589079000
+## 768              68544            68544            80275 36494893000
+## 349              64796            64796            76879 50748594000
+## 1157             69900            69900            75345 40746867000
+## 185              74180            74180            76971 13642667000
+## 908              73962            73962            74573  8552674498
+## 474              64730            64730            77426 23453446000
+## 637              65510            65510            81428 33380863000
+## 572              69289            69289            80190  1553646774
+## 98               74650            74650            79027  6201434000
+## 217              71525            71525            79834  7930125009
+## 1009             71236            71236            78252 20962941000
+## 238              72795            72795            78468 11602230000
+## 1081             71226            71226            76279  9684196096
+## 398              67170            67170            81539 10538865000
+## 584              70589            70589            81811 10553989000
+## 660              67857            67857            77707  7700629000
+## 1144             72510            72510            77966  3368671196
+## 198              72270            72270            80346  9553279351
+## 897              53331            15729            72896  3161632000
+## 555              65622            65622            82106  5825489947
+## 160              72120            72120            82855  1206468000
+## 1035             75162            75162            76787  7589079000
 ```
-
 
 ``` r
 filtered_df <- df[df$Endowment > 1.0e+10, ]
@@ -499,45 +482,45 @@ filtered_df <- filtered_df[order(-filtered_df$Endowment), ]
 filtered_df
 ```
 
-```
+```         
 ##                                             Name Admission_Rate  Size
-## 347                           Harvard University         0.0365  7601
-## 1151                             Yale University         0.0387  6758
-## 765                          Stanford University         0.0361  7554
-## 635                         Princeton University         0.0462  5709
-## 473        Massachusetts Institute of Technology         0.0455  4535
-## 1005                  University of Pennsylvania         0.0540 10650
-## 813         Texas A&M University-College Station         0.5743 59615
-## 960             University of Michigan-Ann Arbor         0.1564 34177
-## 1001                    University of Notre Dame         0.1127  8818
-## 186  Columbia University in the City of New York         0.0399  8973
+## 349                           Harvard University         0.0365  7601
+## 1157                             Yale University         0.0387  6758
+## 768                          Stanford University         0.0361  7554
+## 637                         Princeton University         0.0462  5709
+## 474        Massachusetts Institute of Technology         0.0455  4535
+## 1009                  University of Pennsylvania         0.0540 10650
+## 816          Texas A&M University-College Station         0.5743 59615
+## 964         University of Michigan-Ann Arbor            0.1564 34177
+## 1005                    University of Notre Dame         0.1127  8818
+## 185  Columbia University in the City of New York         0.0399  8973
 ## 238                              Duke University         0.0571  6442
-## 1096           Washington University in St Louis         0.1206  7857
+## 1102            Washington University in St Louis         0.1206  7857
 ## 269                             Emory University         0.1065  7298
-## 583                      Northwestern University         0.0769  9201
-## 396                     Johns Hopkins University         0.0644  5693
+## 584                      Northwestern University         0.0769  9201
+## 398                     Johns Hopkins University         0.0644  5693
+##
 ##      Tuition_Out_State Tuition_In_State Median_HH_Income   Endowment
-## 347              61676            61676            76879 50748594000
-## 1151             67250            67250            75345 40746867000
-## 765              65910            65910            80275 36494893000
-## 635              62688            62688            81428 33380863000
-## 473              62396            62396            77426 23453446000
-## 1005             68686            68686            78252 20962941000
-## 813              40124            13154            67194 18128516595
-## 960              60946            17736            77145 17626819000
-## 1001             65025            65025            76710 16960542000
-## 186              71845            71845            76971 13642667000
-## 238              68758            68758            78468 11602230000
-## 1096             65790            65790            79298 11489314000
-## 269              64280            64280            80509 11358435000
-## 583              68322            68322            81811 10553989000
-## 396              65230            65230            81539 10538865000
+## 349              64796            64796            76879 50748594000
+## 1157             69900            69900            75345 40746867000
+## 768              68544            68544            80275 36494893000
+## 637              65510            65510            81428 33380863000
+## 474              64730            64730            77426 23453446000
+## 1009             71236            71236            78252 20962941000
+## 816              39974            13154            67194 18128516595
+## 964              63962            18346            77145 17626819000
+## 1005             67607            67607            76710 16960542000
+## 185              74180            74180            76971 13642667000
+## 238              72795            72795            78468 11602230000
+## 1102             69594            69594            79298 11489314000
+## 269              68056            68056            80509 11358435000
+## 584              70589            70589            81811 10553989000
+## 398              67170            67170            81539 10538865000
 ```
 
 ## 5. Retrieve All Data for an Institution
 
 The College Scorecard API can also be used to retrieve all of the data for a particular institution. The example below finds all data for The University of Alabama:
-
 
 ``` r
 params <- list(
@@ -551,11 +534,11 @@ ua_data <- fromJSON(rawToChar(response$content))$results
 str(ua_data, max.level = 1)
 ```
 
-```
-## 'data.frame':	1 obs. of  7 variables:
-##  $ latest    :'data.frame':	1 obs. of  10 variables:
-##  $ school    :'data.frame':	1 obs. of  38 variables:
-##  $ location  :'data.frame':	1 obs. of  2 variables:
+```         
+## 'data.frame':    1 obs. of  7 variables:
+##  $ latest    :'data.frame':  1 obs. of  10 variables:
+##  $ school    :'data.frame':  1 obs. of  38 variables:
+##  $ location  :'data.frame':  1 obs. of  2 variables:
 ##  $ id        : int 100751
 ##  $ ope6_id   : chr "001051"
 ##  $ ope8_id   : chr "00105100"
@@ -563,7 +546,6 @@ str(ua_data, max.level = 1)
 ```
 
 Finally, we'll look at the breakdown of size of each program at the University of Alabama:
-
 
 ``` r
 program_percentage_data <- ua_data[[1]]$academics$program_percentage
@@ -595,8 +577,7 @@ legend(
 )
 ```
 
-![](_figures/college-scorecard/ua-program-pie-chart-1.png)<!-- -->
-
+![Pie chart showing the program percentage at the University of Alabama including engineering, psychology, biology, education, health, and business ](_figures/college-scorecard/ua-program-pie-chart-1.png)<!-- -->
 
 ``` r
 # Sort the list by values in descending order
@@ -608,30 +589,30 @@ for (key in names(sorted_program_percentage_data)) {
 }
 ```
 
-```
-## business_marketing : 0.2911 
-## engineering : 0.1002 
-## communication : 0.095 
-## health : 0.092 
-## social_science : 0.09 
-## family_consumer_science : 0.0628 
-## psychology : 0.0517 
-## parks_recreation_fitness : 0.0392 
-## biological : 0.0375 
-## education : 0.025 
-## visual_performing : 0.0241 
-## computer : 0.0163 
-## multidiscipline : 0.0138 
-## history : 0.01 
-## public_administration_social_service : 0.01 
-## english : 0.0098 
-## physical_science : 0.0098 
-## mathematics : 0.008 
-## resources : 0.0068 
-## language : 0.0033 
-## philosophy_religious : 0.0021 
-## ethnic_cultural_gender : 0.0014 
-## humanities : 2e-04 
+```         
+## business_marketing : 0.3044 
+## communication : 0.1017 
+## social_science : 0.0972 
+## health : 0.0918 
+## engineering : 0.08 
+## family_consumer_science : 0.0566 
+## psychology : 0.0452 
+## parks_recreation_fitness : 0.0446 
+## biological : 0.0363 
+## education : 0.0238 
+## visual_performing : 0.0238 
+## computer : 0.02 
+## physical_science : 0.0134 
+## multidiscipline : 0.0123 
+## english : 0.0094 
+## history : 0.009 
+## mathematics : 0.0083 
+## public_administration_social_service : 0.0081 
+## resources : 0.0051 
+## language : 0.0042 
+## philosophy_religious : 0.0023 
+## humanities : 0.0015 
+## ethnic_cultural_gender : 0.001 
 ## legal : 0 
 ## library : 0 
 ## military : 0 
@@ -646,5 +627,5 @@ for (key in names(sorted_program_percentage_data)) {
 ## security_law_enforcement : 0 
 ## communications_technology : 0 
 ## mechanic_repair_technology : 0 
-## theology_religious_vocation : 0
+## theology_religious_vocation : 0 
 ```

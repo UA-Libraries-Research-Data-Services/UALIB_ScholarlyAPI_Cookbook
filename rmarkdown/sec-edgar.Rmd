@@ -39,7 +39,7 @@ Please see the following resources for more information on API usage:
 
 **_NOTE:_** Please see access details and rate limit requests for this API in the official documentation.
 
-*These recipe examples were tested on March 23, 2026.*
+*These recipe examples were tested on November 9, 2026.*
 
 ## Setup
 
@@ -55,13 +55,14 @@ We load the libraries used in this tutorial below:
 ```{r import-libraries}
 library(httr)
 library(jsonlite)
+library(dotenv)
 ```
 
 ### Import User Agent
 
 A user agent is required to access the SEC EDGAR API.
 
-We keep our user agent in a `.Renviron` file that is stored in the working directory and use `Sys.getenv()` to access it. The `.Renviron` should have an entry like the one below.
+We keep our API key in a separate file, a `.env` file, and use the `dotenv` library to access it. If you use this method, create a file named `.env` in the same directory as this notebook and add the following line to it:
 
 ```text
 SEC_EDGAR_USER_AGENT="Institution, email@domain.com"
@@ -70,6 +71,7 @@ SEC_EDGAR_USER_AGENT="Institution, email@domain.com"
 Below, we can test to whether the user agent was successfully imported.
 
 ```{r import-user-agent}
+load_dot_env()
 if (nzchar(Sys.getenv("SEC_EDGAR_USER_AGENT"))) {
   print("User agent successfully loaded.")
 } else {
